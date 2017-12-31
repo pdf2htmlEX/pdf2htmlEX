@@ -17,6 +17,18 @@
 #include <baseviews.h>
 
 #include "ffw.h"
+#include "fontforge-2.0.20170731/autowidth.h"
+#include "fontforge-2.0.20170731/bitmapchar.h"
+#include "fontforge-2.0.20170731/cvimages.h"
+#include "fontforge-2.0.20170731/encoding.h"
+#include "fontforge-2.0.20170731/fvfonts.h"
+#include "fontforge-2.0.20170731/namelist.h"
+#include "fontforge-2.0.20170731/savefont.h"
+#include "fontforge-2.0.20170731/splineorder2.h"
+#include "fontforge-2.0.20170731/splineutil.h"
+#include "fontforge-2.0.20170731/splineutil2.h"
+#include "fontforge-2.0.20170731/start.h"
+#include "fontforge-2.0.20170731/tottf.h"
 
 static real EPS=1e-6;
 
@@ -42,10 +54,10 @@ static char * strcopy(const char * str)
 {
     if(str == NULL) return NULL;
 
-    char * _ = strdup(str);
-    if(!_)
+    char * blabla = strdup(str);
+    if(!blabla)
         err("Not enough memory");
-    return _;
+    return blabla;
 }
 
 static void dumb_logwarning(const char * format, ...) { }
