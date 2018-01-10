@@ -15,10 +15,10 @@
 // under GPL version 2 or later
 //
 // Copyright (C) 2005, 2006 Kristian Høgsberg <krh@redhat.com>
-// Copyright (C) 2005 Albert Astals Cid <aacid@kde.org>
+// Copyright (C) 2005, 2018 Albert Astals Cid <aacid@kde.org>
 // Copyright (C) 2006, 2007 Jeff Muizelaar <jeff@infidigm.net>
 // Copyright (C) 2006, 2010 Carlos Garcia Campos <carlosgc@gnome.org>
-// Copyright (C) 2008 Adrian Johnson <ajohnson@redneon.com>
+// Copyright (C) 2008, 2017 Adrian Johnson <ajohnson@redneon.com>
 // Copyright (C) 2013 Thomas Freitag <Thomas.Freitag@alfa.de>
 //
 // To see a description of the changes please see the Changelog file that
@@ -51,6 +51,8 @@ public:
 	    GBool substitute,
 	    GBool printing);
   virtual ~CairoFont();
+  CairoFont(const CairoFont &) = delete;
+  CairoFont& operator=(const CairoFont &other) = delete;
 
   virtual GBool matches(Ref &other, GBool printing);
   cairo_font_face_t *getFontFace(void);
@@ -114,6 +116,8 @@ public:
   // Create a font engine.
   CairoFontEngine(FT_Library libA);
   ~CairoFontEngine();
+  CairoFontEngine(const CairoFontEngine &) = delete;
+  CairoFontEngine& operator=(const CairoFontEngine &other) = delete;
 
   CairoFont *getFont(GfxFont *gfxFont, PDFDoc *doc, GBool printing, XRef *xref);
 
@@ -121,7 +125,7 @@ private:
   CairoFont *fontCache[cairoFontCacheSize];
   FT_Library lib;
   GBool useCIDs;
-#if MULTITHREADED
+#ifdef MULTITHREADED
   GooMutex mutex;
 #endif
 };

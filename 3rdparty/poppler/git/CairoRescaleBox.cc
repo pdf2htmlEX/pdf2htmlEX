@@ -31,7 +31,7 @@
 // under GPL version 2 or later
 //
 // Copyright (C) 2012 Hib Eris <hib@hiberis.nl>
-// Copyright (C) 2012 Adrian Johnson <ajohnson@redneon.com>
+// Copyright (C) 2012, 2017 Adrian Johnson <ajohnson@redneon.com>
 //
 // To see a description of the changes please see the Changelog file that
 // came with your tarball or type make ChangeLog if you are building from git
@@ -41,17 +41,15 @@
 
 /* This implements a box filter that supports non-integer box sizes */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
+#include <cstdint>
 #include <stdint.h>
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
 #include <math.h>
 #include "goo/gmem.h"
-//#include "goo/gtypes_p.h"
 #include "CairoRescaleBox.h"
 
 
@@ -273,9 +271,9 @@ GBool CairoRescaleBox::downScaleImage(unsigned orig_width, unsigned orig_height,
   int dest_y;
   int src_y = 0;
   uint32_t *scanline;
-  int *x_coverage = NULL;
-  int *y_coverage = NULL;
-  uint32_t *temp_buf = NULL;
+  int *x_coverage = nullptr;
+  int *y_coverage = nullptr;
+  uint32_t *temp_buf = nullptr;
   GBool retval = gFalse;
   unsigned int *dest;
   int dst_stride;

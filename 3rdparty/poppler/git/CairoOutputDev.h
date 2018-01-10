@@ -23,6 +23,7 @@
 // Copyright (C) 2010-2013 Thomas Freitag <Thomas.Freitag@alfa.de>
 // Copyright (C) 2015 Suzuki Toshiya <mpsuzuki@hiroshima-u.ac.jp>
 // Copyright (C) 2016 Jason Crain <jason@aquaticape.us>
+// Copyright (C) 2018 Albert Astals Cid <aacid@kde.org>
 //
 // To see a description of the changes please see the Changelog file that
 // came with your tarball or type make ChangeLog if you are building from git
@@ -63,16 +64,19 @@ public:
   // Destructor.
   ~CairoImage ();
 
+  CairoImage(const CairoImage &) = delete;
+  CairoImage& operator=(const CairoImage &) = delete;
+
   // Set the image cairo surface
   void setImage (cairo_surface_t *image);
-
+  
   // Get the image cairo surface
   cairo_surface_t *getImage () const { return image; }
 
   // Get the image rectangle
   void getRect (double *xa1, double *ya1, double *xa2, double *ya2)
 	  { *xa1 = x1; *ya1 = y1; *xa2 = x2; *ya2 = y2; }
-
+  
 private:
   cairo_surface_t *image;  // image cairo surface
   double x1, y1;          // upper left corner
@@ -257,12 +261,12 @@ public:
 	       double llx, double lly, double urx, double ury) override;
 
   //----- special access
-
+  
   // Called to indicate that a new PDF document has been loaded.
   void startDoc(PDFDoc *docA, CairoFontEngine *fontEngine = NULL);
-
+ 
   GBool isReverseVideo() { return gFalse; }
-
+  
   void setCairo (cairo_t *cr);
   void setTextPage (TextPage *text);
   void setPrinting (GBool printing) { this->printing = printing; needFontUpdate = gTrue; }
@@ -283,11 +287,14 @@ protected:
 				     GBool interpolate);
   GBool getStreamData (Stream *str, char **buffer, int *length);
   void setMimeData(GfxState *state, Stream *str, Object *ref,
-		   GfxImageColorMap *colorMap, cairo_surface_t *image);
+		   GfxImageColorMap *colorMap, cairo_surface_t *image, int height);
   void fillToStrokePathClip(GfxState *state);
   void alignStrokeCoords(GfxSubpath *subpath, int i, double *x, double *y);
 #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 14, 0)
   GBool setMimeDataForJBIG2Globals (Stream *str, cairo_surface_t *image);
+#endif
+#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 15, 10)
+  GBool setMimeDataForCCITTParams(Stream  *str, cairo_surface_t *image, int height);
 #endif
   static void setContextAntialias(cairo_t *cr, cairo_antialias_t antialias);
 
@@ -513,7 +520,7 @@ private:
   void saveImage(CairoImage *image);
   void getBBox(GfxState *state, int width, int height,
                double *x1, double *y1, double *x2, double *y2);
-
+  
   CairoImage **images;
   int numImages;
   int size;
