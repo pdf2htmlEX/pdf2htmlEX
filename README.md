@@ -1,20 +1,20 @@
-#![](http://coolwanglu.github.io/pdf2htmlEX/images/pdf2htmlEX-64x64.png) pdf2htmlEX 
+#![](https://pdf2htmlEX.github.io/pdf2htmlEX/images/pdf2htmlEX-64x64.png) pdf2htmlEX 
 
 <!--
 [![Build Status](https://travis-ci.org/coolwanglu/pdf2htmlEX.png?branch=master)](https://travis-ci.org/coolwanglu/pdf2htmlEX)
 -->
 >一图胜千言<br>A beautiful demo is worth a thousand words
 
-- **Bible de Genève, 1564** (fonts and typography): [HTML](http://coolwanglu.github.com/pdf2htmlEX/demo/geneve.html) / [PDF](https://github.com/raphink/geneve_1564/releases/download/2015-07-08_01/geneve_1564.pdf)
-- **Cheat Sheet** (math formulas): [HTML](http://coolwanglu.github.com/pdf2htmlEX/demo/cheat.html) / [PDF](http://www.tug.org/texshowcase/cheat.pdf)
-- **Scientific Paper** (text and figures): [HTML](http://coolwanglu.github.com/pdf2htmlEX/demo/demo.html) / [PDF](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.148.349&rep=rep1&type=pdf)
-- **Full Circle Magazine** (read while downloading): [HTML](http://coolwanglu.github.com/pdf2htmlEX/demo/issue65_en.html) / [PDF](http://dl.fullcirclemagazine.org/issue65_en.pdf)
-- **Git Manual** (CJK support): [HTML](http://coolwanglu.github.com/pdf2htmlEX/demo/chn.html) / [PDF](http://files.cnblogs.com/phphuaibei/git%E6%90%AD%E5%BB%BA.pdf)
+- **Bible de Genève, 1564** (fonts and typography): [HTML](https://pdf2htmlEX.github.io/pdf2htmlEX/demo/geneve.html) / [PDF](https://github.com/raphink/geneve_1564/releases/download/2015-07-08_01/geneve_1564.pdf)
+- **Cheat Sheet** (math formulas): [HTML](https://pdf2htmlEX.github.io/pdf2htmlEX/demo/cheat.html) / [PDF](http://www.tug.org/texshowcase/cheat.pdf)
+- **Scientific Paper** (text and figures): [HTML](https://pdf2htmlEX.github.io/pdf2htmlEX/demo/demo.html) / [PDF](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.148.349&rep=rep1&type=pdf)
+- **Full Circle Magazine** (read while downloading): [HTML](https://pdf2htmlEX.github.io/pdf2htmlEX/demo/issue65_en.html) / [PDF](http://dl.fullcirclemagazine.org/issue65_en.pdf)
+- **Git Manual** (CJK support): [HTML](https://pdf2htmlEX.github.io/pdf2htmlEX/demo/chn.html) / [PDF](http://files.cnblogs.com/phphuaibei/git%E6%90%AD%E5%BB%BA.pdf)
 
 pdf2htmlEX renders PDF files in HTML, utilizing modern Web technologies.
 Academic papers with lots of formulas and figures? Magazines with complicated layouts? No problem!
 
-pdf2htmlEX is also an [online publishing tool](http://coolwanglu.github.io/pdf2htmlEX/doc/tb108wang.html) which is flexible for many different use cases. 
+pdf2htmlEX is also an [online publishing tool](https://pdf2htmlEX.github.io/pdf2htmlEX/doc/tb108wang.html) which is flexible for many different use cases. 
 
 Learn more about [who](https://github.com/pdf2htmlEX/pdf2htmlEX/wiki/Use-Cases) and [why](https://github.com/pdf2htmlEX/pdf2htmlEX/wiki/Introduction) should use pdf2htmlEX.
 
