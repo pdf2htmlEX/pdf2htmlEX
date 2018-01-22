@@ -1,0 +1,8 @@
+title: pdf2htmlEX
+description: A PDF to HTML converter
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-tactile
+
+gems:
+  - jekyll-mentions
