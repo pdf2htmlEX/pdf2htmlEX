@@ -1,7 +1,3 @@
-# Versions of poppler and fontforge
-%define poppler_version 0.57.0
-%define fontforge_version 20120731
-
 Name:       pdf2htmlEX
 Version:    @@VERSION@@
 Release:    @@REVISION@@
@@ -9,11 +5,14 @@ Summary:    pdf2htmlEX renders PDF files in HTML utilizing modern Web technologi
 
 Group:      Development/Libraries
 License:    GPLv3+
-URL:        https:/github.com/pdf2htmlEX/pdf2htmlEX
-Source0:    https://github.com/pdf2htmlEX/pdf2htmlEX/archive/v%{version}.zip
+URL:        http://nexbyte.com/package/pdf2htmlEX
+Source0:    http://nexbyte.com/%{name}-%{version}.tgz
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildArch:  x86_64
 
-BuildArch: x86_64
+# Versions of poppler and fontforge
+%define poppler_version 0.57.0
+%define fontforge_version 20120731
 
 # Fix false automatic dependency addition of provided binary
 %define __requires_exclude %{_builddir}/%{name}-%{version}-%{release}%{_bindir}/fontforge
@@ -117,7 +116,7 @@ rm -rf %{buildroot}
 %{__mkdir} -p %{_builddir}/%{name}-%{version}-%{release}%{_prefix}
 
 # build dist files
-./build-centos.sh %{_builddir}/%{name}-%{version}-%{release}%{_prefix}
+./build-centos.sh %{_builddir}/%{name}-%{version}-%{release}%{_prefix} %{_prefix}
 
 # Copy files over from working directory to the buildroot
 %install

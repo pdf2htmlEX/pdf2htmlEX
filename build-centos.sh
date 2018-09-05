@@ -13,8 +13,8 @@ VFONTFORGE=20170731
 
 CWD=`pwd`
 INSTALL_PREFIX=${1:-"/usr/local"}
-BUILD_DIR=${2:-"${CWD}/build"}
-DEST_PREFIX=${3:-"${INSTALL_PREFIX}"}
+DEST_PREFIX=${2:-"${INSTALL_PREFIX}"}
+BUILD_DIR=${3:-"${CWD}/build"}
 
 set -ex
 
@@ -48,10 +48,10 @@ make
 make install
 
 ## install poppler-data (via YUM)
-sudo yum install poppler-data
+sudo yum -y install poppler-data
 
 ## install cairo via YUM
-sudo yum install fontconfig-devel cairo-devel -y
+sudo yum -y install fontconfig-devel cairo-devel
 
 ## install fontforge
 cd $BUILD_DIR
