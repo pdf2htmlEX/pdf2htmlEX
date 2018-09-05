@@ -17,4 +17,5 @@ share/pdf2htmlEX.min.js
 src/pdf2htmlEX-config.h
 src/util/css_const.h
 test export-ignore
-Testing/*
+test/*
+build/*
