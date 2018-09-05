@@ -10,6 +10,7 @@ option(ENABLE_SVG "Enable SVG support, for generating SVG background images and 
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
 set(PDF2HTMLEX_VERSION "0.14.6")
+set(PDF2HTMLEX_PREFIX ${CMAKE_INSTALL_PREFIX} CACHE STRING "Path prefix for pdf2htmlEX installation")
 set(ARCHIVE_NAME pdf2htmlex-${PDF2HTMLEX_VERSION})
 add_custom_target(dist
     COMMAND git archive --prefix=${ARCHIVE_NAME}/ HEAD

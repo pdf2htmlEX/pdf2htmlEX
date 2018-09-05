@@ -12,8 +12,9 @@ VCAIRO=1.14.2
 VFONTFORGE=20170731
 
 CWD=`pwd`
-BUILD_DIR=${2:-"${CWD}/build"}
 INSTALL_PREFIX=${1:-"/usr/local"}
+BUILD_DIR=${2:-"${CWD}/build"}
+DEST_PREFIX=${3:-"${INSTALL_PREFIX}"}
 
 set -ex
 
@@ -46,25 +47,11 @@ cd poppler-${VPOPPLER}
 make
 make install
 
-## install poppler-data
-cd $BUILD_DIR
-wget http://poppler.freedesktop.org/poppler-data-${VPOPPLERDATA}.tar.gz -O poppler-data-${VPOPPLERDATA}.tar.gz
-tar xzf poppler-data-${VPOPPLERDATA}.tar.gz
-cd poppler-data-${VPOPPLERDATA}
-make prefix=$INSTALL_PREFIX install
+## install poppler-data (via YUM)
+sudo yum install poppler-data
 
 ## install cairo via YUM
 sudo yum install fontconfig-devel cairo-devel -y
-
-#cd $BUILD_DIR
-#wget http://cairographics.org/releases/cairo-${VCAIRO}.tar.xz -O cairo-${VCAIRO}.tar.xz
-#tar xf cairo-${VCAIRO}.tar.xz
-#cd cairo-${VCAIRO}
-#./configure --prefix=$INSTALL_PREFIX \
-#            --disable-static \
-#            --enable-tee
-#make
-#make install
 
 ## install fontforge
 cd $BUILD_DIR
@@ -89,9 +76,8 @@ export C_INCLUDE_PATH=$INSTALL_PREFIX/include:$C_INCLUDE_PATH
 export CPLUS_INCLUDE_PATH=$INSTALL_PREFIX/include:$CPLUS_INCLUDE_PATH
 export PKG_CONFIG_PATH=$INSTALL_PREFIX/lib/pkgconfig:/usr/lib64/pkgconfig:/usr/share/pkgconfig:/usr/lib/pkgconfig
 cd $BUILD_DIR
-#git clone git://github.com/pdf2htmlEX/pdf2htmlEX.git
 mkdir -p pdf2htmlEX
 cd pdf2htmlEX
-cmake $CWD -DENABLE_SVG=ON -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX
+cmake $CWD -DENABLE_SVG=ON -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DPDF2HTMLEX_PREFIX=$DEST_PREFIX
 make
 make install
