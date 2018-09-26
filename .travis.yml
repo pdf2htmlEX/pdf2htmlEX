@@ -1,25 +1,49 @@
 language: cpp
+
+sudo: true
+
+os:
+  - linux
+#  - osx # TODO: enable
+
 compiler: gcc
+
 addons:
+  apt:
+    update: true
+    sourceline: 'ppa:fontforge/fontforge'
+    packages: 
+      - libpoppler-private-dev
+      - libcairo-dev
+      - libpoppler-dev
+      - libspiro-dev
+      - libcairo-dev
+      - libpango1.0-dev
+      - libfreetype6-dev
+      - libltdl-dev
+      - libfontforge-dev
+      - python-imaging
+      - python-pip
+      - firefox
+      - xvfb
   sauce_connect: true
+
 before_install:
-  - sudo add-apt-repository ppa:fontforge/fontforge --yes
-  - sudo add-apt-repository ppa:coolwanglu/pdf2htmlex --yes
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq libpoppler-dev libpoppler-private-dev libspiro-dev libcairo-dev libpango1.0-dev libfreetype6-dev libltdl-dev libfontforge-dev python-imaging python-pip firefox xvfb
-  - sudo pip install selenium sauceclient
+  - pip install --user selenium sauceclient
   - export DISPLAY=:99.0
   - test/start_xvfb.sh
   - pushd /
   - python -m SimpleHTTPServer 8000 >/dev/null 2>&1 &
   - popd
   - sleep 5
+
 before_script: 
   - cmake -DENABLE_SVG=ON .
+
 script:
   - make
   - P2H_TEST_REMOTE=1 ctest --output-on-failure --verbose
-  - sudo make install
+  - make install
   - /usr/local/bin/pdf2htmlEX -v
 
 env:
