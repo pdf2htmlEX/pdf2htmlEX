@@ -21,11 +21,7 @@ script:
   - P2H_TEST_REMOTE=1 ctest --output-on-failure --verbose
   - sudo make install
   - /usr/local/bin/pdf2htmlEX -v
-branches:
-  only:
-    - master
-    - incoming
-    - wl
+
 env:
   global:
     - secure: V0yGXROTAsRc3ExcECj7X/CrJLbodUeqZyfQGkA6x0iLV7Lh8/hgTjSsvuj7ef/DIWMqJ5cAIzZuXiF0KIxiVllF1v0I3w+LScxynT7B1NsyH16hvGIc7EvrsRmGVeTv8n9I+cCIwQxjtliNKfeZjV4Rk2+u6LioUzTszmW2etc=
