@@ -1,4 +1,6 @@
-#![](https://pdf2htmlEX.github.io/pdf2htmlEX/images/pdf2htmlEX-64x64.png) pdf2htmlEX 
+# ![](https://pdf2htmlEX.github.io/pdf2htmlEX/images/pdf2htmlEX-64x64.png) pdf2htmlEX 
+
+[![Build Status](https://travis-ci.org/jgoldfar/pdf2htmlEX.svg?branch=add-build-status)](https://travis-ci.org/jgoldfar/pdf2htmlEX)
 
 # My branch differences:
 
@@ -22,9 +24,6 @@ If you are concerned about file size of the resulting HTML, then I recommend pat
 
 # Original README.md follows...
 
-<!--
-[![Build Status](https://travis-ci.org/coolwanglu/pdf2htmlEX.png?branch=master)](https://travis-ci.org/coolwanglu/pdf2htmlEX)
--->
 >一图胜千言<br>A beautiful demo is worth a thousand words
 
 - **Bible de Genève, 1564** (fonts and typography): [HTML](https://pdf2htmlEX.github.io/pdf2htmlEX/demo/geneve.html) / [PDF](https://github.com/raphink/geneve_1564/releases/download/2015-07-08_01/geneve_1564.pdf)
