@@ -1,31 +1,60 @@
 language: cpp
 
-sudo: true
+#sudo: true
 
 os:
   - linux
-  - osx
+#  - osx
 
 compiler: gcc
 
+env: 
+  - POPPLER_NAME="poppler-0.63.0" POPPLER_SOURCE="https://ftp.osuosl.org/pub/blfs/conglomeration/poppler/poppler-0.63.0.tar.xz" FONTFORGE_SOURCE="https://github.com/fontforge/fontforge.git" PDF2HTMLEX_SOURCE="https://github.com/Rockstar04/pdf2htmlEX.git"
+
 addons:
   apt:
+    sources:
+    - sourceline: 'ppa:fontforge/fontforge'
+    - sourceline: 'ppa:coolwanglu/pdf2htmlex'
     update: true
-    sourceline: 'ppa:fontforge/fontforge'
     packages: 
-      - libpoppler-private-dev
+      - ttfautohint
+      - build-essential
+      - libtool
+      - autoconf
+      - python-pip
+      - libgetopt++-dev
+      - pkg-config
+      - git
+      - default-jre
+      - libnss3-dev
+      - libopenjpeg-dev
+      - libjpeg-turbo8-dev
+      - libfontconfig1-dev
+      - poppler-data
+#      - poppler-utils
+#      - poppler-dbg
+      - packaging-dev
+      - libglib2.0-dev
+      - libxml2-dev
+      - giflib-dbg
+      - libjpeg-dev
+      - libtiff-dev
+      - uthash-dev
       - libcairo-dev
-      - libpoppler-dev
+#      - libpoppler-dev
       - libspiro-dev
       - libcairo-dev
       - libpango1.0-dev
       - libfreetype6-dev
       - libltdl-dev
       - libfontforge-dev
+      - python-dev
       - python-imaging
       - python-pip
       - firefox
       - xvfb
+      - cmake
   homebrew:
     packages:
       - fontforge
@@ -34,24 +63,39 @@ addons:
   sauce_connect: true
 
 before_install:
-  - pip install --user selenium sauceclient
-  - export DISPLAY=:99.0
-  - test/start_xvfb.sh
-  - pushd /
-  - python -m SimpleHTTPServer 8000 >/dev/null 2>&1 &
-  - popd
-  - sleep 5
+  # Install poppler
+  - wget "${POPPLER_SOURCE}"
+  - tar -xvf "${POPPLER_NAME}.tar.xz"
+  - cd "${POPPLER_NAME}/"
+  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=`pwd`/../usr -DENABLE_XPDF_HEADERS=ON -DENABLE_LIBOPENJPEG=none
+  - make && make install
+  - cd ..
+  # Install fontforge libuninameslist via source ...
+  - git clone https://github.com/fontforge/libuninameslist.git
+  - cd libuninameslist
+  - autoreconf -i && automake
+  - ./configure --prefix=`pwd`/../usr
+  - make && make install
+  # Install fontforge via source
+  - git clone --depth 1 --single-branch --branch 20170731 "$FONTFORGE_SOURCE"
+  - cd fontforge/ && git checkout tags/20170731
+  - ./bootstrap
+  - ./configure --prefix=`pwd`/../usr
+  - make && make install && ldconfig
+#  - pip install --user selenium sauceclient
+#  - export DISPLAY=:99.0
+#  - test/start_xvfb.sh
+#  - pushd /
+#  - python -m SimpleHTTPServer 8000 >/dev/null 2>&1 &
+#  - popd
+#  - sleep 5
 
 before_script: 
   - cmake -DENABLE_SVG=ON -DCMAKE_INSTALL_PREFIX=`pwd`/usr .
+  - export LD_LIBRARY_PATH=`pwd`/usr/lib:$LD_LIBRARY_PATH
 
 script:
   - make
-  - P2H_TEST_REMOTE=1 ctest --output-on-failure --verbose
+#  - P2H_TEST_REMOTE=1 ctest --output-on-failure --verbose
   - make install
   - /usr/local/bin/pdf2htmlEX -v
-
-env:
-  global:
-    - secure: V0yGXROTAsRc3ExcECj7X/CrJLbodUeqZyfQGkA6x0iLV7Lh8/hgTjSsvuj7ef/DIWMqJ5cAIzZuXiF0KIxiVllF1v0I3w+LScxynT7B1NsyH16hvGIc7EvrsRmGVeTv8n9I+cCIwQxjtliNKfeZjV4Rk2+u6LioUzTszmW2etc=
-    - secure: Q5ZSrdFEgN0JvUp90nY5Wh58iukmGZQ2EW7crOibWH2yuUsxAnMELxpY+9yV3+eA7kbjJf/I0NCa5ZY1gkxK60ugUj+zuUDTL+BV1XCbO37e0uwh3ae99iyQWpXc8e8wBp10sthoX7U6Hvypa5tD9r1JJib8jxJV/MzIFpb7H9s=
