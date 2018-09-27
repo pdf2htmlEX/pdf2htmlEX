@@ -4,7 +4,7 @@ sudo: true
 
 os:
   - linux
-#  - osx # TODO: enable
+  - osx
 
 compiler: gcc
 
@@ -26,6 +26,11 @@ addons:
       - python-pip
       - firefox
       - xvfb
+  homebrew:
+    packages:
+      - fontforge
+      - poppler
+      - cairo
   sauce_connect: true
 
 before_install:
@@ -38,7 +43,7 @@ before_install:
   - sleep 5
 
 before_script: 
-  - cmake -DENABLE_SVG=ON .
+  - cmake -DENABLE_SVG=ON -DCMAKE_INSTALL_PREFIX=`pwd`/usr .
 
 script:
   - make
