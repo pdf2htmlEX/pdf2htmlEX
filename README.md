@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jgoldfar/pdf2htmlEX.svg?branch=add-build-status)](https://travis-ci.org/jgoldfar/pdf2htmlEX)
 
-# My branch differences:
+# Differences from upstream pdf2htmlEX:
 
 This is my branch of pdf2htmlEX which I maintain for my own purposes. I have made a number of changes and improvements over the original code:
 
@@ -22,7 +22,6 @@ For maximum accuracy I strongly recommend using the output options: `--font-size
 
 If you are concerned about file size of the resulting HTML, then I recommend patching fontforge to prevent it writing the current time into the dumped fonts, and then post-process the pdf2htmlEX data to remove duplicate files - there will usually be many duplicate background images and fonts.
 
-# Original README.md follows...
 
 >一图胜千言<br>A beautiful demo is worth a thousand words
 
