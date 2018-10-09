@@ -30,6 +30,7 @@
 // under GPL version 2 or later
 //
 // Copyright (C) 2012 Adrian Johnson <ajohnson@redneon.com>
+// Copyright (C) 2018 Albert Astals Cid <aacid@kde.org>
 //
 // To see a description of the changes please see the Changelog file that
 // came with your tarball or type make ChangeLog if you are building from git
@@ -47,6 +48,9 @@ public:
 
   CairoRescaleBox() {};
   virtual ~CairoRescaleBox() {};
+
+  CairoRescaleBox(const CairoRescaleBox &) = delete;
+  CairoRescaleBox& operator=(const CairoRescaleBox &) = delete;
 
   virtual GBool downScaleImage(unsigned orig_width, unsigned orig_height,
                                signed scaled_width, signed scaled_height,

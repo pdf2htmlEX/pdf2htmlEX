@@ -17,6 +17,18 @@
 #include <baseviews.h>
 
 #include "ffw.h"
+#include "fontforge-2.0.20170731/autowidth.h"
+#include "fontforge-2.0.20170731/bitmapchar.h"
+#include "fontforge-2.0.20170731/cvimages.h"
+#include "fontforge-2.0.20170731/encoding.h"
+#include "fontforge-2.0.20170731/fvfonts.h"
+#include "fontforge-2.0.20170731/namelist.h"
+#include "fontforge-2.0.20170731/savefont.h"
+#include "fontforge-2.0.20170731/splineorder2.h"
+#include "fontforge-2.0.20170731/splineutil.h"
+#include "fontforge-2.0.20170731/splineutil2.h"
+#include "fontforge-2.0.20170731/start.h"
+#include "fontforge-2.0.20170731/tottf.h"
 
 static real EPS=1e-6;
 
@@ -42,10 +54,10 @@ static char * strcopy(const char * str)
 {
     if(str == NULL) return NULL;
 
-    char * _ = strdup(str);
-    if(!_)
+    char * blabla = strdup(str);
+    if(!blabla)
         err("Not enough memory");
-    return _;
+    return blabla;
 }
 
 static void dumb_logwarning(const char * format, ...) { }
@@ -126,6 +138,15 @@ void ffw_load_font(const char * filename)
     assert(font->fv);
 
     cur_fv = font->fv;
+
+    // If we are a composite font, then ensure the cidmaster has the same ascent/descent values as the first subfont.
+    // If there are more than one subfont then what do we do???
+    if (cur_fv->cidmaster && (cur_fv->cidmaster->ascent != cur_fv->sf->ascent || cur_fv->cidmaster->descent != cur_fv->sf->descent)) {
+        printf("ffw_load_font:Warning ascent/descent mismatch for CID font: %d/%d => %d/%d\n",
+                cur_fv->cidmaster->ascent, cur_fv->cidmaster->descent,  cur_fv->sf->ascent, cur_fv->sf->descent);
+        cur_fv->cidmaster->ascent = cur_fv->sf->ascent;
+        cur_fv->cidmaster->descent = cur_fv->sf->descent;
+    }
 }
 
 /*
