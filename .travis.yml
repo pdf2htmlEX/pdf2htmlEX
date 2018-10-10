@@ -1,101 +1,129 @@
 language: cpp
 
-#sudo: true
+sudo: true
 
 os:
   - linux
 #  - osx
 
-compiler: gcc
+env:
+  global:
+    - POPPLER_NAME="poppler-0.63.0"
+    - POPPLER_SOURCE="https://gitlab.freedesktop.org/poppler/poppler.git"
+    - FONTFORGE_SOURCE="https://github.com/fontforge/fontforge.git"
+    - LIBUNINAMESLIST_SOURCE="https://github.com/fontforge/libuninameslist.git"
 
-env: 
-  - POPPLER_NAME="poppler-0.63.0" POPPLER_SOURCE="https://ftp.osuosl.org/pub/blfs/conglomeration/poppler/poppler-0.63.0.tar.xz" FONTFORGE_SOURCE="https://github.com/fontforge/fontforge.git" PDF2HTMLEX_SOURCE="https://github.com/Rockstar04/pdf2htmlEX.git"
+
+compiler: gcc
 
 addons:
   apt:
-    sources:
-    - sourceline: 'ppa:fontforge/fontforge'
-    - sourceline: 'ppa:coolwanglu/pdf2htmlex'
     update: true
-    packages: 
-      - ttfautohint
+    packages:
       - build-essential
-      - libtool
       - autoconf
-      - python-pip
-      - libgetopt++-dev
+      - gcc
       - pkg-config
       - git
-      - default-jre
-      - libnss3-dev
-      - libopenjpeg-dev
-      - libjpeg-turbo8-dev
+      - cmake
+      - ca-certificates
+      - libfreetype6-dev
+      # Poppler-specific packages
       - libfontconfig1-dev
-      - poppler-data
-#      - poppler-utils
-#      - poppler-dbg
-      - packaging-dev
+      - libjpeg-dev
+      - libnss3-dev
+      # libuninameslist-specific packages
+      - automake
+      - libtool
+      # fontforge-specific packages
+      - libltdl-dev
+      - python-dev
       - libglib2.0-dev
       - libxml2-dev
-      - giflib-dbg
-      - libjpeg-dev
-      - libtiff-dev
-      - uthash-dev
-      - libcairo-dev
-#      - libpoppler-dev
       - libspiro-dev
-      - libcairo-dev
+      - gettext
+      # pdf2htmlEX-specific packages
+      - default-jre
+      - libcairo2-dev
       - libpango1.0-dev
-      - libfreetype6-dev
-      - libltdl-dev
-      - libfontforge-dev
-      - python-dev
-      - python-imaging
-      - python-pip
-      - firefox
-      - xvfb
-      - cmake
   homebrew:
     packages:
-      - fontforge
-      - poppler
-      - cairo
+      - build-essential
+      - autoconf
+      - gcc
+      - pkg-config
+      - git
+      - cmake
+      - ca-certificates
+      - libfreetype6-dev
+      # Poppler-specific packages
+      - libfontconfig1-dev
+      - libjpeg-dev
+      - libnss3-dev
+      # libuninameslist-specific packages
+      - automake
+      - libtool
+      # fontforge-specific packages
+      - libltdl-dev
+      - python-dev
+      - libpython-dev
+      - libglib2.0-dev
+      - libxml2-dev
+      - libspiro-dev
+      - gettext
+      # pdf2htmlEX-specific packages
+      - default-jre
+      - libcairo2-dev
+      - libpango1.0-dev
   sauce_connect: true
 
 before_install:
-  # Install poppler
-  - wget "${POPPLER_SOURCE}"
-  - tar -xvf "${POPPLER_NAME}.tar.xz"
-  - cd "${POPPLER_NAME}/"
-  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=`pwd`/../usr -DENABLE_XPDF_HEADERS=ON -DENABLE_LIBOPENJPEG=none
-  - make && make install
-  - cd ..
-  # Install fontforge libuninameslist via source ...
-  - git clone https://github.com/fontforge/libuninameslist.git
-  - cd libuninameslist
-  - autoreconf -i && automake
-  - ./configure --prefix=`pwd`/../usr
-  - make && make install
-  # Install fontforge via source
-  - git clone --depth 1 --single-branch --branch 20170731 "$FONTFORGE_SOURCE"
-  - cd fontforge/ && git checkout tags/20170731
-  - ./bootstrap
-  - ./configure --prefix=`pwd`/../usr
-  - make && make install && ldconfig
-#  - pip install --user selenium sauceclient
-#  - export DISPLAY=:99.0
-#  - test/start_xvfb.sh
-#  - pushd /
-#  - python -m SimpleHTTPServer 8000 >/dev/null 2>&1 &
-#  - popd
-#  - sleep 5
+# Clone and build poppler
+  - git clone ${POPPLER_SOURCE}
+  - cd poppler; 
+    git checkout tags/${POPPLER_NAME} -b poppler-local;
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/usr -DENABLE_XPDF_HEADERS=ON -DENABLE_LIBOPENJPEG=none .;
+    make;
+    make install
+  - cd ${TRAVIS_BUILD_DIR}
+
+# Install libuninameslist
+  - git clone ${LIBUNINAMESLIST_SOURCE}
+  - cd libuninameslist;
+    git checkout tags/20180701 -b libuninameslist-local;
+    autoreconf -i;
+    automake;
+    ./configure --prefix=${TRAVIS_BUILD_DIR}/usr;
+    make;
+    make install
+  - cd ${TRAVIS_BUILD_DIR}
+
+# Install fontforge
+  - git clone ${FONTFORGE_SOURCE}
+  - cd fontforge;
+    git checkout tags/20170731 -b fontforge-local;
+    ./bootstrap;
+    ./configure --disable-programs --disable-python-extension --disable-python-scripting --prefix=${TRAVIS_BUILD_DIR}/usr;
+    make;
+    make install;
+    sudo ldconfig
+  - cd ${TRAVIS_BUILD_DIR}
+
+# Test setup
+  - pip install --user selenium sauceclient
+  - export DISPLAY=:99.0
+  - test/start_xvfb.sh
+  - pushd /
+  - python -m SimpleHTTPServer 8000 >/dev/null 2>&1 &
+  - popd
+  - sleep 5
 
 before_script: 
-  - cmake -DENABLE_SVG=ON -DCMAKE_INSTALL_PREFIX=`pwd`/usr .
-  - export LD_LIBRARY_PATH=`pwd`/usr/lib:$LD_LIBRARY_PATH
+  - cmake -DENABLE_SVG=ON -DCMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/usr .
+  - export LD_LIBRARY_PATH=${TRAVIS_BUILD_DIR}/usr/lib:$LD_LIBRARY_PATH
 
 script:
   - make
 #  - P2H_TEST_REMOTE=1 ctest --output-on-failure --verbose
   - make install
-  - /usr/local/bin/pdf2htmlEX -v
+  - ${TRAVIS_BUILD_DIR}/usr/local/bin/pdf2htmlEX -v
