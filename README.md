@@ -1,6 +1,6 @@
 # ![](https://pdf2htmlEX.github.io/pdf2htmlEX/images/pdf2htmlEX-64x64.png) pdf2htmlEX 
 
-[![Build Status](https://travis-ci.org/jgoldfar/pdf2htmlEX.svg?branch=add-build-status)](https://travis-ci.org/jgoldfar/pdf2htmlEX)
+[![Build Status](https://travis-ci.org/pdf2htmlEX/pdf2htmlEX.svg?branch=master)](https://travis-ci.org/pdf2htmlEX/pdf2htmlEX)
 
 # Differences from upstream pdf2htmlEX:
 

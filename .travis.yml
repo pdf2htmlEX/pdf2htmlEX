@@ -118,9 +118,11 @@ before_install:
   - popd
   - sleep 5
 
-before_script: 
-  - cmake -DENABLE_SVG=ON -DCMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/usr .
+before_script:
   - export LD_LIBRARY_PATH=${TRAVIS_BUILD_DIR}/usr/lib:$LD_LIBRARY_PATH
+  - export PKG_CONFIG_PATH=${TRAVIS_BUILD_DIR}/usr/lib/pkgconfig:$PKG_CONFIG_PATH
+  - cat ${TRAVIS_BUILD_DIR}/usr/lib/pkgconfig/poppler.pc
+  - mkdir build && cd build && cmake -DENABLE_SVG=ON -DCMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/usr ..
 
 script:
   - make
