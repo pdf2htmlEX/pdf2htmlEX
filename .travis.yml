@@ -126,6 +126,6 @@ before_script:
 
 script:
   - make
-#  - P2H_TEST_REMOTE=1 ctest --output-on-failure --verbose
+  - P2H_TEST_REMOTE=1 ctest --output-on-failure --verbose
   - make install
-  - ${TRAVIS_BUILD_DIR}/usr/local/bin/pdf2htmlEX -v
+  - ${TRAVIS_BUILD_DIR}/usr/bin/pdf2htmlEX -v
