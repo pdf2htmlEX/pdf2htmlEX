@@ -110,7 +110,7 @@ before_install:
   - cd ${TRAVIS_BUILD_DIR}
 
 # Test setup
-  - pip install --user selenium sauceclient
+  - pip install --user Pillow selenium sauceclient
   - export DISPLAY=:99.0
   - test/start_xvfb.sh
   - pushd /
