@@ -77,6 +77,8 @@ matrix:
     - os: osx # Until the build passes, then re-enable.
 
 before_install:
+  - if [ "${TRAVIS_OS_NAME}" == "osx" ] ; then brew reinstall gettext; fi
+  - if [ "${TRAVIS_OS_NAME}" == "osx" ] ; then brew unlink gettext && brew link gettext --force; fi
 # Clone and build poppler
   - git clone ${POPPLER_SOURCE}
   - cd poppler; 
@@ -104,8 +106,9 @@ before_install:
     ./bootstrap;
     ./configure --disable-programs --disable-python-extension --disable-python-scripting --prefix=${TRAVIS_BUILD_DIR}/usr;
     make;
-    make install;
-    sudo ldconfig
+    make install
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ] ; then sudo ldconfig; fi
+  - if [ "${TRAVIS_OS_NAME}" == "osx" ] ; then sudo update_dyld_shared_cache; fi
   - cd ${TRAVIS_BUILD_DIR}
 
 # Test setup
