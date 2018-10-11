@@ -77,8 +77,8 @@ matrix:
     - os: osx # Until the build passes, then re-enable.
 
 before_install:
-  - if [ "${TRAVIS_OS_NAME}" == "osx" ] ; then brew reinstall gettext; fi
-  - if [ "${TRAVIS_OS_NAME}" == "osx" ] ; then brew unlink gettext && brew link gettext --force; fi
+  - if [ "${TRAVIS_OS_NAME}" = "osx" ] ; then brew reinstall gettext; fi
+  - if [ "${TRAVIS_OS_NAME}" = "osx" ] ; then brew unlink gettext && brew link gettext --force; fi
 # Clone and build poppler
   - git clone ${POPPLER_SOURCE}
   - cd poppler; 
@@ -107,14 +107,15 @@ before_install:
     ./configure --disable-programs --disable-python-extension --disable-python-scripting --prefix=${TRAVIS_BUILD_DIR}/usr;
     make;
     make install
-  - if [ "${TRAVIS_OS_NAME}" == "linux" ] ; then sudo ldconfig; fi
-  - if [ "${TRAVIS_OS_NAME}" == "osx" ] ; then sudo update_dyld_shared_cache; fi
+  - if [ "${TRAVIS_OS_NAME}" = "linux" ] ; then sudo ldconfig; fi
+  - if [ "${TRAVIS_OS_NAME}" = "osx" ] ; then sudo update_dyld_shared_cache; fi
   - cd ${TRAVIS_BUILD_DIR}
 
 # Test setup
   - pip install --user Pillow selenium sauceclient
   - export DISPLAY=:99.0
-  - test/start_xvfb.sh
+  - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then test/start_xvfb.sh ;fi
+  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then ( sudo Xvfb :99 -ac -screen 0 1024x768x8; echo ok )& fi
   - pushd /
   - python -m SimpleHTTPServer 8000 >/dev/null 2>&1 &
   - popd

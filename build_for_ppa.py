@@ -10,6 +10,9 @@ modified for pdf2htmlEX
 
 modified for general git repo
 2013.05.30
+
+modified for updated repo, support more distributions (hopefully)
+2018.10.11
 """
 
 
@@ -19,8 +22,8 @@ import re
 import time
 
 package='pdf2htmlex'
-ppa_name='ppa:coolwanglu/pdf2htmlex'
-supported_distributions=('precise', 'trusty')
+ppa_name='ppa:jgoldfar/pdf2htmlex'
+supported_distributions=('precise', 'trusty', 'xenial', 'cosmic')
 dist_pattern=re.compile('|'.join(['\\) '+i for i in supported_distributions]))
 archive_cmd='(rm CMakeCache.txt || true) && cmake . && make dist'
 archive_suffix='.tar.bz2'
