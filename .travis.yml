@@ -4,7 +4,7 @@ sudo: true
 
 os:
   - linux
-#  - osx
+  - osx
 
 env:
   global:
@@ -48,34 +48,33 @@ addons:
       - libpango1.0-dev
   homebrew:
     packages:
-      - build-essential
       - autoconf
-      - gcc
       - pkg-config
       - git
       - cmake
-      - ca-certificates
-      - libfreetype6-dev
+      - freetype
       # Poppler-specific packages
-      - libfontconfig1-dev
-      - libjpeg-dev
-      - libnss3-dev
+      - fontconfig
+      - jpeg
+      - nss
       # libuninameslist-specific packages
       - automake
       - libtool
       # fontforge-specific packages
-      - libltdl-dev
-      - python-dev
-      - libpython-dev
-      - libglib2.0-dev
-      - libxml2-dev
-      - libspiro-dev
+      - python
+      - glib
+      - xml2
+      - libspiro
       - gettext
       # pdf2htmlEX-specific packages
-      - default-jre
-      - libcairo2-dev
-      - libpango1.0-dev
+      - cairo
+      - pango
   sauce_connect: true
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - os: osx # Until the build passes, then re-enable.
 
 before_install:
 # Clone and build poppler
