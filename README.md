@@ -4,7 +4,7 @@
 
 # Differences from upstream pdf2htmlEX:
 
-This is my branch of pdf2htmlEX which I maintain for my own purposes. I have made a number of changes and improvements over the original code:
+This is my branch of pdf2htmlEX which aims to allow an open collaboration to help keep the project active. A number of changes and improvements have been incorperated from other forks:
 
 * Lots of bugs fixes, mostly of edge cases
 * Integration of latest Cairo code
