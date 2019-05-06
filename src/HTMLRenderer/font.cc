@@ -634,7 +634,9 @@ void HTMLRenderer::embed_font(const string & filepath, GfxFont * font, FontInfo 
             Unicode u, *pu=&u;
             if(info.use_tounicode)
             {
-                int n = ctu ? (ctu->mapToUnicode(cur_code, &pu)) : 0;
+                int n = ctu ?
+                   (((CharCodeToUnicode *)ctu)->mapToUnicode(cur_code, &pu)) :
+                   0;
                 u = check_unicode(pu, n, cur_code, font);
             }
             else
@@ -756,7 +758,7 @@ void HTMLRenderer::embed_font(const string & filepath, GfxFont * font, FontInfo 
         }
 
         if(ctu)
-            ctu->decRefCnt();
+            ((CharCodeToUnicode *)ctu)->decRefCnt();
     }
 
     /*

@@ -17,7 +17,7 @@
 // Copyright (C) 2005-2007 Jeff Muizelaar <jeff@infidigm.net>
 // Copyright (C) 2005, 2006 Kristian Høgsberg <krh@redhat.com>
 // Copyright (C) 2005 Martin Kretzschmar <martink@gnome.org>
-// Copyright (C) 2005, 2009, 2012, 2013, 2015, 2017 Albert Astals Cid <aacid@kde.org>
+// Copyright (C) 2005, 2009, 2012, 2013, 2015, 2017, 2018 Albert Astals Cid <aacid@kde.org>
 // Copyright (C) 2006, 2007, 2010, 2011 Carlos Garcia Campos <carlosgc@gnome.org>
 // Copyright (C) 2007 Koji Otani <sho@bbr.jp>
 // Copyright (C) 2008, 2009 Chris Wilson <chris@chris-wilson.co.uk>
@@ -69,17 +69,17 @@
 // CairoFont
 //------------------------------------------------------------------------
 
-CairoFont::CairoFont(Ref ref,
-		     cairo_font_face_t *cairo_font_face,
-		     int *codeToGID,
-		     Guint codeToGIDLen,
-		     GBool substitute,
-		     GBool printing) : ref(ref),
-				       cairo_font_face(cairo_font_face),
-				       codeToGID(codeToGID),
-				       codeToGIDLen(codeToGIDLen),
-				       substitute(substitute),
-				       printing(printing)      { }
+CairoFont::CairoFont(Ref refA,
+		     cairo_font_face_t *cairo_font_faceA,
+		     int *codeToGIDA,
+		     Guint codeToGIDLenA,
+		     GBool substituteA,
+		     GBool printingA) : ref(refA),
+				       cairo_font_face(cairo_font_faceA),
+				       codeToGID(codeToGIDA),
+				       codeToGIDLen(codeToGIDLenA),
+				       substitute(substituteA),
+				       printing(printingA)      { }
 
 CairoFont::~CairoFont() {
   cairo_font_face_destroy (cairo_font_face);
@@ -378,22 +378,21 @@ _ft_new_face (FT_Library lib,
 #define _ft_new_face _ft_new_face_uncached
 #endif
 
-CairoFreeTypeFont::CairoFreeTypeFont(Ref ref,
-				     cairo_font_face_t *cairo_font_face,
-				     int *codeToGID,
-				     Guint codeToGIDLen,
-				     GBool substitute) : CairoFont(ref,
-								   cairo_font_face,
-								   codeToGID,
-								   codeToGIDLen,
-								   substitute,
+CairoFreeTypeFont::CairoFreeTypeFont(Ref refA,
+				     cairo_font_face_t *cairo_font_faceA,
+				     int *codeToGIDA,
+				     Guint codeToGIDLenA,
+				     GBool substituteA) : CairoFont(refA,
+								   cairo_font_faceA,
+								   codeToGIDA,
+								   codeToGIDLenA,
+								   substituteA,
 								   gTrue) { }
 
 CairoFreeTypeFont::~CairoFreeTypeFont() { }
 
 CairoFreeTypeFont *CairoFreeTypeFont::create(GfxFont *gfxFont, XRef *xref,
 					     FT_Library lib, GBool useCIDs) {
-  Object refObj, strObj;
   GooString *fileName;
   char *fileNameC;
   char *font_data;
@@ -411,7 +410,7 @@ CairoFreeTypeFont *CairoFreeTypeFont::create(GfxFont *gfxFont, XRef *xref,
 
   int *codeToGID;
   Guint codeToGIDLen;
-
+  
   codeToGID = nullptr;
   codeToGIDLen = 0;
   font_data = nullptr;
@@ -420,7 +419,7 @@ CairoFreeTypeFont *CairoFreeTypeFont::create(GfxFont *gfxFont, XRef *xref,
   fileNameC = nullptr;
 
   GBool substitute = gFalse;
-
+  
   ref = *gfxFont->getID();
   fontType = gfxFont->getType();
 
@@ -456,9 +455,9 @@ CairoFreeTypeFont *CairoFreeTypeFont::create(GfxFont *gfxFont, XRef *xref,
       error(errSyntaxError, -1, "could not create type1 face");
       goto err2;
     }
-
+    
     enc = ((Gfx8BitFont *)gfxFont)->getEncoding();
-
+    
     codeToGID = (int *)gmallocn(256, sizeof(int));
     codeToGIDLen = 256;
     for (i = 0; i < 256; ++i) {
@@ -525,7 +524,7 @@ CairoFreeTypeFont *CairoFreeTypeFont::create(GfxFont *gfxFont, XRef *xref,
       goto err2;
     }
     break;
-
+    
   case fontCIDType0:
   case fontCIDType0C:
 
@@ -735,7 +734,6 @@ _render_type3_glyph (cairo_scaled_font_t  *scaled_font,
 CairoType3Font *CairoType3Font::create(GfxFont *gfxFont, PDFDoc *doc,
 				       CairoFontEngine *fontEngine,
 				       GBool printing, XRef *xref) {
-  Object refObj, strObj;
   type3_font_info_t *info;
   cairo_font_face_t *font_face;
   Ref ref;
@@ -778,18 +776,18 @@ CairoType3Font *CairoType3Font::create(GfxFont *gfxFont, PDFDoc *doc,
   return new CairoType3Font(ref, doc, font_face, codeToGID, codeToGIDLen, printing, xref);
 }
 
-CairoType3Font::CairoType3Font(Ref ref,
-			       PDFDoc *doc,
-			       cairo_font_face_t *cairo_font_face,
-			       int *codeToGID,
-			       Guint codeToGIDLen,
-			       GBool printing, XRef *xref) : CairoFont(ref,
-							   cairo_font_face,
-							   codeToGID,
-							   codeToGIDLen,
+CairoType3Font::CairoType3Font(Ref refA,
+			       PDFDoc *docA,
+			       cairo_font_face_t *cairo_font_faceA,
+			       int *codeToGIDA,
+			       Guint codeToGIDLenA,
+			       GBool printingA, XRef *xref) : CairoFont(refA,
+							   cairo_font_faceA,
+							   codeToGIDA,
+							   codeToGIDLenA,
 							   gFalse,
-							   printing),
-						 doc(doc) { }
+							   printingA),
+						 doc(docA) { }
 
 CairoType3Font::~CairoType3Font() { }
 
@@ -810,7 +808,7 @@ CairoFontEngine::CairoFontEngine(FT_Library libA) {
   for (i = 0; i < cairoFontCacheSize; ++i) {
     fontCache[i] = nullptr;
   }
-
+  
   FT_Int major, minor, patch;
   // as of FT 2.1.8, CID fonts are indexed by CID instead of GID
   FT_Library_Version(lib, &major, &minor, &patch);
@@ -823,7 +821,7 @@ CairoFontEngine::CairoFontEngine(FT_Library libA) {
 
 CairoFontEngine::~CairoFontEngine() {
   int i;
-
+  
   for (i = 0; i < cairoFontCacheSize; ++i) {
     if (fontCache[i])
       delete fontCache[i];
@@ -839,7 +837,7 @@ CairoFontEngine::getFont(GfxFont *gfxFont, PDFDoc *doc, GBool printing, XRef *xr
   Ref ref;
   CairoFont *font;
   GfxFontType fontType;
-
+  
   fontEngineLocker();
   ref = *gfxFont->getID();
 
@@ -853,7 +851,7 @@ CairoFontEngine::getFont(GfxFont *gfxFont, PDFDoc *doc, GBool printing, XRef *xr
       return font;
     }
   }
-
+  
   fontType = gfxFont->getType();
   if (fontType == fontType3)
     font = CairoType3Font::create (gfxFont, doc, this, printing, xref);
