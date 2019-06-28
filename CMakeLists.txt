@@ -1,5 +1,6 @@
 # leave this above project(pdf2htmlEX)
 # set default build type to Release
+set(CMAKE_EXPORT_COMPILE_COMMANDS, ON)
 set(CMAKE_BUILD_TYPE Release CACHE STRING "Build configuration (Debug, Release, RelWithDebInfo, MinSizeRel)")
 
 project(pdf2htmlEX)
