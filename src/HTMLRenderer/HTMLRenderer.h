@@ -126,7 +126,7 @@ struct HTMLRenderer : OutputDev
     virtual void eoClip(GfxState * state);
     virtual void clipToStrokePath(GfxState * state);
     
-    virtual void drawString(GfxState * state, GooString * s);
+    virtual void drawString(GfxState * state, const GooString * s);
 
     virtual void drawImage(GfxState * state, Object * ref, Stream * str, int width, int height, GfxImageColorMap * colorMap, GBool interpolate, int *maskColors, GBool inlineImg);
 
