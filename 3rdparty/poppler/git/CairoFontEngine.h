@@ -15,7 +15,7 @@
 // under GPL version 2 or later
 //
 // Copyright (C) 2005, 2006 Kristian Høgsberg <krh@redhat.com>
-// Copyright (C) 2005, 2018 Albert Astals Cid <aacid@kde.org>
+// Copyright (C) 2005 Albert Astals Cid <aacid@kde.org>
 // Copyright (C) 2006, 2007 Jeff Muizelaar <jeff@infidigm.net>
 // Copyright (C) 2006, 2010 Carlos Garcia Campos <carlosgc@gnome.org>
 // Copyright (C) 2008, 2017 Adrian Johnson <ajohnson@redneon.com>
@@ -23,6 +23,15 @@
 //
 // To see a description of the changes please see the Changelog file that
 // came with your tarball or type make ChangeLog if you are building from git
+//
+//========================================================================
+
+//========================================================================
+//
+// Copied from Ubuntu 18.04 apt-get source poppler (poppler-0.62.0)
+// Copied on 2019/March/26
+// Copied by Stephen Gaito in order to update pdf2htmlEX poppler dependencies
+// Corrected <config.h> includes to <poppler-config.h>
 //
 //========================================================================
 
@@ -51,8 +60,6 @@ public:
 	    GBool substitute,
 	    GBool printing);
   virtual ~CairoFont();
-  CairoFont(const CairoFont &) = delete;
-  CairoFont& operator=(const CairoFont &other) = delete;
 
   virtual GBool matches(Ref &other, GBool printing);
   cairo_font_face_t *getFontFace(void);
@@ -116,8 +123,6 @@ public:
   // Create a font engine.
   CairoFontEngine(FT_Library libA);
   ~CairoFontEngine();
-  CairoFontEngine(const CairoFontEngine &) = delete;
-  CairoFontEngine& operator=(const CairoFontEngine &other) = delete;
 
   CairoFont *getFont(GfxFont *gfxFont, PDFDoc *doc, GBool printing, XRef *xref);
 

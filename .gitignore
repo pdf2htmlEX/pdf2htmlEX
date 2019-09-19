@@ -1,3 +1,5 @@
+build
+compile_commands.json
 CMakeCache.txt
 CMakeFiles/*
 cmake_install.cmake
@@ -18,3 +20,6 @@ src/pdf2htmlEX-config.h
 src/util/css_const.h
 test export-ignore
 Testing/*
+DartConfiguration.tcl
+test/test.py
+

@@ -23,10 +23,18 @@
 // Copyright (C) 2010-2013 Thomas Freitag <Thomas.Freitag@alfa.de>
 // Copyright (C) 2015 Suzuki Toshiya <mpsuzuki@hiroshima-u.ac.jp>
 // Copyright (C) 2016 Jason Crain <jason@aquaticape.us>
-// Copyright (C) 2018 Albert Astals Cid <aacid@kde.org>
 //
 // To see a description of the changes please see the Changelog file that
 // came with your tarball or type make ChangeLog if you are building from git
+//
+//========================================================================
+
+//========================================================================
+//
+// Copied from Ubuntu 18.04 apt-get source poppler (poppler-0.62.0)
+// Copied on 2019/March/26
+// Copied by Stephen Gaito in order to update pdf2htmlEX poppler dependencies
+// Corrected <config.h> includes to <poppler-config.h>
 //
 //========================================================================
 
@@ -63,9 +71,6 @@ public:
 
   // Destructor.
   ~CairoImage ();
-
-  CairoImage(const CairoImage &) = delete;
-  CairoImage& operator=(const CairoImage &) = delete;
 
   // Set the image cairo surface
   void setImage (cairo_surface_t *image);
@@ -287,14 +292,11 @@ protected:
 				     GBool interpolate);
   GBool getStreamData (Stream *str, char **buffer, int *length);
   void setMimeData(GfxState *state, Stream *str, Object *ref,
-		   GfxImageColorMap *colorMap, cairo_surface_t *image, int height);
+		   GfxImageColorMap *colorMap, cairo_surface_t *image);
   void fillToStrokePathClip(GfxState *state);
   void alignStrokeCoords(GfxSubpath *subpath, int i, double *x, double *y);
 #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 14, 0)
   GBool setMimeDataForJBIG2Globals (Stream *str, cairo_surface_t *image);
-#endif
-#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 15, 10)
-  GBool setMimeDataForCCITTParams(Stream  *str, cairo_surface_t *image, int height);
 #endif
   static void setContextAntialias(cairo_t *cr, cairo_antialias_t antialias);
 

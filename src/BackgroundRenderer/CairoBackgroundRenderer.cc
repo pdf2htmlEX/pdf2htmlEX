@@ -239,7 +239,7 @@ void CairoBackgroundRenderer::setMimeData(GfxState *state, Stream *str, Object *
 {
     if (param.svg_embed_bitmap)
     {
-        CairoOutputDev::setMimeData(state, str, ref, colorMap, image, cairo_image_surface_get_height (image));
+        CairoOutputDev::setMimeData(state, str, ref, colorMap, image);
         return;
     }
 
