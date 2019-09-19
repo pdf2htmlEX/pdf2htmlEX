@@ -38,6 +38,14 @@
 //
 //========================================================================
 
+//========================================================================
+//
+// Copied from Ubuntu 18.04 apt-get source poppler (poppler-0.62.0)
+// Copied on 2019/March/26
+// Copied by Stephen Gaito in order to update pdf2htmlEX poppler dependencies
+// Corrected <config.h> includes to <poppler-config.h>
+//
+//========================================================================
 
 /* This implements a box filter that supports non-integer box sizes */
 
@@ -271,9 +279,9 @@ GBool CairoRescaleBox::downScaleImage(unsigned orig_width, unsigned orig_height,
   int dest_y;
   int src_y = 0;
   uint32_t *scanline;
-  int *x_coverage = nullptr;
-  int *y_coverage = nullptr;
-  uint32_t *temp_buf = nullptr;
+  int *x_coverage = NULL;
+  int *y_coverage = NULL;
+  uint32_t *temp_buf = NULL;
   GBool retval = gFalse;
   unsigned int *dest;
   int dst_stride;

@@ -30,10 +30,18 @@
 // under GPL version 2 or later
 //
 // Copyright (C) 2012 Adrian Johnson <ajohnson@redneon.com>
-// Copyright (C) 2018 Albert Astals Cid <aacid@kde.org>
 //
 // To see a description of the changes please see the Changelog file that
 // came with your tarball or type make ChangeLog if you are building from git
+//
+//========================================================================
+
+//========================================================================
+//
+// Copied from Ubuntu 18.04 apt-get source poppler (poppler-0.62.0)
+// Copied on 2019/March/26
+// Copied by Stephen Gaito in order to update pdf2htmlEX poppler dependencies
+// Corrected <config.h> includes to <poppler-config.h>
 //
 //========================================================================
 
@@ -48,9 +56,6 @@ public:
 
   CairoRescaleBox() {};
   virtual ~CairoRescaleBox() {};
-
-  CairoRescaleBox(const CairoRescaleBox &) = delete;
-  CairoRescaleBox& operator=(const CairoRescaleBox &) = delete;
 
   virtual GBool downScaleImage(unsigned orig_width, unsigned orig_height,
                                signed scaled_width, signed scaled_height,
