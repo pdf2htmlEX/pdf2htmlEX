@@ -12,18 +12,35 @@ modified for general git repo
 2013.05.30
 """
 
-
 import os
 import sys
 import re
 import time
 
 package='pdf2htmlex'
-ppa_name='ppa:coolwanglu/pdf2htmlex'
-supported_distributions=('precise', 'trusty')
+ppa_name='ppa:pdf2htmlex/pdf2htmlex'
+supported_distributions=('bionic',)
 dist_pattern=re.compile('|'.join(['\\) '+i for i in supported_distributions]))
 archive_cmd='(rm CMakeCache.txt || true) && cmake . && make dist'
 archive_suffix='.tar.bz2'
+
+if os.path.exists('../build-area'):
+    sys.stdout.write('Build area already exists, delete to continue?(y/n)')
+    sys.stdout.flush()
+    ans = raw_input().lower()
+    while ans not in ['y', 'n']:
+        sys.stdout.write('I don\'t understand, enter \'y\' or \'n\':')
+        ans = raw_input().lower()
+
+    if ans == 'n':
+        print 'Skipped.'
+        sys.exit(0)
+
+    if os.system('rm -rf ../build-area') != 0:
+        print 'Failed to clean up old build directory'
+        sys.exit(-1)
+
+    os.mkdir('../build-area')
 
 print 'Generating version...'
 try:
@@ -39,9 +56,12 @@ except:
     sys.exit(-1)
 
 projectdir=os.getcwd()
-today_timestr = time.strftime('%Y%m%d%H%M')
+today_timestr = time.strftime('%Y%m%d')
 deb_version = version+'-1~git'+today_timestr+'r'+rev
 full_deb_version = deb_version+'-0ubuntu1'
+
+print 'Version: %s' % (version,)
+print 'Full Version: %s' % (full_deb_version,)
 
 #check if we need to update debian/changelog
 with open('debian/changelog') as f:
@@ -102,36 +122,37 @@ os.system('cp -r %s/debian .' % (projectdir,))
 for cur_dist in supported_distributions:
     print
     print 'Building for ' + cur_dist + ' ...'
-    # substitute distribution name 
+    # substitute distribution name
     with open('debian/changelog', 'w') as f:
         f.write(dist_pattern.sub('~%s1) %s' % (cur_dist, cur_dist), changelog, 1))
 
-    # building
-    if os.system('debuild -S -sa') != 0:
-        print 'Failed in debuild'
-        sys.exit(-1)
+# No PPA Orginization set up, only building dpkg
+#    # building for ppa
+#    if os.system('debuild -S -sa') != 0:
+#        print 'Failed in debuild'
+#        sys.exit(-1)
+#
+#    print
+#    sys.stdout.write('Everything seems to be good so far, upload?(y/n)')
+#    sys.stdout.flush()
+#    ans = raw_input().lower()
+#    while ans not in ['y', 'n']:
+#        sys.stdout.write('I don\'t understand, enter \'y\' or \'n\':')
+#        ans = raw_input().lower()
+#
+#    if ans == 'n':
+#        print 'Skipped.'
+#        sys.exit(0)
+#
+#    print 'Uploading'
+#    if os.system('dput %s ../%s' % (ppa_name, package+'_'+full_deb_version+'~'+cur_dist+'1_source.changes')) != 0:
+#        print 'Failed in uploading by dput'
+#        sys.exit(-1)
 
-    """
-    print
-    sys.stdout.write('Everything seems to be good so far, upload?(y/n)')
-    sys.stdout.flush()
-    ans = raw_input().lower()
-    while ans not in ['y', 'n']:
-        sys.stdout.write('I don\'t understand, enter \'y\' or \'n\':')
-        ans = raw_input().lower()
-
-    if ans == 'n':
-        print 'Skipped.'
-        sys.exit(0)
-    """
-
-    print 'Uploading'   
-    if os.system('dput %s ../%s' % (ppa_name, package+'_'+full_deb_version+'~'+cur_dist+'1_source.changes')) != 0:
-        print 'Failed in uploading by dput'
+    # building for dpkg
+    if os.system('dpkg-buildpackage') != 0:
+        print 'Failed in dpkg-buildpackage'
         sys.exit(-1)
 
 print 'Build area not cleaned.'
 print 'All done. Cool!'
-
-
-

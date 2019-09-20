@@ -23,4 +23,4 @@ Testing/*
 DartConfiguration.tcl
 test/test.py
 *.swp
-
+pdf2htmlex-*.tar.bz2
