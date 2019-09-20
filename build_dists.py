@@ -40,8 +40,6 @@ if os.path.exists('../build-area'):
         print 'Failed to clean up old build directory'
         sys.exit(-1)
 
-    os.mkdir('../build-area')
-
 print 'Generating version...'
 try:
     version = re.findall(r'set\(PDF2HTMLEX_VERSION\s*"([^"]*)"\)', open('CMakeLists.txt').read())[0]
@@ -92,12 +90,12 @@ if os.system(archive_cmd) != 0:
     sys.exit(-1)
 
 orig_tar_filename = package+'-'+version+archive_suffix
+os.mkdir('../build-area')
 if os.system('test -e %s && cp %s ../build-area/' % (orig_tar_filename, orig_tar_filename)) != 0:
     print 'Cannot copy tarball file to build area'
     sys.exit(-1)
 
 deb_orig_tar_filename = package+'_'+deb_version+'.orig'+archive_suffix
-
 try:
     os.chdir('../build-area')
 except:
