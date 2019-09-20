@@ -1,3 +1,9 @@
+pdf2htmlex (0.17.0-1~git20190920r21a9f-0ubuntu1) cosmic; urgency=low
+
+  * Package for 18.10
+
+ -- Trent Petersen <trentpetersen.523@gmail.com>  Fri, 20 Sep 2019 09:09:03 -0500
+
 pdf2htmlex (0.16.0-1~git20190920r21a9f-0ubuntu1) bionic; urgency=low
 
   * Package for 18.04
