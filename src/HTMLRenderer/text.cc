@@ -23,7 +23,7 @@ using std::none_of;
 using std::cerr;
 using std::endl;
 
-void HTMLRenderer::drawString(GfxState * state, GooString * s)
+void HTMLRenderer::drawString(GfxState * state, const GooString * s)
 {
     if(s->getLength() == 0)
         return;
@@ -58,7 +58,7 @@ void HTMLRenderer::drawString(GfxState * state, GooString * s)
 
     // Now ready to output
     // get the unicodes
-    char *p = s->getCString();
+    const char *p = s->getCString();
     int len = s->getLength();
 
     //accumulated displacement of chars in this string, in text object space

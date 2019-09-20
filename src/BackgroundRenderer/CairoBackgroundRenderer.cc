@@ -81,7 +81,7 @@ void CairoBackgroundRenderer::beginTextObject(GfxState *state)
     CairoOutputDev::beginTextObject(state);
 }
 
-void CairoBackgroundRenderer::beginString(GfxState *state, GooString * str)
+void CairoBackgroundRenderer::beginString(GfxState *state, const GooString * str)
 {
     if (param.proof == 2)
         proof_begin_string(state, this);
@@ -239,7 +239,7 @@ void CairoBackgroundRenderer::setMimeData(GfxState *state, Stream *str, Object *
 {
     if (param.svg_embed_bitmap)
     {
-        CairoOutputDev::setMimeData(state, str, ref, colorMap, image);
+        CairoOutputDev::setMimeData(state, str, ref, colorMap, image, cairo_image_surface_get_height (image));
         return;
     }
 
