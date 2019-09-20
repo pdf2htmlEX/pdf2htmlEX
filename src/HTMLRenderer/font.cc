@@ -595,6 +595,11 @@ void HTMLRenderer::embed_font(const string & filepath, GfxFont * font, FontInfo 
         bool name_conflict_warned = false;
 
         auto ctu = font->getToUnicode();
+        // NOTE: Poppler has changed its effective ABI
+        // in now expects the USER to increment any ref counters
+        assert(ctu);
+        ((CharCodeToUnicode *)ctu)->incRefCnt();
+
         std::fill(cur_mapping.begin(), cur_mapping.end(), -1);
         std::fill(width_list.begin(), width_list.end(), -1);
 
@@ -634,7 +639,9 @@ void HTMLRenderer::embed_font(const string & filepath, GfxFont * font, FontInfo 
             Unicode u, *pu=&u;
             if(info.use_tounicode)
             {
-                int n = ctu ? (ctu->mapToUnicode(cur_code, &pu)) : 0;
+                int n = ctu ?
+                   (((CharCodeToUnicode *)ctu)->mapToUnicode(cur_code, &pu)) :
+                   0;
                 u = check_unicode(pu, n, cur_code, font);
             }
             else
@@ -756,7 +763,7 @@ void HTMLRenderer::embed_font(const string & filepath, GfxFont * font, FontInfo 
         }
 
         if(ctu)
-            ctu->decRefCnt();
+            ((CharCodeToUnicode *)ctu)->decRefCnt();
     }
 
     /*

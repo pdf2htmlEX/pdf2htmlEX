@@ -126,7 +126,7 @@ struct HTMLRenderer : OutputDev
     virtual void eoClip(GfxState * state);
     virtual void clipToStrokePath(GfxState * state);
     
-    virtual void drawString(GfxState * state, GooString * s);
+    virtual void drawString(GfxState * state, const GooString * s);
 
     virtual void drawImage(GfxState * state, Object * ref, Stream * str, int width, int height, GfxImageColorMap * colorMap, GBool interpolate, int *maskColors, GBool inlineImg);
 
@@ -170,7 +170,7 @@ protected:
     void post_process(void);
 
     void process_outline(void);
-    void process_outline_items(GooList * items);
+    void process_outline_items(const GooList * items);
 
     void process_form(std::ofstream & out);
     
@@ -179,7 +179,7 @@ protected:
     void dump_css(void);
 
     // convert a LinkAction to a string that our Javascript code can understand
-    std::string get_linkaction_str(LinkAction *, std::string & detail);
+    std::string get_linkaction_str(const LinkAction *, std::string & detail);
 
     ////////////////////////////////////////////////////
     /*

@@ -21,7 +21,7 @@ namespace pdf2htmlEX {
 
 using std::ostream;
 
-void HTMLRenderer::process_outline_items(GooList * items)
+void HTMLRenderer::process_outline_items(const GooList * items)
 {
     if((!items) || (items->getLength() == 0))
         return;

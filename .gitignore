@@ -22,4 +22,5 @@ test export-ignore
 Testing/*
 DartConfiguration.tcl
 test/test.py
+*.swp
 

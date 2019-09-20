@@ -46,7 +46,7 @@ public:
 
   //for proof
   void beginTextObject(GfxState *state);
-  void beginString(GfxState *state, GooString * str);
+  void beginString(GfxState *state, const GooString * str);
   void endTextObject(GfxState *state);
   void updateRender(GfxState *state);
 

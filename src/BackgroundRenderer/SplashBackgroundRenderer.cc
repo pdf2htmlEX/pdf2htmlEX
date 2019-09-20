@@ -80,7 +80,7 @@ void SplashBackgroundRenderer::beginTextObject(GfxState *state)
     SplashOutputDev::beginTextObject(state);
 }
 
-void SplashBackgroundRenderer::beginString(GfxState *state, GooString * str)
+void SplashBackgroundRenderer::beginString(GfxState *state, const GooString * str)
 {
     if (param.proof == 2)
         proof_begin_string(state, this);
