@@ -12,15 +12,14 @@ modified for general git repo
 2013.05.30
 """
 
-
 import os
 import sys
 import re
 import time
 
 package='pdf2htmlex'
-ppa_name='ppa:coolwanglu/pdf2htmlex'
-supported_distributions=('precise', 'trusty')
+ppa_name='ppa:pdf2htmlex/pdf2htmlex'
+supported_distributions=('cosmic',)
 dist_pattern=re.compile('|'.join(['\\) '+i for i in supported_distributions]))
 archive_cmd='(rm CMakeCache.txt || true) && cmake . && make dist'
 archive_suffix='.tar.bz2'
@@ -39,9 +38,12 @@ except:
     sys.exit(-1)
 
 projectdir=os.getcwd()
-today_timestr = time.strftime('%Y%m%d%H%M')
+today_timestr = time.strftime('%Y%m%d')
 deb_version = version+'-1~git'+today_timestr+'r'+rev
 full_deb_version = deb_version+'-0ubuntu1'
+
+print 'Version: %s' % (version,)
+print 'Full Version: %s' % (full_deb_version,)
 
 #check if we need to update debian/changelog
 with open('debian/changelog') as f:
@@ -72,6 +74,7 @@ if os.system(archive_cmd) != 0:
     sys.exit(-1)
 
 orig_tar_filename = package+'-'+version+archive_suffix
+os.mkdir('../build-area')
 if os.system('test -e %s && cp %s ../build-area/' % (orig_tar_filename, orig_tar_filename)) != 0:
     print 'Cannot copy tarball file to build area'
     sys.exit(-1)
@@ -102,16 +105,15 @@ os.system('cp -r %s/debian .' % (projectdir,))
 for cur_dist in supported_distributions:
     print
     print 'Building for ' + cur_dist + ' ...'
-    # substitute distribution name 
+    # substitute distribution name
     with open('debian/changelog', 'w') as f:
         f.write(dist_pattern.sub('~%s1) %s' % (cur_dist, cur_dist), changelog, 1))
 
-    # building
+    # building for ppa
     if os.system('debuild -S -sa') != 0:
         print 'Failed in debuild'
         sys.exit(-1)
 
-    """
     print
     sys.stdout.write('Everything seems to be good so far, upload?(y/n)')
     sys.stdout.flush()
@@ -123,15 +125,16 @@ for cur_dist in supported_distributions:
     if ans == 'n':
         print 'Skipped.'
         sys.exit(0)
-    """
 
-    print 'Uploading'   
+    print 'Uploading'
     if os.system('dput %s ../%s' % (ppa_name, package+'_'+full_deb_version+'~'+cur_dist+'1_source.changes')) != 0:
         print 'Failed in uploading by dput'
         sys.exit(-1)
 
+    # building for dpkg
+    if os.system('dpkg-buildpackage') != 0:
+        print 'Failed in dpkg-buildpackage'
+        sys.exit(-1)
+
 print 'Build area not cleaned.'
 print 'All done. Cool!'
-
-
-
