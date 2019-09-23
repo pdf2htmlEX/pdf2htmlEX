@@ -39,7 +39,7 @@ void ffw_close(void);
 void ffw_reencode_glyph_order(void);
 void ffw_reencode_unicode_full(void);
 void ffw_reencode_raw(int32_t * mapping, int mapping_len, int force);
-void ffw_reencode_raw2(char ** mapping, int mapping_len, int force);
+void ffw_reencode_raw2(const char ** mapping, int mapping_len, int force);
 
 void ffw_cidflatten(void);
 // add a new empty char into the font
