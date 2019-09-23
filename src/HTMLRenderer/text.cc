@@ -58,7 +58,7 @@ void HTMLRenderer::drawString(GfxState * state, const GooString * s)
 
     // Now ready to output
     // get the unicodes
-    const char *p = s->getCString();
+    const char *p = (s->toStr()).c_str();
     int len = s->getLength();
 
     //accumulated displacement of chars in this string, in text object space
