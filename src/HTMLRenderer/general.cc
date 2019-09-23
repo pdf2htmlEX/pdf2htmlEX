@@ -53,7 +53,7 @@ HTMLRenderer::HTMLRenderer(Param & param)
     if(!(param.debug))
     {
         //disable error messages of poppler
-        globalParams->setErrQuiet(gTrue);
+        globalParams->setErrQuiet(true);
     }
 
     ffw_init(param.debug);
@@ -190,7 +190,7 @@ void HTMLRenderer::process(PDFDoc *doc)
         cerr << endl;
 }
 
-void HTMLRenderer::setDefaultCTM(double *ctm)
+void HTMLRenderer::setDefaultCTM(const double *ctm)
 {
     memcpy(default_ctm, ctm, sizeof(default_ctm));
 }

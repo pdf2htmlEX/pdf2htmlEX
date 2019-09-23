@@ -32,6 +32,8 @@
 //
 // Copyright (C) 2012 Hib Eris <hib@hiberis.nl>
 // Copyright (C) 2012, 2017 Adrian Johnson <ajohnson@redneon.com>
+// Copyright (C) 2018 Adam Reichold <adam.reichold@t-online.de>
+// Copyright (C) 2019 Albert Astals Cid <aacid@kde.org>
 //
 // To see a description of the changes please see the Changelog file that
 // came with your tarball or type make ChangeLog if you are building from git
@@ -76,7 +78,7 @@ static void downsample_row_box_filter (
         box size is constant
 
 
-       value = a * contribtion_a * 1/box_size + b * contribution_b * 1/box_size
+       value = a * contribution_a * 1/box_size + b * contribution_b * 1/box_size
                contribution_b = (1 - contribution_a)
                               = (1 - contribution_a_next)
     */
@@ -253,7 +255,7 @@ static int compute_coverage (int coverage[], int src_length, int dest_length)
         /* compute how much the right-most pixel contributes */
         overage = ratio*(right_fract);
 
-        /* the remainder is the the amount that the left-most pixel
+        /* the remainder is the amount that the left-most pixel
          * contributes */
         coverage[i] = (1<<24) - (count * ratio + overage);
     }
@@ -262,7 +264,7 @@ static int compute_coverage (int coverage[], int src_length, int dest_length)
 }
 
 
-GBool CairoRescaleBox::downScaleImage(unsigned orig_width, unsigned orig_height,
+bool CairoRescaleBox::downScaleImage(unsigned orig_width, unsigned orig_height,
                                       signed scaled_width, signed scaled_height,
                                       unsigned short int start_column, unsigned short int start_row,
                                       unsigned short int width, unsigned short int height,
@@ -274,17 +276,17 @@ GBool CairoRescaleBox::downScaleImage(unsigned orig_width, unsigned orig_height,
   int *x_coverage = nullptr;
   int *y_coverage = nullptr;
   uint32_t *temp_buf = nullptr;
-  GBool retval = gFalse;
+  bool retval = false;
   unsigned int *dest;
   int dst_stride;
 
-  dest = (unsigned int *)cairo_image_surface_get_data (dest_surface);
+  dest = reinterpret_cast<unsigned int *>(cairo_image_surface_get_data (dest_surface));
   dst_stride = cairo_image_surface_get_stride (dest_surface);
 
-  scanline = (uint32_t*)gmallocn3 (orig_width, 1, sizeof(int));
+  scanline = (uint32_t*)gmallocn (orig_width, sizeof(int));
 
-  x_coverage = (int *)gmallocn3 (orig_width, 1, sizeof(int));
-  y_coverage = (int *)gmallocn3 (orig_height, 1, sizeof(int));
+  x_coverage = (int *)gmallocn (orig_width, sizeof(int));
+  y_coverage = (int *)gmallocn (orig_height, sizeof(int));
 
   /* we need to allocate enough room for ceil(src_height/dest_height)+1
      Example:
@@ -364,7 +366,7 @@ GBool CairoRescaleBox::downScaleImage(unsigned orig_width, unsigned orig_height,
   }
 //    assert (src_y<=orig_height);
 
-  retval = gTrue;
+  retval = true;
 
 cleanup:
   free (x_coverage);

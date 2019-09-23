@@ -164,7 +164,7 @@ string HTMLRenderer::get_linkaction_str(const LinkAction * action, string & deta
                 {
                     auto * real_action = dynamic_cast<const LinkURI*>(action);
                     assert(real_action != nullptr);
-                    dest_str = real_action->getURI()->getCString();
+                    dest_str = real_action->getURI()->toStr();
                 }
                 break;
             case actionLaunch:

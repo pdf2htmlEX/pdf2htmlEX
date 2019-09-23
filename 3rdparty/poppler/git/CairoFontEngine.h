@@ -20,6 +20,7 @@
 // Copyright (C) 2006, 2010 Carlos Garcia Campos <carlosgc@gnome.org>
 // Copyright (C) 2008, 2017 Adrian Johnson <ajohnson@redneon.com>
 // Copyright (C) 2013 Thomas Freitag <Thomas.Freitag@alfa.de>
+// Copyright (C) 2018 Adam Reichold <adam.reichold@t-online.de>
 //
 // To see a description of the changes please see the Changelog file that
 // came with your tarball or type make ChangeLog if you are building from git
@@ -29,12 +30,9 @@
 #ifndef CAIROFONTENGINE_H
 #define CAIROFONTENGINE_H
 
-#ifdef USE_GCC_PRAGMAS
-#pragma interface
-#endif
+#include <mutex>
 
 #include "poppler-config.h"
-#include "goo/gtypes.h"
 #include <cairo-ft.h>
 
 #include "GfxFont.h"
@@ -47,40 +45,40 @@ public:
   CairoFont(Ref ref,
 	    cairo_font_face_t *face,
 	    int *codeToGID,
-	    Guint codeToGIDLen,
-	    GBool substitute,
-	    GBool printing);
+	    unsigned int codeToGIDLen,
+	    bool substitute,
+	    bool printing);
   virtual ~CairoFont();
   CairoFont(const CairoFont &) = delete;
   CairoFont& operator=(const CairoFont &other) = delete;
 
-  virtual GBool matches(Ref &other, GBool printing);
+  virtual bool matches(Ref &other, bool printing);
   cairo_font_face_t *getFontFace(void);
   unsigned long getGlyph(CharCode code, Unicode *u, int uLen);
   double getSubstitutionCorrection(GfxFont *gfxFont);
 
-  GBool isSubstitute() { return substitute; }
+  bool isSubstitute() { return substitute; }
 protected:
   Ref ref;
   cairo_font_face_t *cairo_font_face;
 
   int *codeToGID;
-  Guint codeToGIDLen;
+  unsigned int codeToGIDLen;
 
-  GBool substitute;
-  GBool printing;
+  bool substitute;
+  bool printing;
 };
 
 //------------------------------------------------------------------------
 
 class CairoFreeTypeFont : public CairoFont {
 public:
-  static CairoFreeTypeFont *create(GfxFont *gfxFont, XRef *xref, FT_Library lib, GBool useCIDs);
+  static CairoFreeTypeFont *create(GfxFont *gfxFont, XRef *xref, FT_Library lib, bool useCIDs);
   ~CairoFreeTypeFont();
 
 private:
   CairoFreeTypeFont(Ref ref, cairo_font_face_t *cairo_font_face,
-	    int *codeToGID, Guint codeToGIDLen, GBool substitute);
+	    int *codeToGID, unsigned int codeToGIDLen, bool substitute);
 };
 
 //------------------------------------------------------------------------
@@ -89,17 +87,16 @@ class CairoType3Font : public CairoFont {
 public:
   static CairoType3Font *create(GfxFont *gfxFont, PDFDoc *doc,
 				CairoFontEngine *fontEngine,
-				GBool printing, XRef *xref);
+				bool printing, XRef *xref);
   ~CairoType3Font();
 
-  GBool matches(Ref &other, GBool printing) override;
+  bool matches(Ref &other, bool printing) override;
 
 private:
-  CairoType3Font(Ref ref, PDFDoc *doc,
+  CairoType3Font(Ref ref,
 		 cairo_font_face_t *cairo_font_face,
-		 int *codeToGID, Guint codeToGIDLen,
-		 GBool printing, XRef *xref);
-  PDFDoc *doc;
+		 int *codeToGID, unsigned int codeToGIDLen,
+		 bool printing, XRef *xref);
 };
 
 //------------------------------------------------------------------------
@@ -119,15 +116,13 @@ public:
   CairoFontEngine(const CairoFontEngine &) = delete;
   CairoFontEngine& operator=(const CairoFontEngine &other) = delete;
 
-  CairoFont *getFont(GfxFont *gfxFont, PDFDoc *doc, GBool printing, XRef *xref);
+  CairoFont *getFont(GfxFont *gfxFont, PDFDoc *doc, bool printing, XRef *xref);
 
 private:
   CairoFont *fontCache[cairoFontCacheSize];
   FT_Library lib;
-  GBool useCIDs;
-#ifdef MULTITHREADED
-  GooMutex mutex;
-#endif
+  bool useCIDs;
+  mutable std::recursive_mutex mutex;
 };
 
 #endif

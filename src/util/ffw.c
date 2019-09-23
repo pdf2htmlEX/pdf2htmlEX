@@ -275,7 +275,7 @@ void ffw_reencode_raw(int32 * mapping, int mapping_len, int force)
     ffw_do_reencode(enc, force);
 }
 
-void ffw_reencode_raw2(char ** mapping, int mapping_len, int force)
+void ffw_reencode_raw2(const char ** mapping, int mapping_len, int force)
 {
     Encoding * enc = calloc(1, sizeof(Encoding));
     enc->enc_name = strcopy("");

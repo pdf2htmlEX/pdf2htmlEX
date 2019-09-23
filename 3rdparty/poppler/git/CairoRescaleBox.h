@@ -40,7 +40,6 @@
 #ifndef CAIRO_RESCALE_BOX_H
 #define CAIRO_RESCALE_BOX_H
 
-#include "goo/gtypes.h"
 #include <cairo.h>
 
 class CairoRescaleBox {
@@ -52,7 +51,7 @@ public:
   CairoRescaleBox(const CairoRescaleBox &) = delete;
   CairoRescaleBox& operator=(const CairoRescaleBox &) = delete;
 
-  virtual GBool downScaleImage(unsigned orig_width, unsigned orig_height,
+  virtual bool downScaleImage(unsigned orig_width, unsigned orig_height,
                                signed scaled_width, signed scaled_height,
                                unsigned short int start_column, unsigned short int start_row,
                                unsigned short int width, unsigned short int height,

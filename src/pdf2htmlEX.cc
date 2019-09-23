@@ -438,8 +438,9 @@ int main(int argc, char **argv)
     delete globalParams;
 
     // check for memory leaks
-    Object::memCheck(stderr);
-    gMemReport(stderr);
+    // Poppler Object class (Object.h) no longer has memCheck
+    //Object::memCheck(stderr);
+    //gMemReport(stderr);
 
     exit(finished ? (EXIT_SUCCESS) : (EXIT_FAILURE));
 
