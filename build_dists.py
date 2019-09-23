@@ -19,7 +19,7 @@ import time
 
 package='pdf2htmlex'
 ppa_name='ppa:pdf2htmlex/pdf2htmlex'
-supported_distributions=('cosmic',)
+supported_distributions=('disco',)
 dist_pattern=re.compile('|'.join(['\\) '+i for i in supported_distributions]))
 archive_cmd='(rm CMakeCache.txt || true) && cmake . && make dist'
 archive_suffix='.tar.bz2'
