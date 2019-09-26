@@ -10,7 +10,7 @@ This table lists the (recent) pdf2htmlEX releases which work for a given
 | poppler-0.79.0 | unknown |
 | poppler-0.78.0 | unknown |
 | poppler-0.77.0 | unknown |
-| poppler-0.76.0 | unknown |
+| poppler-0.76.0 | v0.18.2-poppler-0.76.0 |
 | poppler-0.75.0 | v0.18.1-poppler-0.75.0 |
 | poppler-0.74.0 | v0.18.0-poppler-0.74.0-ubuntu-19.04 |
 | poppler-0.73.0 | unknown |
