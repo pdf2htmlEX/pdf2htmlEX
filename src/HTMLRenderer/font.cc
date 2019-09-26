@@ -66,7 +66,7 @@ string HTMLRenderer::dump_embedded_font (GfxFont * font, FontInfo & info)
 
         auto * id = font->getID();
 
-        Object ref_obj(id->num, id->gen);
+        Object ref_obj(*id);
         //ref_obj.initRef(id->num, id->gen);
         font_obj = ref_obj.fetch(xref);
         //ref_obj.free();
