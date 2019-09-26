@@ -16,6 +16,7 @@
 #include <GfxState.h>
 #include <Stream.h>
 #include <PDFDoc.h>
+#include <Outline.h>
 
 /************ from goo/gtypes.h ***************/
 // #include <goo/gtypes.h>
@@ -197,7 +198,7 @@ protected:
     void post_process(void);
 
     void process_outline(void);
-    void process_outline_items(const GooList * items);
+    void process_outline_items(const std::vector<OutlineItem*> * items);
 
     void process_form(std::ofstream & out);
     

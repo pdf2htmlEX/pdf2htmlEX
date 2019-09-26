@@ -40,7 +40,7 @@ static string get_linkdest_detail_str(LinkDest * dest, Catalog * catalog, int & 
     if(dest->isPageRef())
     {
         auto pageref = dest->getPageRef();
-        pageno = catalog->findPage(pageref.num, pageref.gen);
+        pageno = catalog->findPage(pageref);
     }
     else
     {

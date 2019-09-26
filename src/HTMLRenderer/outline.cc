@@ -9,9 +9,6 @@
 
 #include <iostream>
 
-#include <Outline.h>
-#include <goo/GooList.h>
-
 #include "HTMLRenderer.h"
 #include "util/namespace.h"
 #include "util/encoding.h"
@@ -21,16 +18,16 @@ namespace pdf2htmlEX {
 
 using std::ostream;
 
-void HTMLRenderer::process_outline_items(const GooList * items)
+void HTMLRenderer::process_outline_items(const std::vector<OutlineItem*> * items)
 {
-    if((!items) || (items->getLength() == 0))
+    if((!items) || (items->size() == 0))
         return;
 
     f_outline.fs << "<ul>";
 
-    for(int i = 0; i < items->getLength(); ++i)
+    for(std::size_t i = 0; i < items->size(); ++i)
     {
-        OutlineItem * item = (OutlineItem*)(items->get(i));
+        OutlineItem * item = items->at(i);
 
         string detail;
         string dest = get_linkaction_str(item->getAction(), detail);

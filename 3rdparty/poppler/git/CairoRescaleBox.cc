@@ -34,6 +34,7 @@
 // Copyright (C) 2012, 2017 Adrian Johnson <ajohnson@redneon.com>
 // Copyright (C) 2018 Adam Reichold <adam.reichold@t-online.de>
 // Copyright (C) 2019 Albert Astals Cid <aacid@kde.org>
+// Copyright (C) 2019 Marek Kasik <mkasik@redhat.com>
 //
 // To see a description of the changes please see the Changelog file that
 // came with your tarball or type make ChangeLog if you are building from git
@@ -61,7 +62,7 @@
 
 static void downsample_row_box_filter (
         int start, int width,
-        uint32_t *src, uint32_t *dest,
+        uint32_t *src, uint32_t *src_limit, uint32_t *dest,
         int coverage[], int pixel_coverage)
 {
     /* we need an array of the pixel contribution of each destination pixel on the boundaries.
@@ -89,13 +90,13 @@ static void downsample_row_box_filter (
     /* skip to start */
     /* XXX: it might be possible to do this directly instead of iteratively, however
      * the iterative solution is simple */
-    while (x < start)
+    while (x < start && src < src_limit)
     {
         int box = 1 << FIXED_SHIFT;
         int start_coverage = coverage[x];
         box -= start_coverage;
         src++;
-        while (box >= pixel_coverage)
+        while (box >= pixel_coverage && src < src_limit)
         {
             src++;
             box -= pixel_coverage;
@@ -103,7 +104,7 @@ static void downsample_row_box_filter (
         x++;
     }
 
-    while (x < start + width)
+    while (x < start + width && src < src_limit)
     {
         uint32_t a = 0;
         uint32_t r = 0;
@@ -120,7 +121,7 @@ static void downsample_row_box_filter (
         x++;
         box -= start_coverage;
 
-        while (box >= pixel_coverage)
+        while (box >= pixel_coverage && src < src_limit)
         {
             a += ((*src >> 24) & 0xff) * pixel_coverage;
             r += ((*src >> 16) & 0xff) * pixel_coverage;
@@ -134,7 +135,7 @@ static void downsample_row_box_filter (
         /* multiply by whatever is leftover
          * this ensures that we don't bias down.
          * i.e. start_coverage + n*pixel_coverage + box == 1 << 24 */
-        if (box > 0)
+        if (box > 0 && src < src_limit)
         {
             a += ((*src >> 24) & 0xff) * box;
             r += ((*src >> 16) & 0xff) * box;
@@ -226,10 +227,10 @@ static int compute_coverage (int coverage[], int src_length, int dest_length)
     /* I have a proof of this, which this margin is too narrow to contain */
     for (i=0; i<dest_length; i++)
     {
-        float left_side = i*scale;
-        float right_side = (i+1)*scale;
-        float right_fract = right_side - floor (right_side);
-        float left_fract = ceil (left_side) - left_side;
+        double left_side = i*scale;
+        double right_side = (i+1)*scale;
+        double right_fract = right_side - floor (right_side);
+        double left_fract = ceil (left_side) - left_side;
         int overage;
         /* find out how many source pixels will be used to fill the box */
         int count = floor (right_side) - ceil (left_side);
@@ -336,7 +337,7 @@ bool CairoRescaleBox::downScaleImage(unsigned orig_width, unsigned orig_height,
     int start_coverage_y = y_coverage[dest_y];
 
     getRow(src_y, scanline);
-    downsample_row_box_filter (start_column, width, scanline, temp_buf + width * columns, x_coverage, pixel_coverage_x);
+    downsample_row_box_filter (start_column, width, scanline, scanline + orig_width, temp_buf + width * columns, x_coverage, pixel_coverage_x);
     columns++;
     src_y++;
     box -= start_coverage_y;
@@ -344,7 +345,7 @@ bool CairoRescaleBox::downScaleImage(unsigned orig_width, unsigned orig_height,
     while (box >= pixel_coverage_y)
     {
       getRow(src_y, scanline);
-      downsample_row_box_filter (start_column, width, scanline, temp_buf + width * columns, x_coverage, pixel_coverage_x);
+      downsample_row_box_filter (start_column, width, scanline, scanline + orig_width, temp_buf + width * columns, x_coverage, pixel_coverage_x);
       columns++;
       src_y++;
       box -= pixel_coverage_y;
@@ -354,7 +355,7 @@ bool CairoRescaleBox::downScaleImage(unsigned orig_width, unsigned orig_height,
     if (box > 0)
     {
       getRow(src_y, scanline);
-      downsample_row_box_filter (start_column, width, scanline, temp_buf + width * columns, x_coverage, pixel_coverage_x);
+      downsample_row_box_filter (start_column, width, scanline, scanline + orig_width, temp_buf + width * columns, x_coverage, pixel_coverage_x);
       columns++;
     }
 
