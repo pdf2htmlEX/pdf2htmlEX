@@ -5,7 +5,7 @@ This table lists the (recent) pdf2htmlEX releases which work for a given
 
 |     poppler    | pdf2htmlEX |
 |----------------|------------|
-| poppler-0.81.0 | unknown |
+| poppler-0.81.0 | v0.18.7-poppler-0.81.0 |
 | poppler-0.80.0 | v0.18.6-poppler-0.80.0 |
 | poppler-0.79.0 | v0.18.5-poppler-0.79.0 |
 | poppler-0.78.0 | v0.18.4-poppler-0.78.0 |
