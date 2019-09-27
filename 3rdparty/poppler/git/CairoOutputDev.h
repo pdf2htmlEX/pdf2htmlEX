@@ -23,7 +23,7 @@
 // Copyright (C) 2010-2013 Thomas Freitag <Thomas.Freitag@alfa.de>
 // Copyright (C) 2015 Suzuki Toshiya <mpsuzuki@hiroshima-u.ac.jp>
 // Copyright (C) 2016 Jason Crain <jason@aquaticape.us>
-// Copyright (C) 2018 Albert Astals Cid <aacid@kde.org>
+// Copyright (C) 2018, 2019 Albert Astals Cid <aacid@kde.org>
 // Copyright (C) 2018 Klarälvdalens Datakonsult AB, a KDAB Group company, <info@kdab.com>. Work sponsored by the LiMux project of the city of Munich
 //
 // To see a description of the changes please see the Changelog file that
@@ -347,7 +347,7 @@ protected:
   cairo_antialias_t antialias;
   bool prescaleImages;
 
-  TextPage *text;		// text for the current page
+  TextPage *textPage;		// text for the current page
   ActualText *actualText;
 
   cairo_pattern_t *group;
