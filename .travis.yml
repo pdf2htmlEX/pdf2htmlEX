@@ -73,6 +73,7 @@ matrix:
 #    - os: osx # Until the build passes, then re-enable.
 
 before_install:
+  - pwd
   - ./.travisScripts/buildPoppler.sh
   - ./.travisScripts/installPoppler.sh
   #- ./.travisScripts/setupTests.sh
