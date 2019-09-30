@@ -12,7 +12,7 @@ pwd
 
 ls -la
 
-cd ..
+cd
 
 pwd
 

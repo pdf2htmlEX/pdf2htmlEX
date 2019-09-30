@@ -9,7 +9,9 @@ git clone ${POPPLER_SOURCE}
 
 cd poppler
 
-git checkout tags/${POPPLER_RELEASE} -b poppler-local
+git checkout tags/${POPPLER_RELEASE}
+
+git branch
 
 mkdir build
 
