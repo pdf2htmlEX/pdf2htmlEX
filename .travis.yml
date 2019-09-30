@@ -76,6 +76,8 @@ before_install:
   - pwd
   - ls -la
   - ./.travisScripts/buildPoppler.sh
+  - pwd
+  - ls -la
   - ./.travisScripts/installPoppler.sh
   #- ./.travisScripts/setupTests.sh
 

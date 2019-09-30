@@ -8,7 +8,15 @@ cd poppler/build
 
 sudo make install
 
+pwd
+
+ls -la
+
 cd ..
+
+pwd
+
+ls -la
 
 sudo mkdir -p               /usr/include/poppler
 sudo cp poppler/poppler/*.h /usr/include/poppler
