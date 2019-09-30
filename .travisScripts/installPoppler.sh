@@ -4,7 +4,7 @@
 
 # See: https://github.com/pdf2htmlEX/buildAndPackagingTools/blob/master/building/awsEC2/scripts/doinstallPoppler
 
-cd poppler/build
+pushd poppler/build
 
 sudo make install
 
@@ -12,7 +12,7 @@ pwd
 
 ls -la
 
-cd
+popd
 
 pwd
 
