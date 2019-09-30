@@ -1,8 +1,12 @@
 #!/bin/bash
 
-echo "This installation assumes you have 'sudo' privileges"
-echo "Type ctrl-c now if DO NOT want to continue"
-read -p "Type anything else to continue: "
+if [[ $# -eq 0 ]] ; then
+
+  echo "This installation assumes you have 'sudo' privileges"
+  echo "Type ctrl-c now if DO NOT want to continue"
+  read -p "Type anything else to continue: "
+
+fi
 
 cd build
 sudo make install

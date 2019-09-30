@@ -85,5 +85,5 @@ script:
   - pwd
   - ls -la
   - ./dobuild
-  - ./doinstall
+  - ./doinstall --noWait
   - /usr/bin/pdf2htmlEX -v
