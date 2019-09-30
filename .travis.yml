@@ -74,6 +74,7 @@ matrix:
 
 before_install:
   - pwd
+  - ls -la
   - ./.travisScripts/buildPoppler.sh
   - ./.travisScripts/installPoppler.sh
   #- ./.travisScripts/setupTests.sh
