@@ -83,6 +83,6 @@ before_install:
 script:
   - git checkout ${PDF2HTMLEX_RELEASE}
   - git branch
-  - $HOME/dobuild
-  - $HOME/doinstall --noWait
+  - $HOME/bin/dobuild
+  - $HOME/bin/doinstall --noWait
   - /usr/local/bin/pdf2htmlEX -v
