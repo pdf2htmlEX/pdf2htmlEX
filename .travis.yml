@@ -12,7 +12,9 @@ env:
   global:
     - POPPLER_SOURCE="https://gitlab.freedesktop.org/poppler/poppler.git"
   matrix:
-    - POPPLER_RELEASE="poppler-0.81.0"
+    - PDF2HTMLEX_RELEASE="v0.18.7-poppler-0.81.0" POPPLER_RELEASE="poppler-0.81.0"
+    - PDF2HTMLEX_RELEASE="v0.18.0-poppler-0.74.0-ubuntu-19.04" POPPLER_RELEASE="poppler-0.74.0"
+    - PDF2HTMLEX_RELEASE="v0.16.0-poppler-0.62.0-ubuntu-18.04" POPPLER_RELEASE="poppler-0.62.0"
 
 compiler: gcc
 
@@ -73,11 +75,14 @@ matrix:
 #    - os: osx # Until the build passes, then re-enable.
 
 before_install:
-  - ./.travisScripts/buildPoppler.sh
-  - ./.travisScripts/installPoppler.sh
-  #- ./.travisScripts/setupTests.sh
+  - ./.travisScripts/copyScriptsToBin
+  - $HOME/bin/buildPoppler.sh
+  - $HOME/bin/installPoppler.sh
+  #- $HOME/setupTests.sh
 
 script:
-  - ./dobuild
-  - ./doinstall --noWait
+  - git checkout ${PDF2HTMLEX_RELEASE}
+  - git branch
+  - $HOME/dobuild
+  - $HOME/doinstall --noWait
   - /usr/local/bin/pdf2htmlEX -v
