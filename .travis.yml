@@ -73,17 +73,11 @@ matrix:
 #    - os: osx # Until the build passes, then re-enable.
 
 before_install:
-  - pwd
-  - ls -la
   - ./.travisScripts/buildPoppler.sh
-  - pwd
-  - ls -la
   - ./.travisScripts/installPoppler.sh
   #- ./.travisScripts/setupTests.sh
 
 script:
-  - pwd
-  - ls -la
   - ./dobuild
   - ./doinstall --noWait
-  - /usr/bin/pdf2htmlEX -v
+  - /usr/local/bin/pdf2htmlEX -v
