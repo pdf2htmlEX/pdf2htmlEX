@@ -10,10 +10,13 @@ sudo apt $UNATTENDED install	\
   git				\
   pkg-config			\
   ruby				\
+  autoconf			\
+  libtool			\
   cmake				\
   make				\
   gcc				\
   g++				\
   gettext			\
+  openjdk-8-jre-headless	\
   tree
 

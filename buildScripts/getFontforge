@@ -4,7 +4,7 @@
 
 source buildScripts/versionEnvs
 
-FONTFORGE_SRC=fontforge-$FONTFORGE_VERSION.tar.gz
+FONTFORGE_SRC=$FONTFORGE_VERSION.tar.gz
 
 rm -rf $FONTFORGE_SRC
 rm -rf fontforge
@@ -14,3 +14,9 @@ wget https://github.com/fontforge/fontforge/archive/$FONTFORGE_SRC
 tar xvf $FONTFORGE_SRC
 
 mv fontforge-$FONTFORGE_VERSION fontforge
+
+# FIX required for fontforge 20170731 raw sources
+#
+cd fontforge
+#
+patch -p 1 < ../patches/fontforge-20170731-fixGDraw.patch

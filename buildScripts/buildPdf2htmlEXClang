@@ -1,3 +1,8 @@
+#!/bin/bash
+
+# This bash script builds pdf2htmlEX using Clang (if it is installed)
+
+cd pdf2htmlEX
 mkdir build
 cd build
 CC=clang CXX=clang++ cmake ..

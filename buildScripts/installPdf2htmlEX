@@ -8,5 +8,6 @@ if [[ $# -eq 0 ]] ; then
 
 fi
 
-cd build
+cd pdf2htmlEX/build
+
 sudo make install
