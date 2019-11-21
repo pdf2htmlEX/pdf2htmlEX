@@ -2,7 +2,7 @@
 
 # This bash script builds pdf2htmlEX
 
-cd pdf2html
+cd pdf2htmlEX
 mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr ..
