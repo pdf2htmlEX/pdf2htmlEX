@@ -9,7 +9,7 @@ wget https://codeload.github.com/stephengaito/pdf2htmlEX/zip/$PDF2HTMLEX_VERSION
 
 mv $PDF2HTMLEX_VERSION $PDF2HTMLEX_VERSION.zip
 
-sudo apt get unzip
+sudo apt install unzip
 
 unzip $PDF2HTMLEX_VERSION.zip
 

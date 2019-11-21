@@ -1,6 +1,6 @@
-fontforge*
-FontForge*
-poppler*
+fontforge
+*.tar.*
+poppler
 build
 compile_commands.json
 CMakeCache.txt
