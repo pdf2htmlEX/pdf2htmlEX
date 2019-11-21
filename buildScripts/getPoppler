@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# This bash script gets and unpacks the latest Poppler source code
+
+source buildScripts/versionEnvs
+
+echo "Getting poppler version: $POPPLER_VERSION"
+
+rm -rf $POPPLER_VERSION.tar.xz
+
+wget https://poppler.freedesktop.org/$POPPLER_VERSION.tar.xz
+
+tar xvf $POPPLER_VERSION.tar.xz
+
+mv $POPPLER_VERSION poppler

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# This bash script gets and unpacks the latest fontforge AppImage
+
+sudo add-apt-repository ppa:fontforge/fontforge
+sudo apt-get update
+sudo apt-get install libfontforge-dev
+

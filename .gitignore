@@ -1,3 +1,4 @@
+poppler*
 build
 compile_commands.json
 CMakeCache.txt

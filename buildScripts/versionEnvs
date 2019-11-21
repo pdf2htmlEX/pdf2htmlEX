@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# This bash script exports environment variables for the latest software 
+# versions
+
+export POPPLER_VERSION=poppler-0.82.0
+export FONTFORGE_VERSION=20190801
+
+export FONTFORGE_APPIMAGE=https://github.com/fontforge/fontforge/releases/download/20190801/FontForge-2019-08-01-ac635b8-x86_64.AppImage

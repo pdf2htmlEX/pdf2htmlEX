@@ -1,0 +1,4 @@
+cd fontforge;
+./bootstrap;
+./configure;
+make;
