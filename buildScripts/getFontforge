@@ -9,7 +9,7 @@ FONTFORGE_SRC=fontforge-$FONTFORGE_VERSION.tar.gz
 rm -rf $FONTFORGE_SRC
 rm -rf fontforge
 
-wget https://github.com/fontforge/fontforge/releases/download/$FONTFORGE_VERSION/$FONTFORGE_SRC
+wget https://github.com/fontforge/fontforge/archive/$FONTFORGE_SRC
 
 tar xvf $FONTFORGE_SRC
 
