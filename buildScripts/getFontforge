@@ -2,22 +2,15 @@
 
 # This bash script gets and unpacks the latest fontforge AppImage
 
-# The ppa is "rather old" ;-(
-#sudo add-apt-repository ppa:fontforge/fontforge
-#sudo apt-get update
-#sudo apt-get install libfontforge-dev
-
 source buildScripts/versionEnvs
 
-rm -rf $FONTFORGE_APPIMAGE
-rm -rf squashfs-root
+FONTFORGE_SRC=fontforge-$FONTFORGE_VERSION.tar.gz
+
+rm -rf $FONTFORGE_SRC
 rm -rf fontforge
 
-wget https://github.com/fontforge/fontforge/releases/download/$FONTFORGE_VERSION/$FONTFORGE_APPIMAGE
+wget https://github.com/fontforge/fontforge/releases/download/$FONTFORGE_VERSION/$FONTFORGE_SRC
 
-chmod a+x $FONTFORGE_APPIMAGE
+tar xvf $FONTFORGE_SRC
 
-./$FONTFORGE_APPIMAGE --appimage-extract
-
-mv squashfs-root fontforge
-
+mv fontforge-$FONTFORGE_VERSION fontforge
