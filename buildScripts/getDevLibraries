@@ -1,14 +1,17 @@
 #!/bin/bash
 
-# This bash script automates the getting of the development libraries 
-# required to build poppler and fontforge
+# This bash script automates getting the development libraries required to 
+# build poppler and fontforge
 
-sudo apt install	\
-  libcairo-dev		\
-  libspiro-dev		\
-  libpng-dev		\
-  libjpeg-dev		\
-  poppler-data		\
-  libpango1.0-dev	\
+# set the bash environment variable 'UNATTENDED' to '--assume-yes' for
+# unattended use (for example in the .travis.yml script)
+
+sudo apt $UNATTENDED install	\
+  libcairo-dev			\
+  libspiro-dev			\
+  libpng-dev			\
+  libjpeg-dev			\
+  poppler-data			\
+  libpango1.0-dev		\
   liblcms2-dev
 

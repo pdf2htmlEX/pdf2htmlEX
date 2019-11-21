@@ -2,14 +2,17 @@
 
 # This bash script automates getting the required build tools (apt install)
 
-sudo apt install	\
-  aptitude		\
-  git			\
-  pkg-config		\
-  ruby			\
-  cmake			\
-  make			\
-  gcc			\
-  g++			\
-  tree     
+# set the bash environment variable 'UNATTENDED' to '--assume-yes' for 
+# unattended use (for example in the .travis.yml script)
+
+sudo apt $UNATTENDED install	\
+  aptitude			\
+  git				\
+  pkg-config			\
+  ruby				\
+  cmake				\
+  make				\
+  gcc				\
+  g++				\
+  tree
 
