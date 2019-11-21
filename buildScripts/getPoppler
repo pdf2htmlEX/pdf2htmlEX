@@ -7,6 +7,7 @@ source buildScripts/versionEnvs
 echo "Getting poppler version: $POPPLER_VERSION"
 
 rm -rf $POPPLER_VERSION.tar.xz
+rm -rf poppler
 
 wget https://poppler.freedesktop.org/$POPPLER_VERSION.tar.xz
 
