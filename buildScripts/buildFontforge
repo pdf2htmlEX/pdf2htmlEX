@@ -1,4 +1,4 @@
-cd fontforge;
-./bootstrap;
-./configure;
-make;
+cd fontforge
+./bootstrap
+./configure
+make -j `nproc`
