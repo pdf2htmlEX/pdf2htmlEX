@@ -1,10 +1,15 @@
 #!/bin/bash
 
-echo "This installation assumes you have 'sudo' privileges"
+echo "WARNING: this will over-write any existing"
+echo "FontForge version you have installed on your system."
+echo "This may break other packages/applications."
+echo ""
+echo "This installation assumes you have 'sudo' privileges."
+echo ""
 echo "Type ctrl-c now if DO NOT want to continue"
 read -p "Type anything else to continue: "
 
-cd poppler
+cd fontforge
 sudo make install
 sudo ldconfig;
 

@@ -14,5 +14,6 @@ sudo apt $UNATTENDED install	\
   make				\
   gcc				\
   g++				\
+  gettext			\
   tree
 
