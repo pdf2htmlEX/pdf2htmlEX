@@ -1,0 +1,130 @@
+language: cpp
+
+sudo: true
+
+os:
+  - linux
+  - osx
+
+env:
+  global:
+    - POPPLER_NAME="poppler-0.63.0"
+    - POPPLER_SOURCE="https://gitlab.freedesktop.org/poppler/poppler.git"
+    - FONTFORGE_SOURCE="https://github.com/fontforge/fontforge.git"
+    - LIBUNINAMESLIST_SOURCE="https://github.com/fontforge/libuninameslist.git"
+
+
+compiler: gcc
+
+addons:
+  apt:
+    update: true
+    packages:
+      - build-essential
+      - autoconf
+      - gcc
+      - pkg-config
+      - git
+      - cmake
+      - ca-certificates
+      - libfreetype6-dev
+      # Poppler-specific packages
+      - libfontconfig1-dev
+      - libjpeg-dev
+      - libnss3-dev
+      # libuninameslist-specific packages
+      - automake
+      - libtool
+      # fontforge-specific packages
+      - libltdl-dev
+      - python-dev
+      - libglib2.0-dev
+      - libxml2-dev
+      - libspiro-dev
+      - gettext
+      # pdf2htmlEX-specific packages
+      - default-jre
+      - libcairo2-dev
+      - libpango1.0-dev
+  homebrew:
+    packages:
+      - autoconf
+      - pkg-config
+      - git
+      - cmake
+      - freetype
+      # Poppler-specific packages
+      - fontconfig
+      - jpeg
+      - nss
+      # libuninameslist-specific packages
+      - automake
+      - libtool
+      # fontforge-specific packages
+      - python
+      - glib
+      - xml2
+      - libspiro
+      - gettext
+      # pdf2htmlEX-specific packages
+      - cairo
+      - pango
+  sauce_connect: true
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - os: osx # Until the build passes, then re-enable.
+
+before_install:
+# Clone and build poppler
+  - git clone ${POPPLER_SOURCE}
+  - cd poppler; 
+    git checkout tags/${POPPLER_NAME} -b poppler-local;
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/usr -DENABLE_XPDF_HEADERS=ON -DENABLE_LIBOPENJPEG=none .;
+    make;
+    make install
+  - cd ${TRAVIS_BUILD_DIR}
+
+# Install libuninameslist
+  - git clone ${LIBUNINAMESLIST_SOURCE}
+  - cd libuninameslist;
+    git checkout tags/20180701 -b libuninameslist-local;
+    autoreconf -i;
+    automake;
+    ./configure --prefix=${TRAVIS_BUILD_DIR}/usr;
+    make;
+    make install
+  - cd ${TRAVIS_BUILD_DIR}
+
+# Install fontforge
+  - git clone ${FONTFORGE_SOURCE}
+  - cd fontforge;
+    git checkout tags/20170731 -b fontforge-local;
+    ./bootstrap;
+    ./configure --disable-programs --disable-python-extension --disable-python-scripting --prefix=${TRAVIS_BUILD_DIR}/usr;
+    make;
+    make install;
+    sudo ldconfig
+  - cd ${TRAVIS_BUILD_DIR}
+
+# Test setup
+  - pip install --user Pillow selenium sauceclient
+  - export DISPLAY=:99.0
+  - test/start_xvfb.sh
+  - pushd /
+  - python -m SimpleHTTPServer 8000 >/dev/null 2>&1 &
+  - popd
+  - sleep 5
+
+before_script:
+  - export LD_LIBRARY_PATH=${TRAVIS_BUILD_DIR}/usr/lib:$LD_LIBRARY_PATH
+  - export PKG_CONFIG_PATH=${TRAVIS_BUILD_DIR}/usr/lib/pkgconfig:$PKG_CONFIG_PATH
+  - patch < CMakeLists.txt.patch
+  - mkdir build && cd build && cmake -DENABLE_SVG=ON -DCMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/usr ..
+
+script:
+  - make
+  - P2H_TEST_REMOTE=1 ctest --output-on-failure --verbose
+  - make install
+  - ${TRAVIS_BUILD_DIR}/usr/bin/pdf2htmlEX -v
