@@ -3,7 +3,7 @@
 # This bash script creates an AppImage for pdf2htmlEX
 
 
-mkdir -p imageBuild/pdf2htmlEX.AppDir
+mkdir -p imageBuild/pdf2htmlEX.AppDir/usr/lib/
 
 cd pdf2htmlEX/build
 
@@ -12,6 +12,10 @@ sudo rm -rf install_manifest.txt
 make install DESTDIR=../../imageBuild/pdf2htmlEX.AppDir
 
 cd ../../imageBuild
+
+# force libfontconfig into AppImage (linuxdeploy blacklists libfontconfig)
+#
+cp /usr/lib/x86_64-linux-gnu/libfontconfig.so.1 pdf2htmlEX.AppDir/usr/lib/
 
 wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
 
