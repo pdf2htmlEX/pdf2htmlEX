@@ -15,11 +15,11 @@ export UNATTENDED=--assume-yes
 
 ./buildScripts/installPoppler
 
-./buildScripts/getFontForge
+./buildScripts/getFontforge
 
-./buildScripts/buildFontForge
+./buildScripts/buildFontforge
 
-./buildScripts/installFontForge
+./buildScripts/installFontforge
 
 ./buildScripts/buildPdf2htmlEX
 
