@@ -16,6 +16,8 @@
 #include <fontforge.h>
 #include <baseviews.h>
 
+#include "SignalHandler.h"
+
 #include "ffw.h"
 #include "fontforge-2.0.20170731/autowidth.h"
 #include "fontforge-2.0.20170731/bitmapchar.h"
@@ -66,6 +68,7 @@ static void dumb_post_error(const char * title, const char * error, ...) { }
 
 void ffw_init(int debug)
 {
+    ffwSetAction("initialize");
     InitSimpleStuff();
     if ( default_encoding==NULL )
         default_encoding=FindOrMakeEncoding("ISO8859-1");
@@ -88,10 +91,12 @@ void ffw_init(int debug)
         v.u.ival = 1;
         SetPrefs("DetectDiagonalStems", &v, NULL);
     }
+    ffwClearAction();
 }
 
 void ffw_finalize(void)
 {
+    ffwSetAction("finalize");
     while(enc_head)
     {
         Encoding * next = enc_head->next;
@@ -107,21 +112,36 @@ void ffw_finalize(void)
         free(enc_head);
         enc_head = next;
     }
+    ffwClearAction();
 }
 
-long ffw_get_version(void)
+// see: https://stackoverflow.com/a/2653351
+#define xstr(a) str(a)
+#define str(a) #a
+
+static FFWVersionInfo ffwVersionInfo;
+
+const FFWVersionInfo* ffw_get_version_info(void)
 {
-    return FONTFORGE_VERSIONDATE_RAW;
+    ffwVersionInfo.gitVersion   = FONTFORGE_GIT_VERSION;
+    ffwVersionInfo.majorVersion = xstr(FONTFORGE_VERSION_MAJOR);
+    ffwVersionInfo.minorVersion = xstr(FONTFORGE_VERSION_MINOR);
+    ffwVersionInfo.versionDate  = FONTFORGE_VERSIONDATE;
+
+    return &ffwVersionInfo;
 }
 
 void ffw_new_font()
 {
+    ffwSetAction("create");
     assert((cur_fv == NULL) && "Previous font is not destroyed");
     cur_fv = FVAppend(_FontViewCreate(SplineFontNew()));
+    ffwClearAction();
 }
 
 void ffw_load_font(const char * filename)
 {
+    ffwSetAction("load");
     assert((cur_fv == NULL) && "Previous font is not destroyed");
 
     char * _filename = strcopy(filename);
@@ -147,6 +167,7 @@ void ffw_load_font(const char * filename)
         cur_fv->cidmaster->ascent = cur_fv->sf->ascent;
         cur_fv->cidmaster->descent = cur_fv->sf->descent;
     }
+    ffwClearAction();
 }
 
 /*
@@ -154,6 +175,7 @@ void ffw_load_font(const char * filename)
  */
 void ffw_prepare_font(void)
 {
+    ffwSetAction("prepare");
     memset(cur_fv->selected, 1, cur_fv->map->enccount);
     // remove kern
     FVRemoveKerns(cur_fv);
@@ -185,10 +207,12 @@ void ffw_prepare_font(void)
      */
     free(sf->fontname);
     sf->fontname = strcopy("");
+    ffwClearAction();
 }
 
 void ffw_save(const char * filename)
 {
+    ffwSetAction("save");
     char * _filename = strcopy(filename);
     char * _ = strcopy("");
 
@@ -200,11 +224,14 @@ void ffw_save(const char * filename)
 
     if(!r)
         err("Cannot save font to %s\n", filename);
+    ffwClearAction();
 }
 void ffw_close(void)
 {
+    ffwSetAction("close");
     FontViewClose(cur_fv);
     cur_fv = NULL;
+    ffwClearAction();
 }
 
 static void ffw_do_reencode(Encoding * encoding, int force)
@@ -234,25 +261,32 @@ static void ffw_do_reencode(Encoding * encoding, int force)
 
 void ffw_reencode_glyph_order(void)
 {
+    ffwSetAction("re-encode the glyph order in");
     ffw_do_reencode(original_enc, 0);
+    ffwClearAction();
 }
 
 void ffw_reencode_unicode_full(void)
 {
+    ffwSetAction("re-encode to unicode");
     ffw_do_reencode(unicodefull_enc, 0);
+    ffwClearAction();
 }
 
 void ffw_reencode(const char * encname, int force)
 {
+    ffwSetAction("re-encode");
     Encoding * enc = FindOrMakeEncoding(encname);
     if(!enc)
         err("Unknown encoding %s\n", encname);
 
     ffw_do_reencode(enc, force);
+    ffwClearAction();
 }
 
 void ffw_reencode_raw(int32 * mapping, int mapping_len, int force)
 {
+    ffwSetAction("re-encode (raw1)");
     Encoding * enc = calloc(1, sizeof(Encoding));
     enc->only_1byte = enc->has_1byte = true;
 
@@ -273,10 +307,12 @@ void ffw_reencode_raw(int32 * mapping, int mapping_len, int force)
     enc_head = enc;
 
     ffw_do_reencode(enc, force);
+    ffwClearAction();
 }
 
 void ffw_reencode_raw2(const char ** mapping, int mapping_len, int force)
 {
+    ffwSetAction("re-encode (raw2)");
     Encoding * enc = calloc(1, sizeof(Encoding));
     enc->enc_name = strcopy("");
     enc->char_cnt = mapping_len;
@@ -300,6 +336,7 @@ void ffw_reencode_raw2(const char ** mapping, int mapping_len, int force)
     enc_head = enc;
 
     ffw_do_reencode(enc, force);
+    ffwClearAction();
 }
 
 void ffw_cidflatten(void)
@@ -309,7 +346,9 @@ void ffw_cidflatten(void)
         fprintf(stderr, "Cannot flatten a non-CID font\n");
         return;
     }
+    ffwSetAction("flatten the cid in");
     SFFlatten(cur_fv->sf->cidmaster);
+    ffwClearAction();
 }
 
 /*
@@ -318,6 +357,7 @@ void ffw_cidflatten(void)
  */
 void ffw_add_empty_char(int32_t unicode, int width)
 {
+    ffwSetAction("add an empty character to");
     SplineChar * sc = SFMakeChar(cur_fv->sf, cur_fv->map, cur_fv->map->enccount);
     char buffer[400];
     SCSetMetaData(sc,
@@ -325,22 +365,29 @@ void ffw_add_empty_char(int32_t unicode, int width)
                 cur_fv->sf->uni_interp, cur_fv->sf->for_new_glyphs)),
         unicode, sc->comment);
     SCSynchronizeWidth(sc, width, sc->width, cur_fv);
+    ffwClearAction();
 }
 
 int ffw_get_em_size(void)
 {
-    return cur_fv->sf->ascent + cur_fv->sf->descent;
+    ffwSetAction("get the em size of");
+    int emSize = cur_fv->sf->ascent + cur_fv->sf->descent;
+    ffwClearAction();
+    return emSize;
 }
 
 void ffw_fix_metric()
 {
+    ffwSetAction("fix the metric of");
     double ascent, descent;
     ffw_get_metric(&ascent, &descent);
     ffw_set_metric(ascent, descent);
+    ffwClearAction();
 }
 
 void ffw_get_metric(double * ascent, double * descent)
 {
+    ffwSetAction("get the metric of");
     SplineFont * sf = cur_fv->sf;
 
     DBounds bb;
@@ -357,10 +404,12 @@ void ffw_get_metric(double * ascent, double * descent)
     {
         *ascent = *descent = 0;
     }
+    ffwClearAction();
 }
 
 void ffw_set_metric(double ascent, double descent)
 {
+    ffwSetAction("set the metric of");
     SplineFont * sf = cur_fv->sf;
     struct pfminfo * info = &sf->pfminfo;
 
@@ -402,6 +451,7 @@ void ffw_set_metric(double ascent, double descent)
 
     info->os2_typolinegap = 0;
     info->linegap = 0;
+    ffwClearAction();
 }
 
 /*
@@ -410,6 +460,7 @@ void ffw_set_metric(double ascent, double descent)
 void ffw_set_widths(int * width_list, int mapping_len,
         int stretch_narrow, int squeeze_wide)
 {
+    ffwSetAction("set the widths of");
     SplineFont * sf = cur_fv->sf;
 
     if(sf->onlybitmaps
@@ -453,13 +504,17 @@ void ffw_set_widths(int * width_list, int mapping_len,
 
         SCSynchronizeWidth(sc, width_list[i], sc->width, cur_fv);
     }
+    ffwClearAction();
 }
 
 void ffw_import_svg_glyph(int code, const char * filename, double ox, double oy, double width)
 {
+    ffwSetAction("import the glyphs from");
     int enc = SFFindSlot(cur_fv->sf, cur_fv->map, code, "");
-    if(enc == -1)
+    if(enc == -1) {
+        ffwClearAction();
         return;
+    }
 
     SplineChar * sc = SFMakeChar(cur_fv->sf, cur_fv->map, enc);
 
@@ -483,10 +538,12 @@ void ffw_import_svg_glyph(int code, const char * filename, double ox, double oy,
 
         SCSynchronizeWidth(sc, floor(width * (a+d) + 0.5), sc->width, cur_fv);
     }
+    ffwClearAction();
 }
 
 void ffw_auto_hint(void)
 {
+    ffwSetAction("automatically hint");
     // convert to quadratic
     if(!(cur_fv->sf->layers[ly_fore].order2))
     {
@@ -496,11 +553,14 @@ void ffw_auto_hint(void)
     memset(cur_fv->selected, 1, cur_fv->map->enccount);
     FVAutoHint(cur_fv);
     FVAutoInstr(cur_fv);
+    ffwClearAction();
 }
 
 void ffw_override_fstype(void)
 {
+    ffwSetAction("override the fstype of");
     *(int16 *)(&cur_fv->sf->pfminfo.fstype) = 0;
     cur_fv->sf->pfminfo.pfmset = true;
     cur_fv->sf->changed = true;
+    ffwClearAction();
 }

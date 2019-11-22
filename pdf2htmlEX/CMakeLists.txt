@@ -149,6 +149,8 @@ set(PDF2HTMLEX_SRC ${PDF2HTMLEX_SRC}
     src/util/unicode.cc
     src/util/mingw.h
     src/util/mingw.cc
+    src/util/SignalHandler.h
+    src/util/SignalHandler.cc
     src/ArgParser.h
     src/ArgParser.cc
     src/Base64Stream.h
