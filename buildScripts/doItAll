@@ -5,22 +5,22 @@
 
 export UNATTENDED=--assume-yes
 
-getBuildTools
+./buildScripts/getBuildTools
 
-getDevLibraries
+./buildScripts/getDevLibraries
 
-getPoppler
+./buildScripts/getPoppler
 
-buildPoppler
+./buildScripts/buildPoppler
 
-installPoppler
+./buildScripts/installPoppler
 
-getFontForge
+./buildScripts/getFontForge
 
-buildFontForge
+./buildScripts/buildFontForge
 
-installFontForge
+./buildScripts/installFontForge
 
-buildPdf2htmlEX
+./buildScripts/buildPdf2htmlEX
 
-installPdf2htmlEX
+./buildScripts/installPdf2htmlEX
