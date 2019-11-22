@@ -5,6 +5,6 @@
 cd poppler
 mkdir build
 cd build
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr \
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local \
     -DENABLE_LIBOPENJPEG=none ..
 make -j `nproc`

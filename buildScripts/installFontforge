@@ -1,31 +1,16 @@
 #!/bin/bash
 
-echo "WARNING: this will over-write any existing"
-echo "FontForge version you have installed on your system."
-echo "This may break other packages/applications."
-echo ""
-echo "This installation assumes you have 'sudo' privileges."
-echo ""
-echo "Type ctrl-c now if DO NOT want to continue"
-read -p "Type anything else to continue: "
+if [ -z "$UNATTENDED" ] ; then
+  echo "WARNING: this may over-write any existing"
+  echo "FontForge version you have installed on your system."
+  echo "This may break other packages/applications."
+  echo ""
+  echo "This installation assumes you have 'sudo' privileges."
+  echo ""
+  echo "Type ctrl-c now if DO NOT want to continue"
+  read -p "Type anything else to continue: "
+fi
 
 cd fontforge
 sudo make install
 sudo ldconfig;
-
-#cd
-#
-#sudo mkdir -p               /usr/include/poppler
-#sudo cp poppler/poppler/*.h /usr/include/poppler
-#
-#sudo mkdir -p               /usr/include/poppler/goo
-#sudo cp poppler/goo/*.h     /usr/include/poppler/goo
-#
-#sudo mkdir -p               /usr/include/poppler/fofi
-#sudo cp poppler/fofi/*.h    /usr/include/poppler/fofi
-#
-#sudo mkdir -p               /usr/include/poppler/splash
-#sudo cp poppler/splash/*.h  /usr/include/poppler/splash
-#
-#sudo cp poppler/build/poppler/poppler-config.h \
-#        /usr/include/poppler

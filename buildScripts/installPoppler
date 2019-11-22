@@ -2,31 +2,34 @@
 
 # This bash script installs Poppler into the local system
 
-echo "WARNING: this will over-write any existing"
-echo "Poppler version you have installed on your system."
-echo "This may break other packages/applications."
-echo ""
-echo "This installation assumes you have 'sudo' privileges."
-echo ""
-echo "Type ctrl-c now if DO NOT want to continue"
-read -p "Type anything else to continue: "
+
+if [ -z "$UNATTENDED" ] ; then
+  echo "WARNING: this may over-write any existing"
+  echo "Poppler version you have installed on your system."
+  echo "This may break other packages/applications."
+  echo ""
+  echo "This installation assumes you have 'sudo' privileges."
+  echo ""
+  echo "Type ctrl-c now if DO NOT want to continue"
+  read -p "Type anything else to continue: "
+fi
 
 cd poppler/build
 sudo make install
 
 cd ..
 
-sudo mkdir -p               /usr/include/poppler
-sudo cp poppler/*.h /usr/include/poppler
+sudo mkdir -p               /usr/local/include/poppler
+sudo cp poppler/*.h /usr/local/include/poppler
 
-sudo mkdir -p               /usr/include/poppler/goo
-sudo cp goo/*.h     /usr/include/poppler/goo
+sudo mkdir -p               /usr/local/include/poppler/goo
+sudo cp goo/*.h     /usr/local/include/poppler/goo
 
-sudo mkdir -p               /usr/include/poppler/fofi
-sudo cp fofi/*.h    /usr/include/poppler/fofi
+sudo mkdir -p               /usr/local/include/poppler/fofi
+sudo cp fofi/*.h    /usr/local/include/poppler/fofi
 
-sudo mkdir -p               /usr/include/poppler/splash
-sudo cp splash/*.h  /usr/include/poppler/splash
+sudo mkdir -p               /usr/local/include/poppler/splash
+sudo cp splash/*.h  /usr/local/include/poppler/splash
 
 sudo cp build/poppler/poppler-config.h \
-        /usr/include/poppler
+        /usr/local/include/poppler

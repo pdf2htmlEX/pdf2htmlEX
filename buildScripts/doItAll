@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# This bash script builds the complete pdf2htmlEX application LOCALLY
+# (It does not create the AppImage or Docker images)
+
+export UNATTENDED=--assume-yes
+
+getBuildTools
+
+getDevLibraries
+
+getPoppler
+
+buildPoppler
+
+installPoppler
+
+getFontForge
+
+buildFontForge
+
+installFontForge
+
+buildPdf2htmlEX
+
+installPdf2htmlEX

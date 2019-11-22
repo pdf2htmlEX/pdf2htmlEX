@@ -1,0 +1,26 @@
+#!/bin/bash 
+
+# This bash script creates an AppImage for pdf2htmlEX
+
+
+mkdir -p imageBuild/pdf2htmlEX.AppDir
+
+cd pdf2htmlEX/build
+
+sudo rm -rf install_manifest.txt
+
+make install DESTDIR=../../imageBuild/pdf2htmlEX.AppDir
+
+cd ../../imageBuild
+
+wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+
+chmod a+x linuxdeploy-x86_64.AppImage
+
+./linuxdeploy-x86_64.AppImage			\
+  -e pdf2htmlEX.AppDir/usr/bin/pdf2htmlEX	\
+  --create-desktop-file				\
+  -i ../pdf2htmlEX/logo/pdf2htmlEX.svg		\
+  --appdir=pdf2htmlEX.AppDir			\
+  --output appimage
+

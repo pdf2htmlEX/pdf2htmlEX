@@ -368,6 +368,13 @@ int main(int argc, char **argv)
     param.data_dir = PDF2HTMLEX_DATA_PATH;
 #endif
 
+    if (getenv("APPDIR")) {
+      // we are running inside an AppImage so we need to adjust the data_dir
+      // however the user can supply some other absolute path later
+      //
+      param.data_dir = string(getenv("APPDIR")) + param.data_dir;
+    }
+
     parse_options(argc, argv);
     check_param();
 
