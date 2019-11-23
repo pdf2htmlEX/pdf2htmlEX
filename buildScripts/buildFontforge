@@ -2,14 +2,17 @@
 
 # This bash script build FontForge
 
+source buildScripts/versionEnvs
+
 cd fontforge
 ./bootstrap
 ./configure
 
 # Apply any patches required for fontforge raw sources before we make
 #
-for APATCHFILE in $(ls ../patches/fontforge-$FONTFORGE_VERSION-*) do
-  echo "patching fontforge using [$APATCHFILE]"
+for APATCHFILE in $(ls ../patches/fontforge-$FONTFORGE_VERSION-*)
+do
+  echo "patching fontforge using [$APATCHFILE]" 
   patch -p 1 < $APATCHFILE
 done
 
