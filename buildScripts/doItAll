@@ -5,22 +5,23 @@
 
 export UNATTENDED=--assume-yes
 
-./buildScripts/getBuildTools
+./buildScripts/getBuildTools     || { echo 'getBuildTools FAILED'     ; exit 1 ; }
 
-./buildScripts/getDevLibraries
+./buildScripts/getDevLibraries   || { echo 'getDevLibraries FAILED'   ; exit 1 ; }
 
-./buildScripts/getPoppler
+./buildScripts/getPoppler        || { echo 'getPoppler FAILED'        ; exit 1 ; }
 
-./buildScripts/buildPoppler
+./buildScripts/buildPoppler      || { echo 'buildPoppler FAILED'      ; exit 1 ; }
 
-./buildScripts/installPoppler
+./buildScripts/installPoppler    || { echo 'installPoppler FAILED'    ; exit 1 ; }
 
-./buildScripts/getFontforge
+./buildScripts/getFontforge      || { echo 'getFontforge FAILED'      ; exit 1 ; }
 
-./buildScripts/buildFontforge
+./buildScripts/buildFontforge    || { echo 'buildFontforge FAILED'    ; exit 1 ; }
 
-./buildScripts/installFontforge
+./buildScripts/installFontforge  || { echo 'installFontforge FAILED'  ; exit 1 ; }
 
-./buildScripts/buildPdf2htmlEX
+./buildScripts/buildPdf2htmlEX   || { echo 'buildPdf2htmlEX FAILED'   ; exit 1 ; }
 
-./buildScripts/installPdf2htmlEX
+./buildScripts/installPdf2htmlEX || { echo 'installPdf2htmlEX FAILED' ; exit 1 ; }
+
