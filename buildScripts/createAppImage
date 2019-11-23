@@ -31,5 +31,5 @@ chmod a+x $LINUX_DEPLOY_APP_IMAGE
   --appdir=pdf2htmlEX.AppDir			\
   --output appimage
 
-mv pdf2htmlEX-$MACHINE_ARC.AppImage 			\
+mv pdf2htmlEX-$MACHINE_ARCH.AppImage 			\
   pdf2htmlEX-$PDF2HTMLEX_VERSION-$MACHINE_ARCH.AppImage
