@@ -1,0 +1,13 @@
+#!/bin/bash 
+
+# This bash script creates an Docker Image for pdf2htmlEX
+
+source buildScripts/versionEnvs
+
+cd imageBuild
+
+pip install git+https://github.com/larsks/dockerize
+
+dockerize		\
+  /usr/bin/pdf2htmlEX	\
+

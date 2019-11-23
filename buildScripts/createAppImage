@@ -18,15 +18,18 @@ cd ../../imageBuild
 #
 cp /usr/lib/x86_64-linux-gnu/libfontconfig.so.1 pdf2htmlEX.AppDir/usr/lib/
 
-wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+LINUX_DEPLOY_APP_IMAGE=linuxdeploy-$MACHINE_ARCH.AppImage
 
-chmod a+x linuxdeploy-x86_64.AppImage
+wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/$LINUX_DEPLOY_APP_IMAGE
 
-./linuxdeploy-x86_64.AppImage			\
+chmod a+x $LINUX_DEPLOY_APP_IMAGE
+
+./$LINUX_DEPLOY_APP_IMAGE			\
   -e pdf2htmlEX.AppDir/usr/bin/pdf2htmlEX	\
   --create-desktop-file				\
   -i ../pdf2htmlEX/logo/pdf2htmlEX.svg		\
   --appdir=pdf2htmlEX.AppDir			\
   --output appimage
 
-mv pdf2htmlEX-x86_64.AppImage pdf2htmlEX-$PDF2HTMLEX_VERSION-x86_64.AppImage
+mv pdf2htmlEX-$MACHINE_ARC.AppImage 			\
+  pdf2htmlEX-$PDF2HTMLEX_VERSION-$MACHINE_ARCH.AppImage
