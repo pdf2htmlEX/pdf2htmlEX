@@ -14,10 +14,13 @@ services:
 compiler: gcc
 
 env:
-  - UNATTENDED="--assume-yes"
+  global:
+    - UNATTENDED="--assume-yes"
 
 addons:
   apt:
+  update: true
+  packages:
     # build tools
     - git
     - pkg-config
