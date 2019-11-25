@@ -4,19 +4,19 @@
 
 source buildScripts/versionEnvs
 
-mkdir -p imageBuild/pdf2htmlEX.AppDir/usr/lib/
+mkdir -p imageBuild/appDir/usr/lib/
 
 cd pdf2htmlEX/build
 
 sudo rm -rf install_manifest.txt
 
-make install DESTDIR=../../imageBuild/pdf2htmlEX.AppDir
+make install DESTDIR=../../imageBuild/appDir
 
 cd ../../imageBuild
 
 # force libfontconfig into AppImage (linuxdeploy blacklists libfontconfig)
 #
-cp /usr/lib/x86_64-linux-gnu/libfontconfig.so.1 pdf2htmlEX.AppDir/usr/lib/
+cp /usr/lib/x86_64-linux-gnu/libfontconfig.so.1 appDir/usr/lib/
 
 LINUX_DEPLOY_APP_IMAGE=linuxdeploy-$MACHINE_ARCH.AppImage
 
@@ -24,11 +24,11 @@ wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/$LI
 
 chmod a+x $LINUX_DEPLOY_APP_IMAGE
 
-./$LINUX_DEPLOY_APP_IMAGE			\
-  -e pdf2htmlEX.AppDir/usr/bin/pdf2htmlEX	\
-  --create-desktop-file				\
-  -i ../pdf2htmlEX/logo/pdf2htmlEX.svg		\
-  --appdir=pdf2htmlEX.AppDir			\
+./$LINUX_DEPLOY_APP_IMAGE		\
+  -e appDir/usr/bin/pdf2htmlEX		\
+  --create-desktop-file			\
+  -i ../pdf2htmlEX/logo/pdf2htmlEX.svg	\
+  --appdir=appDir			\
   --output appimage
 
 mv pdf2htmlEX-$MACHINE_ARCH.AppImage 			\
