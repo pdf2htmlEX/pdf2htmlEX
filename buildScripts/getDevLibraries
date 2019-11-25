@@ -6,14 +6,15 @@
 # set the bash environment variable 'UNATTENDED' to '--assume-yes' for
 # unattended use (for example in the .travis.yml script)
 
-sudo apt $UNATTENDED install	\
-  libcairo-dev			\
-  libspiro-dev			\
-  libpng-dev			\
-  libjpeg-dev			\
-  poppler-data			\
-  libpango1.0-dev		\
-  liblcms2-dev			\
-  libxml2-dev			\
+sudo apt-get update
+sudo apt-get $UNATTENDED install	\
+  libcairo-dev				\
+  libspiro-dev				\
+  libpng-dev				\
+  libjpeg-dev				\
+  poppler-data				\
+  libpango1.0-dev			\
+  liblcms2-dev				\
+  libxml2-dev				\
   libuninameslist-dev
 

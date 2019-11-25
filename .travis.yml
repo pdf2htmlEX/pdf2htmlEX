@@ -17,33 +17,33 @@ env:
   global:
     - UNATTENDED="--assume-yes"
 
-addons:
-  apt:
-  update: true
-  packages:
-    # build tools
-    - git
-    - pkg-config
-    - ruby
-    - autoconf
-    - libtool
-    - cmake
-    - make
-    - gcc
-    - g++
-    - gettext
-    - openjdk-8-jre-headless
-    - tree
-    # dev libraries
-    - libcairo-dev
-    - libspiro-dev
-    - libpng-dev
-    - libjpeg-dev
-    - poppler-data
-    - libpango1.0-dev
-    - liblcms2-dev
-    - libxml2-dev
-    - libuninameslist-dev
+#addons:
+#  apt:
+#  update: true
+#  packages:
+#    # build tools
+#    - git
+#    - pkg-config
+#    - ruby
+#    - autoconf
+#    - libtool
+#    - cmake
+#    - make
+#    - gcc
+#    - g++
+#    - gettext
+#    - openjdk-8-jre-headless
+#    - tree
+#    # dev libraries
+#    - libcairo-dev
+#    - libspiro-dev
+#    - libpng-dev
+#    - libjpeg-dev
+#    - poppler-data
+#    - libpango1.0-dev
+#    - liblcms2-dev
+#    - libxml2-dev
+#    - libuninameslist-dev
 #  homebrew:
 #    packages:
 #      - autoconf
@@ -76,6 +76,8 @@ matrix:
 
 script:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - ./buildScripts/getBuildTools     || travis_terminate 1;
+  - ./buildScripts/getDevLibraries   || travis_terminate 1;
   - ./buildScripts/getPoppler        || travis_terminate 1;
   - ./buildScripts/buildPoppler      || travis_terminate 1;
   - ./buildScripts/installPoppler    || travis_terminate 1;

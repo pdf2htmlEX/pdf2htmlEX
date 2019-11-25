@@ -5,18 +5,19 @@
 # set the bash environment variable 'UNATTENDED' to '--assume-yes' for 
 # unattended use (for example in the .travis.yml script)
 
-sudo apt $UNATTENDED install	\
-  aptitude			\
-  git				\
-  pkg-config			\
-  ruby				\
-  autoconf			\
-  libtool			\
-  cmake				\
-  make				\
-  gcc				\
-  g++				\
-  gettext			\
-  openjdk-8-jre-headless	\
+sudo apt-get update
+sudo apt-get $UNATTENDED install	\
+  aptitude				\
+  git					\
+  pkg-config				\
+  ruby					\
+  autoconf				\
+  libtool				\
+  cmake					\
+  make					\
+  gcc					\
+  g++					\
+  gettext				\
+  openjdk-8-jre-headless		\
   tree
 
