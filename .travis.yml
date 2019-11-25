@@ -76,14 +76,14 @@ matrix:
 
 script:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - ./buildScripts/getPoppler
-  - ./buildScripts/buildPoppler
-  - ./buildScripts/installPoppler
-  - ./buildScripts/getFontforge
-  - ./buildScripts/buildFontforge
-  - ./buildScripts/installFontforge
-  - ./buildScripts/buildPdf2htmlEX
-  - ./buildScripts/installPdf2htmlEX
-  - ./buildScripts/createAppImage
-  - ./buildScripts/createDockerImage 
+  - ./buildScripts/getPoppler        || travis_terminate 1;
+  - ./buildScripts/buildPoppler      || travis_terminate 1;
+  - ./buildScripts/installPoppler    || travis_terminate 1;
+  - ./buildScripts/getFontforge      || travis_terminate 1;
+  - ./buildScripts/buildFontforge    || travis_terminate 1;
+  - ./buildScripts/installFontforge  || travis_terminate 1;
+  - ./buildScripts/buildPdf2htmlEX   || travis_terminate 1;
+  - ./buildScripts/installPdf2htmlEX || travis_terminate 1;
+  - ./buildScripts/createAppImage    || travis_terminate 1;
+  - ./buildScripts/createDockerImage || travis_terminate 1;
   - docker push $DOCKER_USERNAME/pdf2htmlex
