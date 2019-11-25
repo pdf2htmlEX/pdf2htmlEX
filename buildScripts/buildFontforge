@@ -16,4 +16,4 @@ do
   patch -p 1 < $APATCHFILE
 done
 
-make -j `nproc`
+make $MAKE_PARALLEL
