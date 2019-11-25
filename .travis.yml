@@ -14,7 +14,7 @@ services:
 compiler: gcc
 
 env:
-  - UNATTENDED=--assume-yes
+  - UNATTENDED="--assume-yes"
 
 addons:
   apt:
