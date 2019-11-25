@@ -16,5 +16,5 @@ sudo apt-get $UNATTENDED install	\
   libpango1.0-dev			\
   liblcms2-dev				\
   libxml2-dev				\
-  libuninameslist-dev
-
+  libuninameslist-dev			\
+  python-def
