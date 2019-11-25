@@ -55,7 +55,8 @@ if(ENABLE_SVG)
 endif()
 
 # fontforge starts using pkg-config 'correctly' since 2.0.0
-pkg_check_modules(FONTFORGE REQUIRED libfontforge>=2.0.20170731)
+#pkg_check_modules(FONTFORGE REQUIRED libfontforge>=2.0.20170731)
+pkg_check_modules(FONTFORGE REQUIRED libfontforge>=2.0.0)
 include_directories(${FONTFORGE_INCLUDE_DIRS})
 link_directories(${FONTFORGE_LIBRARY_DIRS})
 set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} ${FONTFORGE_LIBRARIES})
