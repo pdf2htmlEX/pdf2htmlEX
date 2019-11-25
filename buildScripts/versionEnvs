@@ -13,5 +13,5 @@ export PDF2HTMLEX_VERSION=newBuildSystem
 
 export MACHINE_ARCH=`uname -m`
 
-export DOCKER_FROM=ubuntu:16.04
+export DOCKER_FROM=ubuntu:18.04
 
