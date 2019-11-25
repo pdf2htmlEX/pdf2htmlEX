@@ -25,7 +25,7 @@ wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/$LI
 chmod a+x $LINUX_DEPLOY_APP_IMAGE
 
 ./$LINUX_DEPLOY_APP_IMAGE		\
-  -e appDir/usr/bin/pdf2htmlEX		\
+  -e appDir/usr/local/bin/pdf2htmlEX	\
   --create-desktop-file			\
   -i ../pdf2htmlEX/logo/pdf2htmlEX.svg	\
   --appdir=appDir			\
