@@ -9,3 +9,5 @@ export POPPLER_VERSION=poppler-0.81.0
 export FONTFORGE_VERSION=20170731
 export PDF2HTMLEX_VERSION=newBuildSystem
 export MACHINE_ARCH=`uname -m`
+export DOCKER_FROM=ubuntu:16.04
+

@@ -1,13 +1,34 @@
 #!/bin/bash 
 
-# This bash script creates an Docker Image for pdf2htmlEX
+# This bash script creates a docker image from an existing pdf2htmlEX
 
 source buildScripts/versionEnvs
 
-cd imageBuild
+source buildScripts/dockerFunctions
 
-pip install git+https://github.com/larsks/dockerize
+mkdir -p imageBuild/dockerDir
 
-dockerize		\
-  /usr/bin/pdf2htmlEX	\
+cd pdf2htmlEX/build
+
+sudo rm -rf install_manifest.txt
+
+make install DESTDIR=../../imageBuild/dockerDir
+
+cd ../../imageBuild/dockerDir
+
+copy_deps
+
+delete_blacklisted
+
+cat >> Dockerfile <<DOCKERFILE_HERE_DOC
+FROM $DOCKER_FROM
+COPY ./ /
+RUN ldconfig
+ENTRYPOINT ["/usr/bin/pdf2htmlEX"]
+DOCKERFILE_HERE_DOC
+
+cd ..
+
+docker build -t stephengaito/pdf2htmlex:test-`date +%Y%m%d-%H.%M.%S` dockerDir
+
 
