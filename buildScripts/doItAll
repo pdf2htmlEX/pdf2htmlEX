@@ -25,3 +25,6 @@ export UNATTENDED=--assume-yes
 
 ./buildScripts/installPdf2htmlEX || { echo 'installPdf2htmlEX FAILED' ; exit 1 ; }
 
+./buildScripts/createAppImage    || { echo 'createAppImage FAILED'    ; exit 1 ; }
+
+./buildScripts/createDockerImage || { echo 'createDockerImage FAILED' ; exit 1 ; }
