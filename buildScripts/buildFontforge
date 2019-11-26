@@ -19,4 +19,8 @@ done
 
 tree /usr/include/python2.7
 
-make $MAKE_PARALLEL VERBOSE=1
+make -n
+make
+
+#make $MAKE_PARALLEL
+
