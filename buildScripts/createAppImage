@@ -4,6 +4,10 @@
 
 source buildScripts/versionEnvs
 
+# For appimage output plugin
+#
+export VERSION=$PDF2HTMLEX_VERSION
+
 mkdir -p imageBuild/appDir/usr/lib/
 
 cd pdf2htmlEX/build
@@ -30,6 +34,3 @@ chmod a+x $LINUX_DEPLOY_APP_IMAGE
   -i ../pdf2htmlEX/logo/pdf2htmlEX.svg	\
   --appdir=appDir			\
   --output appimage
-
-mv pdf2htmlEX-$MACHINE_ARCH.AppImage 			\
-  pdf2htmlEX-$PDF2HTMLEX_VERSION-$MACHINE_ARCH.AppImage
