@@ -86,6 +86,9 @@ script:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - ./buildScripts/getBuildTools     || travis_terminate 1;
   - ./buildScripts/getDevLibraries   || travis_terminate 1;
+  - ./buildScripts/getPoppler        || travis_terminate 1;
+  - ./buildScripts/buildPoppler      || travis_terminate 1;
+  - ./buildScripts/installPoppler    || travis_terminate 1;
   - ./buildScripts/getFontforge      || travis_terminate 1;
   - ./buildScripts/buildFontforge    || travis_terminate 1;
   - ./buildScripts/installFontforge  || travis_terminate 1;
@@ -95,6 +98,3 @@ script:
   - ./buildScripts/createDockerImage || travis_terminate 1;
   - docker push $DOCKER_USERNAME/pdf2htmlex
 
-#  - ./buildScripts/getPoppler        || travis_terminate 1;
-#  - ./buildScripts/buildPoppler      || travis_terminate 1;
-#  - ./buildScripts/installPoppler    || travis_terminate 1;

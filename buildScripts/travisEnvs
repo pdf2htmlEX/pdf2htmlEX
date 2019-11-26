@@ -1,3 +1,2 @@
 
 export MAKE_PARALLEL="-j `nproc`"
-export FORCE_REINSTALL=--reinstall

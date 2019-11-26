@@ -7,37 +7,27 @@ source buildScripts/versionEnvs
 
 # This is a work-around to fix TravisCI's declaration of PYTHON_CFLAGS
 # which is then honoured exactly as is by the fontforge bootstrap and
-# configure steps
+# configure steps.
+#
+# see: https://github.com/travis-ci/travis-ci/issues/5301 (unfixed)
 #
 if [ -n "$PYTHON_CFLAGS" ] ; then
   export PYTHON_CFLAGS="$(pkg-config --cflags python) $PYTHON_CFLAGS"
 fi
 
 echo ""
+echo "PYTHON_CFLAGS:
 echo "-------------------------------"
-pkg-config --cflags python
-pkg-config --cflags python-2.7
 echo $PYTHON_CFLAGS
-echo $PYTHON_LIBS
 echo "-------------------------------"
 echo ""
 
+# Can use "configure --disable-silent-rules" to debug configuration/make 
+# problems
+#
 cd fontforge
 ./bootstrap
-./configure --disable-silent-rules
-
-echo ""
-echo "-------------------------------"
-cat config.log
-echo "-------------------------------"
-echo ""
-
-echo ""
-echo "-------------------------------"
-cat fontforge/Makefile
-echo "-------------------------------"
-echo ""
-
+./configure
 
 # Apply any patches required for fontforge raw sources before we make
 #
@@ -47,13 +37,5 @@ do
   patch -p 1 < $APATCHFILE
 done
 
-tree /usr/include/python2.7
-
-#cd fontforge
-#make -n
-#cd ..
-
-make
-
-#make $MAKE_PARALLEL
+make $MAKE_PARALLEL
 
