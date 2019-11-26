@@ -2,33 +2,38 @@
 
 # This bash script creates a docker image from an existing pdf2htmlEX
 
-source buildScripts/versionEnvs
+if [ -x "$(which docker)" ]; then
 
-source buildScripts/dockerFunctions
+  source buildScripts/versionEnvs
 
-mkdir -p imageBuild/dockerDir
+  source buildScripts/dockerFunctions
 
-cd pdf2htmlEX/build
+  mkdir -p imageBuild/dockerDir
 
-sudo rm -rf install_manifest.txt
+  cd pdf2htmlEX/build
 
-make install DESTDIR=../../imageBuild/dockerDir
+  sudo rm -rf install_manifest.txt
 
-cd ../../imageBuild/dockerDir
+  make install DESTDIR=../../imageBuild/dockerDir
 
-copy_deps
+  cd ../../imageBuild/dockerDir
 
-delete_blacklisted
+  copy_deps
 
-cat >> Dockerfile <<DOCKERFILE_HERE_DOC
+  delete_blacklisted
+
+  cat >> Dockerfile <<DOCKERFILE_HERE_DOC
 FROM $DOCKER_FROM
 COPY ./ /
 RUN ldconfig
 ENTRYPOINT ["/usr/bin/pdf2htmlEX"]
 DOCKERFILE_HERE_DOC
 
-cd ..
+  cd ..
 
-docker build -t stephengaito/pdf2htmlex:test-`date +%Y%m%d-%H.%M.%S` dockerDir
+  docker build -t stephengaito/pdf2htmlex:test-`date +%Y%m%d-%H.%M.%S` dockerDir
 
+else
+  echo "Docker is not installed... skipping creation of a docker image."
+fi
 
