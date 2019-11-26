@@ -6,7 +6,7 @@ source buildScripts/versionEnvs
 
 cd fontforge
 ./bootstrap
-./configure
+./configure --disable-silent-rules
 
 # Apply any patches required for fontforge raw sources before we make
 #
@@ -19,10 +19,10 @@ done
 
 tree /usr/include/python2.7
 
-cd fontforge
-make -n
+#cd fontforge
+#make -n
+#cd ..
 
-cd ..
 make
 
 #make $MAKE_PARALLEL
