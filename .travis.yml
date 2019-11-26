@@ -24,6 +24,7 @@ env:
   global:
     - UNATTENDED="--assume-yes"
     - FORCE_REINSTALL="--reinstall"
+    - TRAVIS_TAG="test-$PDF2HTMLEX_VERSION-$(date +%Y_%m_%d-%H_%M_%S)"
 
 #addons:
 #  apt:
@@ -105,6 +106,6 @@ deploy:
   file: pdf2htmlEX-newBuildSystem-x86_64.AppImage
   skip_cleanup: true
   on:
+    tags: true
     repo: stephengaito/pdf2htmlEX
-    branch: newBuildSystem
 
