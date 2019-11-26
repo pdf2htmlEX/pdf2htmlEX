@@ -7,6 +7,7 @@ source buildScripts/versionEnvs
 export CONFIG_SITE=/home/travis/build/pdf2htmlEX/buildScripts/fontforgeConfig.site
 
 pkg-config --cflags python
+pkg-config --cflags python-2.7
 
 cd fontforge
 ./bootstrap
