@@ -16,7 +16,7 @@ if [ -n "$PYTHON_CFLAGS" ] ; then
 fi
 
 echo ""
-echo "PYTHON_CFLAGS:
+echo "PYTHON_CFLAGS:"
 echo "-------------------------------"
 echo $PYTHON_CFLAGS
 echo "-------------------------------"
