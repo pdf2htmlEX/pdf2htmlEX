@@ -13,6 +13,12 @@ cd fontforge
 ./bootstrap
 ./configure --disable-silent-rules
 
+echo ""
+echo "-------------------------------"
+cat config.log
+echo "-------------------------------"
+echo ""
+
 # Apply any patches required for fontforge raw sources before we make
 #
 for APATCHFILE in $(ls ../patches/fontforge-$FONTFORGE_VERSION-*)
