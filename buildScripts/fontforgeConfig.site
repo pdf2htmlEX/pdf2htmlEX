@@ -2,5 +2,5 @@
 # for some reason missed in the standard fontforge configuration on 
 # travisCI
 
-CFLAGS=$CFLAGS -I/usr/include/python2.7
+PYTHON_CFLAGS=$PYTHON_CFLAGS -I/usr/include/python2.7
 
