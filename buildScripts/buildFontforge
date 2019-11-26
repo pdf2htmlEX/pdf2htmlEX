@@ -19,6 +19,13 @@ cat config.log
 echo "-------------------------------"
 echo ""
 
+echo ""
+echo "-------------------------------"
+cat fontforge/Makefile
+echo "-------------------------------"
+echo ""
+
+
 # Apply any patches required for fontforge raw sources before we make
 #
 for APATCHFILE in $(ls ../patches/fontforge-$FONTFORGE_VERSION-*)
