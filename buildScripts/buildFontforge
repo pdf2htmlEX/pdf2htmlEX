@@ -4,6 +4,8 @@
 
 source buildScripts/versionEnvs
 
+export CONFIG_SITE=$(pwd)/buildScripts/fontforgeConfig.site
+
 cd fontforge
 ./bootstrap
 ./configure --disable-silent-rules

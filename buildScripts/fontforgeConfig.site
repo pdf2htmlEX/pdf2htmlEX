@@ -1,0 +1,6 @@
+# This autotools config.site file add the python2.7 include files which are 
+# for some reason missed in the standard fontforge configuration on 
+# travisCI
+
+CFLAGS=$CFLAGS -I/usr/include/python2.7
+
