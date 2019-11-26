@@ -4,7 +4,7 @@
 
 source buildScripts/versionEnvs
 
-export CONFIG_SITE=$(pwd)/buildScripts/fontforgeConfig.site
+export CONFIG_SITE=/home/travis/build/pdf2htmlEX/buildScripts/fontforgeConfig.site
 
 cd fontforge
 ./bootstrap
