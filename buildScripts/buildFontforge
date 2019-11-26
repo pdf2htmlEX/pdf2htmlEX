@@ -19,7 +19,10 @@ done
 
 tree /usr/include/python2.7
 
+cd fontforge
 make -n
+
+cd ..
 make
 
 #make $MAKE_PARALLEL
