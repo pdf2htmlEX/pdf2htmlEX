@@ -98,3 +98,13 @@ script:
   - ./buildScripts/createDockerImage || travis_terminate 1;
   - docker push $DOCKER_USERNAME/pdf2htmlex
 
+deploy:
+  provider: releases
+  api_key:
+    secure: ALWKAkgeLSPS4ULyTtxU50ZmSICEafCirCQ1YmuVTqe9nrc8E9Jm+4QaBlab5k6v90EpzNvZBnMOiT8cT1Wp2lqJzcGdGMcG49mhRvirdYhXgWuHYnygVgkxEhgejXcQaEiaGPDV3Y1k9MuiAVr8ApjUvIMlY4Hg1y0r7/rqR2fYmen+f+6a87bp5PptwakC9bfoYb92651d0TbugFfKT6TGKlE2jGlQ6On1alzLQ2DXA8coUjwpp4NcDD8OhnYGN/VZWkqckaBrMrHwjJ5FTfy5MGBOqCLzNix8sCGLEeCKkKC8J0nniNJ7+KOu9LJ2uIezKYfaUOJV0kik7F9ErvxjbfSRieako2yaSOR8X39aicTtpbyoXPRSKDU4WYX56vt4Dx7aNrYtP5b/UwWGXZa9MK7rNGJ+hiMDO1AzuyXirzR4RaJXCyC8n5W9ahBZBHCMqd5gMg5sMGPNj3Rgt34+R+nGYssum5wvr+6IKNl57sIoZFCgqviBrw2gJOCqlgOcEk/4ZSehWnXPCk6Gzxvkqkt/dmp8pJLNyvMaWcEZ6CXNHDU8MZS7bASo8Z7eAYvmX0MMjVty8J47expVaJ8M3OFHu6lE6tU8wwfd+Igr2TlWcixqaa3hDMgS+ghwdiZbYuMdR1AyZnEqK3xwvXXPPXrqRsB9xHtczLibkjY=
+  file: pdf2htmlEX-newBuildSystem-x86_64.AppImage
+  skip_cleanup: true
+  on:
+    repo: stephengaito/pdf2htmlEX
+    branch: newBuildSystem
+
