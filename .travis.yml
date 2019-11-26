@@ -5,6 +5,13 @@ sudo: true
 os:
   - linux
 #  - osx
+#  - windows
+
+# for windows *test* of AppImage
+# see https://docs.travis-ci.com/user/build-matrix/#using-different-programming-languages-per-job
+# and https://discourse.appimage.org/t/run-appimage-on-windows/177
+# and https://docs.travis-ci.com/user/reference/windows/
+# why fuse is not possible on windows: https://superuser.com/questions/179436/is-it-possible-to-use-fuse-with-windows  
 
 dist: bionic
 
