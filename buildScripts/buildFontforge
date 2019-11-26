@@ -4,7 +4,14 @@
 
 source buildScripts/versionEnvs
 
-export CONFIG_SITE=/home/travis/build/pdf2htmlEX/buildScripts/fontforgeConfig.site
+
+# This is a work-around to fix TravisCI's declaration of PYTHON_CFLAGS
+# which is then honoured exactly as is by the fontforge bootstrap and
+# configure steps
+#
+if [ -n "$PYTHON_CFLAGS" ] ; then
+  export PYTHON_CFLAGS="$(pkg-config --cflags python) $PYTHON_CFLAGS"
+fi
 
 echo ""
 echo "-------------------------------"
@@ -39,7 +46,6 @@ do
   echo "patching fontforge using [$APATCHFILE]" 
   patch -p 1 < $APATCHFILE
 done
-
 
 tree /usr/include/python2.7
 
