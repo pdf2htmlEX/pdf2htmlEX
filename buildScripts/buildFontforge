@@ -16,4 +16,7 @@ do
   patch -p 1 < $APATCHFILE
 done
 
+
+tree /usr/include/python2.7
+
 make $MAKE_PARALLEL VERBOSE=1
