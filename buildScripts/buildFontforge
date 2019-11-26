@@ -16,4 +16,4 @@ do
   patch -p 1 < $APATCHFILE
 done
 
-make $MAKE_PARALLEL
+make $MAKE_PARALLEL VERBOSE=1
