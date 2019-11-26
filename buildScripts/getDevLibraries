@@ -17,4 +17,4 @@ sudo apt-get $UNATTENDED install	\
   liblcms2-dev				\
   libxml2-dev				\
   libuninameslist-dev			\
-  python-def
+  python-dev
