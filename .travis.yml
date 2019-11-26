@@ -23,6 +23,7 @@ compiler: gcc
 env:
   global:
     - UNATTENDED="--assume-yes"
+    - FORCE_REINSTALL="--reinstall"
 
 #addons:
 #  apt:

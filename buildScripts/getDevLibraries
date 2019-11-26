@@ -16,5 +16,7 @@ sudo apt-get $UNATTENDED install	\
   libpango1.0-dev			\
   liblcms2-dev				\
   libxml2-dev				\
-  libuninameslist-dev			\
-  libpython-dev
+  libuninameslist-dev
+
+sudo apt-get $UNATTENDED $FORCE_REINSTALL install	\
+  libpython2.7-dev
