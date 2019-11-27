@@ -7,6 +7,7 @@ source buildScripts/versionEnvs
 # For appimage output plugin
 #
 export VERSION="$PDF2HTMLEX_VERSION-$(date +%Y_%m_%d-%H_%M_%S)"
+export UPLOADTOOL_BODY="This is the development/testing release of the pdf2htmlEX AppImage. You can download the AppImage and 'just run it'. See: https://appimage.org/ "
 
 mkdir -p imageBuild/appDir/usr/lib/
 
