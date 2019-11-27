@@ -34,3 +34,9 @@ chmod a+x $LINUX_DEPLOY_APP_IMAGE
   -i ../pdf2htmlEX/logo/pdf2htmlEX.svg	\
   --appdir=appDir			\
   --output appimage
+
+wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+
+bash upload.sh pdf2htmlEX*.AppImage
+
+
