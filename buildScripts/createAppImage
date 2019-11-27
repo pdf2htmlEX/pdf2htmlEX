@@ -6,7 +6,7 @@ source buildScripts/versionEnvs
 
 # For appimage output plugin
 #
-export VERSION=$PDF2HTMLEX_VERSION
+export VERSION="$PDF2HTMLEX_VERSION-$(date +%Y_%m_%d-%H_%M_%S)"
 
 mkdir -p imageBuild/appDir/usr/lib/
 
