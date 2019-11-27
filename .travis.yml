@@ -96,7 +96,7 @@ script:
   - cd build
   - pwd
   - ls -la
-  - cd [secure]
+  - cd $TRAVIS_BUILD_DIR
   - pwd
   - ls -la
 #  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
