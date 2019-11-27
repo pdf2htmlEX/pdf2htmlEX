@@ -24,7 +24,7 @@ env:
   global:
     - UNATTENDED="--assume-yes"
     - FORCE_REINSTALL="--reinstall"
-    - TRAVIS_TAG="test-$PDF2HTMLEX_VERSION-$(date +%Y_%m_%d-%H_%M_%S)"
+    - TRAVIS_TAG="test-$TRAVIS_BRANCH-$(date +%Y_%m_%d-%H_%M_%S)"
 
 #addons:
 #  apt:
@@ -88,6 +88,8 @@ script:
   - echo $TRAVIS_BRANCH
   - echo $TRAVIS_BUILD_DIR
   - echo $HOME
+  - pwd
+  - ls -la
 #  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 #  - ./buildScripts/getBuildTools     || travis_terminate 1;
 #  - ./buildScripts/getDevLibraries   || travis_terminate 1;
