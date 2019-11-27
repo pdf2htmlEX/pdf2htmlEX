@@ -3,9 +3,9 @@
 # This bash script reports the more important TRAVIS environment variables
 
 echo "TravisCI env:"
-echo "         tag: [$TARVIS_TAG]"
-echo "      branch: [$TARVIS_BRANCH]"
-echo "      commit: [$TARVIS_COMMIT]"
+echo "         tag: [$TRAVIS_TAG]"
+echo "      branch: [$TRAVIS_BRANCH]"
+echo "      commit: [$TRAVIS_COMMIT]"
 echo "   build dir: [$TRAVIS_BUILD_DIR]"
 echo "   repo slug: [$TRAVIS_REPO_SLUG]"
 
