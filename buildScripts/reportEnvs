@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# This bash script reports the more important TRAVIS environment variables
+
+echo "TravisCI env:"
+echo "         tag: [$TARVIS_TAG]"
+echo "      branch: [$TARVIS_BRANCH]"
+echo "      commit: [$TARVIS_COMMIT]"
+echo "   build dir: [$TRAVIS_BUILD_DIR]"
+echo "   repo slug: [$TRAVIS_REPO_SLUG]"
+
+echo "UploadTool env:"
+echo "      suffix: [$UPLOADTOOL_SUFFIX]"
+
+source ./buildScripts/versionEnvs
+
+echo "pdf2htmlEX env:"
+echo "     poppler: [$POPPLER_VERSION]"
+echo "   fontforge: [$FONTFORGE_VERSION]"
+echo "  pdf2htmlEX: [$PDF2HTMLEX_VERSION]"
+echo " docker from: [$DOCKER_FROM]"
+echo "machine arch: [$MACHINE_ARCH]"

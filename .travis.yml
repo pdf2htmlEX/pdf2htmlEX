@@ -89,6 +89,7 @@ matrix:
 
 script:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - ./buildScripts/reportEnvs        || travis_terminate 1;
   - ./buildScripts/getBuildTools     || travis_terminate 1;
   - ./buildScripts/getDevLibraries   || travis_terminate 1;
   - ./buildScripts/getPoppler        || travis_terminate 1;
