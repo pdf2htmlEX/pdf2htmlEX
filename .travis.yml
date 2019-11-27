@@ -28,7 +28,7 @@ env:
   global:
     - UNATTENDED="--assume-yes"
     - FORCE_REINSTALL="--reinstall"
-#    - UPLOADTOOL_SUFFIX="test-$TRAVIS_BRANCH-$(date +%Y_%m_%d-%H_%M_%S)"
+##    - UPLOADTOOL_SUFFIX="test-$TRAVIS_BRANCH-$(date +%Y_%m_%d-%H_%M_%S)"
 
 #addons:
 #  apt:
