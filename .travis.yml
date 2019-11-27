@@ -90,6 +90,9 @@ script:
   - echo $HOME
   - pwd
   - ls -la
+  - cd
+  - pwd
+  - ls -la
 #  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 #  - ./buildScripts/getBuildTools     || travis_terminate 1;
 #  - ./buildScripts/getDevLibraries   || travis_terminate 1;
