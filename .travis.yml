@@ -24,7 +24,7 @@ env:
   global:
     - UNATTENDED="--assume-yes"
     - FORCE_REINSTALL="--reinstall"
-#    - TRAVIS_TAG="test-$TRAVIS_BRANCH-$(date +%Y_%m_%d-%H_%M_%S)"
+    - UPLOADTOOL_SUFFIX="test-$TRAVIS_BRANCH-$(date +%Y_%m_%d-%H_%M_%S)"
 
 #addons:
 #  apt:
@@ -88,6 +88,11 @@ script:
   - echo $TRAVIS_BRANCH
   - echo $TRAVIS_BUILD_DIR
   - echo $HOME
+  - echo $TRAVIS_COMMIT
+  - echo $TRAVIS_REPO_SLUG
+  - echo $GITHUB_TOKEN
+  - echo $UPLOADTOOL_SUFFIX
+  - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
   - pwd
   - ls -la
   - cd
@@ -99,6 +104,7 @@ script:
   - cd $TRAVIS_BUILD_DIR
   - pwd
   - ls -la
+  - cat upload.sh
 #  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 #  - ./buildScripts/getBuildTools     || travis_terminate 1;
 #  - ./buildScripts/getDevLibraries   || travis_terminate 1;
