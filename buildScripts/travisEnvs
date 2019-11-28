@@ -1,3 +1,0 @@
-
-export UNATTENDED="--assume-yes"
-export MAKE_PARALLEL="-j `nproc`"

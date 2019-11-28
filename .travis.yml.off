@@ -2,18 +2,12 @@ language: cpp
 
 sudo: true
 
-os:
-  - linux
-#  - osx
-#  - windows
 
 # for windows *test* of AppImage
 # see https://docs.travis-ci.com/user/build-matrix/#using-different-programming-languages-per-job
 # and https://discourse.appimage.org/t/run-appimage-on-windows/177
 # and https://docs.travis-ci.com/user/reference/windows/
 # why fuse is not possible on windows: https://superuser.com/questions/179436/is-it-possible-to-use-fuse-with-windows  
-
-dist: bionic
 
 services:
   - docker
@@ -81,23 +75,19 @@ matrix:
 #  allow_failures:
 #    - os: osx # Until the build passes, then re-enable.
 
-script:
-  - ./buildScripts/travisEnvs        || travis_terminate 1;
-  - ./buildScripts/reportEnvs        || travis_terminate 1;
-  - ./buildScripts/getBuildTools     || travis_terminate 1;
-  - ./buildScripts/getDevLibraries   || travis_terminate 1;
-  - ./buildScripts/getPoppler        || travis_terminate 1;
-  - ./buildScripts/buildPoppler      || travis_terminate 1;
-  - ./buildScripts/installPoppler    || travis_terminate 1;
-  - ./buildScripts/getFontforge      || travis_terminate 1;
-  - ./buildScripts/buildFontforge    || travis_terminate 1;
-  - ./buildScripts/installFontforge  || travis_terminate 1;
-  - ./buildScripts/buildPdf2htmlEX   || travis_terminate 1;
-  - ./buildScripts/installPdf2htmlEX || travis_terminate 1;
-  - ./buildScripts/createAppImage    || travis_terminate 1;
-  - ./buildScripts/createDockerImage || travis_terminate 1;
-  - ./buildScripts/uploadRelease     || travis_terminate 1;
-
+jobs:
+  include:
+    - stage: build
+      os:
+        - linux
+      dist: bionic
+      script: ./buildScripts/doItAllTravis
+    - stage: test
+      os: 
+        - linux
+        - osx
+        - windows
+      script: ./testScripts/doItAllTravis
 #deploy:
 #  provider: releases
 #  api_key:

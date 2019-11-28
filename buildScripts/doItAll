@@ -8,6 +8,14 @@
 export UNATTENDED="--assume-yes"
 export MAKE_PARALLEL="-j $(nproc)"
 
+# choose one of the following...
+#
+export PDF2HTMLEX_BRANCH=newBuildSystem
+# export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+
+################
+# do the build
+
 ./buildScripts/reportEnvs        || { echo 'reportEnvs FAILED'        ; exit 1 ; }
 
 ./buildScripts/getBuildTools     || { echo 'getBuildTools FAILED'     ; exit 1 ; }

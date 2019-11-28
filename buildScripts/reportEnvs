@@ -10,7 +10,7 @@ echo "        build dir: [$TRAVIS_BUILD_DIR]"
 echo "        repo slug: [$TRAVIS_REPO_SLUG]"
 
 echo "Build env:"
-echo "       unattended: [$UNATTENEDED]"
+echo "       unattended: [$UNATTENDED]"
 echo "    make parallel: [$MAKE_PARALLEL]"
 
 source ./buildScripts/versionEnvs

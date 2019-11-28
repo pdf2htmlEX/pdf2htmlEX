@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# This bash script builds everyting on an TravisCI worker
+
+export UNATTENDED="--assume-yes"
+export MAKE_PARALLEL="-j $(nproc)"
+
+export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+
+./buildScripts/reportEnvs        || travis_terminate 1;
+./buildScripts/getBuildTools     || travis_terminate 1;
+./buildScripts/getDevLibraries   || travis_terminate 1;
+./buildScripts/getPoppler        || travis_terminate 1;
+./buildScripts/buildPoppler      || travis_terminate 1;
+./buildScripts/installPoppler    || travis_terminate 1;
+./buildScripts/getFontforge      || travis_terminate 1;
+./buildScripts/buildFontforge    || travis_terminate 1;
+./buildScripts/installFontforge  || travis_terminate 1;
+./buildScripts/buildPdf2htmlEX   || travis_terminate 1;
+./buildScripts/installPdf2htmlEX || travis_terminate 1;
+./buildScripts/createAppImage    || travis_terminate 1;
+./buildScripts/createDockerImage || travis_terminate 1;
+./buildScripts/uploadRelease     || travis_terminate 1;
+
