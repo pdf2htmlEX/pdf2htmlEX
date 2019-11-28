@@ -2,17 +2,21 @@
 
 # This bash script automates the tests
 
+mkdir -p testDir
+
+cd testDir
+
 wget https://github.com/stephengaito/pdf2htmlEX/releases/download/continuous/appImageName
 
-export APP_IMAGE_NAME=$(cat appImageName)
+export APPIMAGE_NAME=$(cat appImageName)
 
-wget https://github.com/stephengaito/pdf2htmlEX/releases/download/continuous/$APP_IMAGE_NAME
+wget https://github.com/stephengaito/pdf2htmlEX/releases/download/continuous/$APPIMAGE_NAME
 
-chmod a+x $APP_IMAGE_NAME
+chmod a+x $APPIMAGE_NAME
 
-if ! ./$APP_IMAGE_NAME --version ; then
+if ! ./$APPIMAGE_NAME --version ; then
   echo "COULD NOT run the AppImage"
-  exit(-1)
+  exit 1
 fi
 
 if [ -x "$(which docker)" ]; then
@@ -22,8 +26,8 @@ if [ -x "$(which docker)" ]; then
   export DOCKER_IMAGE_NAME=$(cat dockerImageName)
 
   if ! docker run $DOCKER_IMAGE_NAME --version ; then
-    echo "COULD NOT run the AppImage"
-    exit(-1)
+    echo "COULD NOT run the Docker Image"
+    exit 1
   fi
 
 fi

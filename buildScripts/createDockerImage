@@ -31,7 +31,7 @@ DOCKERFILE_HERE_DOC
 
   cd ..
 
-  docker build -t $DOCKER_USERNAME/pdf2htmlex:-`date +%Y_%m_%d-%H_%M_%S` dockerDir
+  docker build -t $DOCKER_USERNAME/pdf2htmlex:$PDF2THMLEX_BRANCH-$BUILD_TIME dockerDir
 
 else
   echo "Docker is not installed... skipping creation of a docker image."

@@ -31,4 +31,5 @@ echo "export BUILD_TIME=\"$BUILD_TIME\""               >> buildScripts/reSourceV
 echo "export DOCKER_FROM=\"$DOCKER_FROM\""             >> buildScripts/reSourceVersionEnvs
 echo "export DOCKER_NAME=\"$DOCKER_NAME\""             >> buildScripts/reSourceVersionEnvs
 echo "export APPIMAGE_NAME=\"$APPIMAGE_NAME\""         >> buildScripts/reSourceVersionEnvs
+echo "export TRAVIS_REPO_SLUG=\"$TRAVIS_REPO_SLUG\""   >> buildScripts/reSourceVersionEnvs
 

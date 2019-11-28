@@ -8,7 +8,6 @@
 #
 # You can OPTIONALLY set the following environment variables:
 #    DOCKER_PASSWORD  (if not set you will be asked for your password)
-#    UPLOADTOOL_BODY  (the text of the github release message)
 #
 
 source ./buildScripts/reSourceVersionEnvs
@@ -28,21 +27,15 @@ if [ -n "$GITHUB_TOKEN" ]; then
 
   echo $DOCKER_NAME > dockerImageName
 
-  if [ -z "$UPLOADTOOL_BODY" ]; then
-    export UPLOADTOOL_BODY=<<RELEASE_MESSAGE
+  export UPLOADTOOL_BODY=<<RELEASE_MESSAGE
 This is the development/testing release of the pdf2htmlEX AppImage.
 
 You can download the AppImage and 'just run it'.
 
 See: https://appimage.org/ for details
 RELEASE_MESSAGE
-  fi
 
-  bash upload.sh	\
-    $($APPIMAGE_NAME)	\
-    ../appImageName	\
-    ../dockerImageName	\
-    ../buildTime
+  bash upload.sh $APPIMAGE_NAME appImageName dockerImageName buildTime
 
 else
   echo "GITHUB_TOKEN not set... so we can not upload release artefacts."
@@ -56,6 +49,8 @@ if [ -x "$(which docker)" ]; then
   if [ -n "$DOCKER_USERNAME" ]; then
 
     if [ -z "$DOCKER_PASSWORD" ]; then
+      echo ""
+      echo "Please type your the Docker hub password"
       docker login -u "$DOCKER_USERNAME"
     else
       echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
