@@ -19,7 +19,13 @@ source ./buildScripts/reSourceVersionEnvs
 cd imageBuild
 
 if [ -n "$GITHUB_TOKEN" ]; then
-  wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+
+  echo "machine api.github.com"       > $HOME/.netrc
+  echo "  login    $GITHUB_USERNAME" >> $HOME/.netrc
+  echo "  password $GITHUB_TOKEN"    >> $HOME/.netrc
+  echo "machine uploads.github.com"  >> $HOME/.netrc
+  echo "  login    $GITHUB_USERNAME" >> $HOME/.netrc
+  echo "  password $GITHUB_TOKEN"    >> $HOME/.netrc
 
   echo $BUILD_TIME > buildTime
 
@@ -27,23 +33,8 @@ if [ -n "$GITHUB_TOKEN" ]; then
 
   echo $DOCKER_NAME > dockerImageName
 
-  export UPLOADTOOL_BODY=<<RELEASE_MESSAGE
-This is the development/testing release of the pdf2htmlEX AppImage.
-
-You can download the AppImage and 'just run it'.
-
-See: https://appimage.org/ for details
-RELEASE_MESSAGE
-
-  echo ""
-  echo "---------------------------------------------------------------"
-  echo "upload tool body:
-  echo "---------------------------------------------------------------"
-  echo $UPLOADTOOL_BODY
-  echo "---------------------------------------------------------------"
-  echo ""
-
-  bash upload.sh $APPIMAGE_NAME appImageName dockerImageName buildTime
+  ./buildScripts/uploadReleaseTool "$REPO_SLUG" "continuous" "Latest release"	\
+     -- $APPIMAGE_NAME appImageName dockerImageName buildTime
 
 else
   echo "GITHUB_TOKEN not set... so we can not upload release artefacts."
