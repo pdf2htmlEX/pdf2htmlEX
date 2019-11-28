@@ -1,0 +1,65 @@
+#!/bin/bash
+
+# This bash script uploads the pdf2htmlEX release artefacts
+#
+# We EXPECT the following environment variables to be set:
+#    GITHUB_TOKEN
+#    DOCKER_USERNAME
+#
+# You can OPTIONALLY set the following environment variables:
+#    DOCKER_PASSWORD  (if not set you will be asked for your password)
+#    UPLOADTOOL_BODY  (the text of the github release message)
+#
+
+##################################
+# upload github release artefacts
+#
+
+if [ -n "$GITHUB_TOKEN" ]; then
+  wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+
+  echo $BUILD_TIME > buildTime
+
+  echo $APPIMAGE_NAME > appImageName
+
+  echo $DOCKER_NAME > dockerImageName
+
+  if [ -z "$UPLOADTOOL_BODY" ]; then
+    export UPLOADTOOL_BODY=<<RELEASE_MESSAGE
+This is the development/testing release of the pdf2htmlEX AppImage.
+
+You can download the AppImage and 'just run it'.
+
+See: https://appimage.org/ for details
+RELEASE_MESSAGE
+  fi
+
+  bash upload.sh $APPIMAGE_NAME appImageName dockerImageName
+
+else
+  echo "GITHUG_TOKEN not set... so we can not upload release artefacts."
+fi
+
+##################################
+# push docker image
+#
+if [ -x "$(which docker)" ]; then
+
+  if [ -n "$DOCKER_USERNAME" ]; then
+
+    if [ -z "$DOCKER_PASSWORD" ]; then
+      docker login -u "$DOCKER_USERNAME"
+    else
+      echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    fi
+
+    docker push $DOCKER_USERNAME/pdf2htmlex
+
+  else
+    echo "DOCKER_USERNAME not set... so we do not know where to push image."
+  fi
+
+else
+  echo "Docker is not installed... skipping upload of docker image."
+fi
+

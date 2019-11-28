@@ -24,12 +24,6 @@ branches:
   except:  # do not build tags that we create using the upload.sh script
     - /^(?i:continuous.*)$/
 
-env:
-  global:
-    - UNATTENDED="--assume-yes"
-    - FORCE_REINSTALL="--reinstall"
-##    - UPLOADTOOL_SUFFIX="test-$TRAVIS_BRANCH-$(date +%Y_%m_%d-%H_%M_%S)"
-
 #addons:
 #  apt:
 #  update: true
@@ -88,7 +82,7 @@ matrix:
 #    - os: osx # Until the build passes, then re-enable.
 
 script:
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - ./buildScripts/travisEnvs        || travis_terminate 1;
   - ./buildScripts/reportEnvs        || travis_terminate 1;
   - ./buildScripts/getBuildTools     || travis_terminate 1;
   - ./buildScripts/getDevLibraries   || travis_terminate 1;
@@ -102,7 +96,7 @@ script:
   - ./buildScripts/installPdf2htmlEX || travis_terminate 1;
   - ./buildScripts/createAppImage    || travis_terminate 1;
   - ./buildScripts/createDockerImage || travis_terminate 1;
-  - docker push $DOCKER_USERNAME/pdf2htmlex
+  - ./buildScripts/uploadRelease     || travis_terminate 1;
 
 #deploy:
 #  provider: releases
