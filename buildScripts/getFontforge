@@ -2,7 +2,7 @@
 
 # This bash script gets and unpacks the latest fontforge AppImage
 
-source buildScripts/versionEnvs
+source buildScripts/reSourceVersionEnvs
 
 FONTFORGE_SRC=$FONTFORGE_VERSION.tar.gz
 

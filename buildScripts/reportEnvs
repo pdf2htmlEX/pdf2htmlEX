@@ -13,7 +13,7 @@ echo "Build env:"
 echo "       unattended: [$UNATTENDED]"
 echo "    make parallel: [$MAKE_PARALLEL]"
 
-source ./buildScripts/versionEnvs
+source ./buildScripts/reSourceVersionEnvs
 
 echo "pdf2htmlEX env:"
 echo "          poppler: [$POPPLER_VERSION]"

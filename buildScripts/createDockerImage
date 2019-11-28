@@ -4,7 +4,7 @@
 
 if [ -x "$(which docker)" ]; then
 
-  source buildScripts/versionEnvs
+  source buildScripts/reSourceVersionEnvs
 
   source buildScripts/dockerFunctions
 

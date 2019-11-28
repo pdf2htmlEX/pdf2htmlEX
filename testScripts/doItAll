@@ -2,4 +2,31 @@
 
 # This bash script automates the tests
 
+wget https://github.com/stephengaito/pdf2htmlEX/releases/download/continuous/appImageName
+
+export APP_IMAGE_NAME=$(cat appImageName)
+
+wget https://github.com/stephengaito/pdf2htmlEX/releases/download/continuous/$APP_IMAGE_NAME
+
+chmod a+x $APP_IMAGE_NAME
+
+if ! ./$APP_IMAGE_NAME --version ; then
+  echo "COULD NOT run the AppImage"
+  exit(-1)
+fi
+
+if [ -x "$(which docker)" ]; then
+
+  wget https://github.com/stephengaito/pdf2htmlEX/releases/download/continuous/dockerImageName
+
+  export DOCKER_IMAGE_NAME=$(cat dockerImageName)
+
+  if ! docker run $DOCKER_IMAGE_NAME --version ; then
+    echo "COULD NOT run the AppImage"
+    exit(-1)
+  fi
+
+fi
+
+
 

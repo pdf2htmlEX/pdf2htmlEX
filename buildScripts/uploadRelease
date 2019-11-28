@@ -11,9 +11,13 @@
 #    UPLOADTOOL_BODY  (the text of the github release message)
 #
 
+source ./buildScripts/reSourceVersionEnvs
+
 ##################################
 # upload github release artefacts
 #
+
+cd imageBuild
 
 if [ -n "$GITHUB_TOKEN" ]; then
   wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
@@ -34,10 +38,14 @@ See: https://appimage.org/ for details
 RELEASE_MESSAGE
   fi
 
-  bash upload.sh $APPIMAGE_NAME appImageName dockerImageName
+  bash upload.sh	\
+    $($APPIMAGE_NAME)	\
+    ../appImageName	\
+    ../dockerImageName	\
+    ../buildTime
 
 else
-  echo "GITHUG_TOKEN not set... so we can not upload release artefacts."
+  echo "GITHUB_TOKEN not set... so we can not upload release artefacts."
 fi
 
 ##################################

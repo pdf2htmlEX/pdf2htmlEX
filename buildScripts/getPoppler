@@ -2,7 +2,7 @@
 
 # This bash script gets and unpacks the latest Poppler source code
 
-source buildScripts/versionEnvs
+source buildScripts/reSourceVersionEnvs
 
 echo "Getting poppler version: $POPPLER_VERSION"
 

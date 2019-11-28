@@ -2,7 +2,7 @@
 
 # This bash script creates an AppImage for pdf2htmlEX
 
-source buildScripts/versionEnvs
+source ./buildScripts/reSourceVersionEnvs
 
 # For appimage output plugin
 #

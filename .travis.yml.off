@@ -85,8 +85,8 @@ jobs:
     - stage: test
       os: 
         - linux
-        - osx
-        - windows
+        #- osx
+        #- windows
       script: ./testScripts/doItAllTravis
 #deploy:
 #  provider: releases

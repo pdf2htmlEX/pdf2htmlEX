@@ -2,8 +2,7 @@
 
 # This bash script build FontForge
 
-source buildScripts/versionEnvs
-
+source buildScripts/reSourceVersionEnvs
 
 # This is a work-around to fix TravisCI's declaration of PYTHON_CFLAGS
 # which is then honoured exactly as is by the fontforge bootstrap and
