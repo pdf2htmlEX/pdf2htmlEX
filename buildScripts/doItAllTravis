@@ -7,6 +7,7 @@ export MAKE_PARALLEL="-j $(nproc)"
 
 export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 
+./buildScripts/versionEnvs       || travis_terminate 1;
 ./buildScripts/reportEnvs        || travis_terminate 1;
 ./buildScripts/getBuildTools     || travis_terminate 1;
 ./buildScripts/getDevLibraries   || travis_terminate 1;

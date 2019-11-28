@@ -17,6 +17,8 @@ export PDF2HTMLEX_BRANCH=newBuildSystem
 ################
 # do the build
 
+./buildScripts/versionEnvs       || { echo 'versionEnvs FAILED'       ; exit 1 ; }
+
 ./buildScripts/reportEnvs        || { echo 'reportEnvs FAILED'        ; exit 1 ; }
 
 ./buildScripts/getBuildTools     || { echo 'getBuildTools FAILED'     ; exit 1 ; }

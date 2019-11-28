@@ -22,7 +22,7 @@ if [ -x "$(which docker)" ]; then
 
   delete_blacklisted
 
-  cat >> Dockerfile <<DOCKERFILE_HERE_DOC
+  cat > Dockerfile <<DOCKERFILE_HERE_DOC
 FROM $DOCKER_FROM
 COPY ./ /
 RUN ldconfig
