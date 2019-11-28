@@ -57,18 +57,21 @@ fi
 [ -n "$2" ] || (usage; exit 1);
 
 REPO="$1"
+echo "Repository: [$REPO]"
 shift
 
 TAG="$1"
+echo "       Tag: [$TAG]"
 shift
 
 NAME="$(basename "$REPO") ${TAG}"
 if [ -n "$1" -a "$1" != "--" ]; then
   NAME="${NAME}: $1";
+  echo "      Name: [$NAME]"
   shift
 fi
 
-BODY="$(cat ./buildScripts/uploadReleaseMessage)"
+BODY="$(cat ../buildScripts/uploadReleaseMessage)"
 
 if [ "$1" = "--" -a "$#" -ge "2" ]; then
   shift

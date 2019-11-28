@@ -33,7 +33,10 @@ if [ -n "$GITHUB_TOKEN" ]; then
 
   echo $DOCKER_NAME > dockerImageName
 
-  ./buildScripts/uploadReleaseTool "$REPO_SLUG" "continuous" "Latest release"	\
+  echo ../buildScripts/uploadReleaseTool "$TRAVIS_REPO_SLUG" "continuous" "Latest release"	\
+     -- $APPIMAGE_NAME appImageName dockerImageName buildTime
+
+  ../buildScripts/uploadReleaseTool "$TRAVIS_REPO_SLUG" "continuous" "Latest release"	\
      -- $APPIMAGE_NAME appImageName dockerImageName buildTime
 
 else
