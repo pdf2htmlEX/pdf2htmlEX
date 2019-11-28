@@ -9,7 +9,7 @@ export POPPLER_VERSION=poppler-0.81.0
 #export FONTFORGE_VERSION=20190801
 export FONTFORGE_VERSION=20170731
 
-if [ -n "$PDF2HTMLEX_BRANCH" ]; then
+if [ -z "$PDF2HTMLEX_BRANCH" ]; then
   export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 fi
 
