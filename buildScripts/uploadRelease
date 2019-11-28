@@ -35,6 +35,14 @@ You can download the AppImage and 'just run it'.
 See: https://appimage.org/ for details
 RELEASE_MESSAGE
 
+  echo ""
+  echo "---------------------------------------------------------------"
+  echo "upload tool body:
+  echo "---------------------------------------------------------------"
+  echo $UPLOADTOOL_BODY
+  echo "---------------------------------------------------------------"
+  echo ""
+
   bash upload.sh $APPIMAGE_NAME appImageName dockerImageName buildTime
 
 else
