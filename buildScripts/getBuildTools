@@ -19,6 +19,6 @@ sudo apt-get $UNATTENDED install	\
   g++					\
   gettext				\
   openjdk-8-jre-headless		\
-  jp					\
+  jq					\
   tree
 

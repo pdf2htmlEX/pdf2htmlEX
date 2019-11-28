@@ -45,4 +45,3 @@ export PDF2HTMLEX_BRANCH=newBuildSystem
 
 ./buildScripts/createDockerImage || { echo 'createDockerImage FAILED' ; exit 1 ; }
 
-./buildScripts/uploadRelease     || { echo 'uploadRelease FAILED'     ; exit 1 ; }
