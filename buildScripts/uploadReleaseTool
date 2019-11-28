@@ -163,6 +163,8 @@ done
 #   https://gist.github.com/foca/38d82e93e32610f5241709f8d5720156
 # on 2019-11-28
 # and has been altered to delete the "continuous" tag/release
+# using:  https://developer.github.com/v3/git/refs/
+# and:    https://developer.github.com/v3/repos/releases/
 # as well as using the ./buildScripts/uploadReleaseMessage
 # by Stephen Gaito
 # it has been used under the following (MIT-like) license:
