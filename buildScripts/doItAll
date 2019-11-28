@@ -3,7 +3,12 @@
 # This bash script builds the complete pdf2htmlEX application LOCALLY
 # (It does not create the AppImage or Docker images)
 
-export UNATTENDED=--assume-yes
+# Adjust the following two environment variables to suit your needs
+#
+export UNATTENDED="--assume-yes"
+export MAKE_PARALLEL="-j $(nproc)"
+
+./buildScripts/reportEnvs        || { echo 'reportEnvs FAILED'        ; exit 1 ; }
 
 ./buildScripts/getBuildTools     || { echo 'getBuildTools FAILED'     ; exit 1 ; }
 
@@ -28,3 +33,5 @@ export UNATTENDED=--assume-yes
 ./buildScripts/createAppImage    || { echo 'createAppImage FAILED'    ; exit 1 ; }
 
 ./buildScripts/createDockerImage || { echo 'createDockerImage FAILED' ; exit 1 ; }
+
+./buildScripts/uploadRelease     || { echo 'uploadRelease FAILED'     ; exit 1 ; }
