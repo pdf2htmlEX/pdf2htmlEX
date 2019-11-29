@@ -6,6 +6,8 @@
 ################
 # do the uploads
 
+./buildScripts/reportEnvs          || { echo 'reportEnvs FAILED'        ; exit 1 ; }
+
 ./buildScripts/uploadGitHubRelease || { echo 'uploadGitHubRelease FAILED' ; exit 1 ; }
 
 ./buildScripts/uploadDockerImage   || { echo 'uploadDockerImage   FAILED' ; exit 1 ; }
