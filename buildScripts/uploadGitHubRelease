@@ -11,6 +11,7 @@
 #
 
 source ./buildScripts/reSourceVersionEnvs
+cp     ./buildScripts/reSourceVersionEnvs imageBuild/buildInfo.sh
 source ./buildScripts/uploadGitHubReleaseDSL
 
 echo ""
@@ -66,16 +67,16 @@ echo "machine uploads.github.com"  >> $HOME/.netrc
 echo "  login    $GITHUB_USERNAME" >> $HOME/.netrc
 echo "  password $GITHUB_TOKEN"    >> $HOME/.netrc
 
-echo $BUILD_TIME    > buildTime
-echo $APPIMAGE_NAME > appImageName
-echo $DOCKER_NAME   > dockerImageName
+echo $APPIMAGE_NAME > appImageName.txt
+echo $DOCKER_NAME   > dockerImageName.txt
 
 deleteReleaseByTag "$TRAVIS_REPO_SLUG" "continuous"
 
 createNewRelease   "$TRAVIS_REPO_SLUG" "continuous" "Latest release" \
   ../buildScripts/uploadGitHubReleaseMessage
 
-uploadAnAsset $upload_url appImageName    "text/plain"
-uploadAnAsset $upload_url buildTime       "text/plain"
-uploadAnAsset $upload_url dockerImageName "text/plain"
-uploadAnAsset $upload_url $APPIMAGE_NAME  "application/zip"
+uploadAnAsset $upload_url "appImageName.txt"    "text/plain"
+uploadAnAsset $upload_url "buildInfo.sh"        "text/plain"
+uploadAnAsset $upload_url "dockerImageName.txt" "text/plain"
+uploadAnAsset $upload_url $APPIMAGE_NAME        "application/zip"
+

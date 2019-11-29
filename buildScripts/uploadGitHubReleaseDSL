@@ -47,20 +47,29 @@ function deleteReleaseByTag {
          "https://api.github.com/repos/${REPO}/releases"
   )
 
-  releaseID=$(echo $response | jq '.[] | select(.tag_name == "$releaseTag") | .id')
+  releaseID=$(echo $response |				\
+    jq --arg releaseTag $releaseTag			\
+      '.[] | select(.tag_name == $releaseTag) | .id')
+
+  echo ""
+  echo "releaseID(s): $releaseID"
+  echo ""
 
   if [ -n "$releaseID" ] ; then
 
-    echo "deleting an existing '$releaseTag' release in the repo $REPO"
-    response=$(
-      curl --fail \
-           --netrc \
-           --silent \
-           --location \
-           --request "DELETE" \
-           "https://api.github.com/repos/${REPO}/releases/$releaseID"
-    )
-
+    for aReleaseID in $releaseID 
+    do
+      echo "deleting an existing '$releaseTag'($aReleaseID) release in the repo $REPO"
+      response=$(
+        curl --fail \
+             --netrc \
+             --silent \
+             --location \
+             --request "DELETE" \
+             "https://api.github.com/repos/${REPO}/releases/$aReleaseID"
+      )
+    done
+    echo ""
   fi
 
   echo "looking for an existing '$releaseTag' git/tag in the repo $REPO"
@@ -131,7 +140,12 @@ function createNewRelease {
          "https://api.github.com/repos/${REPO}/releases"
   )
 
-  upload_url="$(echo "$response" | jq -r .upload_url | sed -e "s/{?name,label}//")"
+  upload_url="$(echo "$response" |			\
+    jq -r .upload_url | sed -e "s/{?name,label}//")"
+
+  echo ""
+  echo "upload_url:"
+  echo $upload_url
 }
 
 ########################
