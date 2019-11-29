@@ -11,6 +11,14 @@
 #
 
 source ./buildScripts/reSourceVersionEnvs
+source ./buildScripts/uploadReleaseDSL
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "UPLOADING pdf2htmlEX AppImage and Docker Images"
+echo "-------------------------------------------------------------------"
+echo ""
+
 
 ##################################
 # upload github release artefacts
@@ -58,16 +66,19 @@ echo "machine uploads.github.com"  >> $HOME/.netrc
 echo "  login    $GITHUB_USERNAME" >> $HOME/.netrc
 echo "  password $GITHUB_TOKEN"    >> $HOME/.netrc
 
-echo $BUILD_TIME > buildTime
+echo $BUILD_TIME    > buildTime
 echo $APPIMAGE_NAME > appImageName
-echo $DOCKER_NAME > dockerImageName
+echo $DOCKER_NAME   > dockerImageName
 
-echo ../buildScripts/uploadReleaseTool "$TRAVIS_REPO_SLUG" "continuous" "Latest release"	\
-   -- $APPIMAGE_NAME appImageName dockerImageName buildTime
+deleteReleaseByTag "$TRAVIS_REPO_SLUG" "continuous"
 
-../buildScripts/uploadReleaseTool "$TRAVIS_REPO_SLUG" "continuous" "Latest release"	\
-   -- $APPIMAGE_NAME appImageName dockerImageName buildTime
+createNewRelease   "$TRAVIS_REPO_SLUG" "continuous" "Latest release" \
+  ../buildScripts/uploadReleaseMessage
 
+uploadAnAsset $upload_url appImageName    "text/plain"
+uploadAnAsset $upload_url buildTime       "text/plain"
+uploadAnAsset $upload_url dockerImageName "text/plain"
+uploadAnAsset $upload_url $APPIMAGE_NAME  "application/zip"
 
 ##################################
 # push docker image

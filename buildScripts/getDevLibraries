@@ -6,6 +6,13 @@
 # set the bash environment variable 'UNATTENDED' to '--assume-yes' for
 # unattended use (for example in the .travis.yml script)
 
+echo ""
+echo "-------------------------------------------------------------------"
+echo "INSTALLING development libraries (using APT)"
+echo "  (UNATTENDED: [$UNATTENDED])"
+echo "-------------------------------------------------------------------"
+echo ""
+
 sudo apt-get update
 sudo apt-get $UNATTENDED install	\
   libcairo-dev				\

@@ -1,5 +1,13 @@
 #!/bin/bash
 
+echo ""
+echo "-------------------------------------------------------------------"
+echo "INSTALLING FontForge locally"
+echo "  (UNATTENDED: [$UNATTENDED])"
+echo "-------------------------------------------------------------------"
+echo ""
+
+
 if [ -z "$UNATTENDED" ] ; then
   echo "WARNING: this may over-write any existing"
   echo "FontForge version you have installed on your system."

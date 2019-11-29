@@ -2,6 +2,13 @@
 
 # This bash script installs Poppler into the local system
 
+echo ""
+echo "-------------------------------------------------------------------"
+echo "INSTALLING Poppler locally"
+echo "  (UNATTENDED: [$UNATTENDED])"
+echo "-------------------------------------------------------------------"
+echo ""
+
 
 if [ -z "$UNATTENDED" ] ; then
   echo "WARNING: this may over-write any existing"

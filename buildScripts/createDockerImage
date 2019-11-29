@@ -2,6 +2,12 @@
 
 # This bash script creates a docker image from an existing pdf2htmlEX
 
+echo ""
+echo "-------------------------------------------------------------------"
+echo "CREATING pdf2htmlEX Docker Image"
+echo "-------------------------------------------------------------------"
+echo ""
+
 if [ -x "$(which docker)" ]; then
 
   source buildScripts/reSourceVersionEnvs

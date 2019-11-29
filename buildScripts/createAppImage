@@ -4,6 +4,12 @@
 
 source ./buildScripts/reSourceVersionEnvs
 
+echo ""
+echo "-------------------------------------------------------------------"
+echo "CREATING pdf2htmlEX AppImage"
+echo "-------------------------------------------------------------------"
+echo ""
+
 # For appimage output plugin
 #
 export VERSION="$PDF2HTMLEX_BRANCH-$BUILD_TIME"

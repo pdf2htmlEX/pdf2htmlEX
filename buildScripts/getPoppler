@@ -4,6 +4,14 @@
 
 source buildScripts/reSourceVersionEnvs
 
+echo ""
+echo "-------------------------------------------------------------------"
+echo "GETTING Poppler source code (using wget)"
+echo "  (POPPLER_VERSION: [$POPPLER_VERSION])"
+echo "-------------------------------------------------------------------"
+echo ""
+
+
 echo "Getting poppler version: $POPPLER_VERSION"
 
 rm -rf $POPPLER_VERSION.tar.xz

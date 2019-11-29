@@ -4,6 +4,12 @@
 
 source buildScripts/reSourceVersionEnvs
 
+echo ""
+echo "-------------------------------------------------------------------"
+echo "BUILDING FontForge"
+echo "-------------------------------------------------------------------"
+echo ""
+
 # This is a work-around to fix TravisCI's declaration of PYTHON_CFLAGS
 # which is then honoured exactly as is by the fontforge bootstrap and
 # configure steps.

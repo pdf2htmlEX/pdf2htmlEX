@@ -1,5 +1,13 @@
 #!/bin/bash
 
+echo ""
+echo "-------------------------------------------------------------------"
+echo "INSTALLING pdf2htmlEX locally"
+echo "  (UNATTENDED: [$UNATTENDED])"
+echo "-------------------------------------------------------------------"
+echo ""
+
+
 if [ -z "$UNATTENDED" ] ; then
 
   echo "This installation assumes you have 'sudo' privileges"
