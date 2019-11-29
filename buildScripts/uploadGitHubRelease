@@ -11,7 +11,7 @@
 #
 
 source ./buildScripts/reSourceVersionEnvs
-source ./buildScripts/uploadReleaseDSL
+source ./buildScripts/uploadGitHubReleaseDSL
 
 echo ""
 echo "-------------------------------------------------------------------"
@@ -79,33 +79,3 @@ uploadAnAsset $upload_url appImageName    "text/plain"
 uploadAnAsset $upload_url buildTime       "text/plain"
 uploadAnAsset $upload_url dockerImageName "text/plain"
 uploadAnAsset $upload_url $APPIMAGE_NAME  "application/zip"
-
-##################################
-# push docker image
-#
-if [ -x "$(which docker)" ]; then
-
-  if [ -z "$DOCKER_USERNAME" ]; then
-    echo ""
-    read -p "Enter the Docker usernane): " DOCKER_USERNAME
-    echo ""
-    if [ -z "$DOCKER_USERNAME" ]; then
-      echo "DOCKER_USERNAME not set... so we do not know where to push image."
-      exit 1
-    fi
-  fi
-
-  if [ -z "$DOCKER_PASSWORD" ]; then
-    echo ""
-    echo "Please type your the Docker hub password"
-    docker login -u "$DOCKER_USERNAME"
-  else
-    echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  fi
-
-  docker push $DOCKER_USERNAME/pdf2htmlex
-
-else
-  echo "Docker is not installed... skipping upload of docker image."
-fi
-

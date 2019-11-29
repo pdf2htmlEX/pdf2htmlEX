@@ -2,15 +2,14 @@
 
 # This bash script gets and unpacks the latest fontforge AppImage
 
+source buildScripts/reSourceVersionEnvs
+
 echo ""
 echo "-------------------------------------------------------------------"
 echo "GETTING FontForge sources (using wget)"
 echo "  (FONTFORGE_VERSION: [$FONTFORGE_VERSION])"
 echo "-------------------------------------------------------------------"
 echo ""
-
-
-source buildScripts/reSourceVersionEnvs
 
 FONTFORGE_SRC=$FONTFORGE_VERSION.tar.gz
 
