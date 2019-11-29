@@ -7,7 +7,6 @@
 #
 export UNATTENDED="--assume-yes"
 export MAKE_PARALLEL="-j $(nproc)"
-export TRAVIS_REPO_SLUG=stephengaito/pdf2htmlEX
 
 # choose one of the following...
 #
@@ -40,8 +39,3 @@ export PDF2HTMLEX_BRANCH=newBuildSystem
 ./buildScripts/buildPdf2htmlEX   || { echo 'buildPdf2htmlEX FAILED'   ; exit 1 ; }
 
 ./buildScripts/installPdf2htmlEX || { echo 'installPdf2htmlEX FAILED' ; exit 1 ; }
-
-./buildScripts/createAppImage    || { echo 'createAppImage FAILED'    ; exit 1 ; }
-
-./buildScripts/createDockerImage || { echo 'createDockerImage FAILED' ; exit 1 ; }
-
