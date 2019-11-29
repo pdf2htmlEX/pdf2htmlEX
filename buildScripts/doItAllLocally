@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # This bash script builds the complete pdf2htmlEX application LOCALLY
-# (It does not create the AppImage or Docker images)
+# (It creates local versions of the AppImage or Docker images)
 
 # Adjust the following two environment variables to suit your needs
 #
