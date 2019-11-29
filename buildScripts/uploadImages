@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# This bash script uploads already existing pdf2htmlEX AppImage and Docker 
+# Images
+
+################
+# do the uploads
+
+./buildScripts/uploadGitHubRelease || { echo 'uploadGitHubRelease FAILED' ; exit 1 ; }
+
+./buildScripts/uploadDockerImage   || { echo 'uploadDockerImage   FAILED' ; exit 1 ; }
+
+

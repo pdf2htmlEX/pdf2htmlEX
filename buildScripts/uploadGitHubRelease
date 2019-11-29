@@ -73,7 +73,7 @@ echo $DOCKER_NAME   > dockerImageName
 deleteReleaseByTag "$TRAVIS_REPO_SLUG" "continuous"
 
 createNewRelease   "$TRAVIS_REPO_SLUG" "continuous" "Latest release" \
-  ../buildScripts/uploadReleaseMessage
+  ../buildScripts/uploadGitHubReleaseMessage
 
 uploadAnAsset $upload_url appImageName    "text/plain"
 uploadAnAsset $upload_url buildTime       "text/plain"

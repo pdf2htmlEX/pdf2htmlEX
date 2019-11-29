@@ -14,6 +14,32 @@ if [ -x "$(which docker)" ]; then
 
   source buildScripts/dockerFunctions
 
+if [ -z "$DOCKER_FROM" ]; then
+  echo ""
+  read -p "Enter the docker image for the 'from' base: " DOCKER_FROM
+  echo ""
+  if [ -z "$DOCKER_FROM" ]; then
+    echo "DOCKER_FROM not set... so we can not build the docker image"
+    exit 1
+  fi
+fi
+
+if [ -z "$DOCKER_USERNAME" ]; then
+  echo ""
+  read -p "Enter a docker username: " DOCKER_USERNAME
+  echo ""
+  if [ -z "$DOCKER_USERNAME" ]; then
+    echo "DOCKER_USERNAME not set... so we can not build the docker image"
+    exit 1
+  fi
+fi
+
+export DOCKER_NAME="$DOCKER_USERNAME/pdf2htmlex:$PDF2HTMLEX_BRANCH-$BUILD_TIME"
+
+echo "export DOCKER_FROM=\"$DOCKER_FROM\""         >> buildScripts/reSourceVersionEnvs
+echo "export DOCKER_USERNAME=\"$DOCKER_USERNAME\"" >> buildScripts/reSourceVersionEnvs
+echo "export DOCKER_NAME=\"$DOCKER_NAME\""         >> buildScripts/reSourceVersionEnvs
+
   mkdir -p imageBuild/dockerDir
 
   cd pdf2htmlEX/build
