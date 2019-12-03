@@ -89,8 +89,11 @@ jobs:
       addons:
         homebrew:
           taps: pdf2htmlEX/homebrew-brewTap
+          packages:
+            - pdf2htmlex-new
       script:
-        - brew install pdf2htmlex-new
+        - pwd
+        - ls
 #    - stage: test
 #      os: 
 #        - linux
