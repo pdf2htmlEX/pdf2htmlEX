@@ -2,7 +2,6 @@ language: cpp
 
 sudo: true
 
-
 # for windows *test* of AppImage
 # see https://docs.travis-ci.com/user/build-matrix/#using-different-programming-languages-per-job
 # and https://discourse.appimage.org/t/run-appimage-on-windows/177
@@ -45,8 +44,10 @@ branches:
 #    - liblcms2-dev
 #    - libxml2-dev
 #    - libuninameslist-dev
-#  homebrew:
-#    packages:
+  homebrew:
+    taps: pdf2htmlEX/homebrew-brewTap
+    packages:
+       - pdf2html-new
 #      - autoconf
 #      - pkg-config
 #      - git
@@ -77,17 +78,20 @@ matrix:
 
 jobs:
   include:
-    - stage: build
+    - stage: build-linux
       os:
         - linux
       dist: bionic
       script: ./buildScripts/doItAllTravis
-    - stage: test
-      os: 
-        - linux
+    - stage: build-osx
+      os:
+        - osx
+#    - stage: test
+#      os: 
+#        - linux
         #- osx
         #- windows
-      script: ./testScripts/doItAllTravis
+#      script: ./testScripts/doItAllTravis
 #deploy:
 #  provider: releases
 #  api_key:
