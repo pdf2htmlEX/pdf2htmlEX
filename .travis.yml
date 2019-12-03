@@ -17,6 +17,10 @@ branches:
   except:  # do not build tags that we create using the upload.sh script
     - /^(?i:continuous.*)$/
 
+env:
+  global:
+    - DOCKER_FROM="ubuntu:18.04"
+
 #addons:
 #  apt:
 #  update: true
