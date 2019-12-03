@@ -48,10 +48,10 @@ env:
 #    - liblcms2-dev
 #    - libxml2-dev
 #    - libuninameslist-dev
-  homebrew:
-    taps: pdf2htmlEX/homebrew-brewTap
-    packages:
-       - pdf2html-new
+#  homebrew:
+#    taps: pdf2htmlEX/homebrew-brewTap
+#    packages:
+#       - pdf2html-new
 #      - autoconf
 #      - pkg-config
 #      - git
@@ -82,14 +82,17 @@ matrix:
 
 jobs:
   include:
-    - stage: build-linux
-      os:
-        - linux
-      dist: bionic
-      script: ./buildScripts/doItAllTravis
+#    - stage: build-linux
+#      os:
+#        - linux
+#      dist: bionic
+#      script: ./buildScripts/doItAllTravis
     - stage: build-osx
       os:
         - osx
+      script:
+        - brew tap pdf2htmlEX/homebrew-brewTaps
+        - brew install pdf2htmlex-new
 #    - stage: test
 #      os: 
 #        - linux
