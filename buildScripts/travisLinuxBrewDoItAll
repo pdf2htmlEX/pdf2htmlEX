@@ -6,9 +6,14 @@
 # https://docs.travis-ci.com/user/installing-dependencies/#using-homebrew-without-addon-on-older-macos-images
 # For details on obtaining/using the correct ruby version for homebrew.
 
-sudo apt-get update
-sudo apt-get install gcc-5 # many of the linuxBrew bottles are compiled with gcc-5
-
 brew tap pdf2htmlEX/homebrew-brewTap
 brew update
+
+# many of the linuxBrew bottles are compiled with gcc-5 so we need to
+# explicity install it!
+#
+brew install gcc@5
+
+# Now use brew to install pdf2htmlEX (and its dependencies)
+#
 brew install pdf2htmlex-new -s --cc=gcc-5
