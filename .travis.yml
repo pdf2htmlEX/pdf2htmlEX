@@ -89,12 +89,8 @@ jobs:
       addons:
         homebrew:
           update: true
-          taps: pdf2htmlEX/homebrew-brewTap
-          packages:
-            - pdf2htmlex-new
       script:
-        - pwd
-        - ls
+        - ./buildScripts/travisHomeBrewDoItAll
         - pdf2htmlEX --version
 #    - stage: test
 #      os: 
