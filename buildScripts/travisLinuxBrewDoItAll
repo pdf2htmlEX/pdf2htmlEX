@@ -8,12 +8,4 @@
 
 brew tap pdf2htmlEX/homebrew-brewTap
 brew update
-
-# many of the linuxBrew bottles are compiled with gcc-5 so we need to
-# explicity install it!
-#
-brew install gcc@5
-
-# Now use brew to install pdf2htmlEX (and its dependencies)
-#
 brew install pdf2htmlex-new -s --cc=gcc-5
