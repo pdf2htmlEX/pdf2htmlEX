@@ -82,7 +82,7 @@ jobs:
 #      services:
 #        - docker
 #      dist: bionic
-#      script: ./buildScripts/doItAllTravis
+#      script: ./buildScripts/travisLinuxDoItAll
     - stage: build-osx
       os:
         - osx
@@ -95,6 +95,7 @@ jobs:
       script:
         - pwd
         - ls
+        - pdf2htmlEX --version
 #    - stage: test
 #      os: 
 #        - linux

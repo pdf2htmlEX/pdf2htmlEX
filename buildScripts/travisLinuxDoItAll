@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This bash script builds everyting on an TravisCI worker
+# This bash script builds everyting on an TravisCI Linux (Ubunutu) worker
 
 export UNATTENDED="--assume-yes"
 export MAKE_PARALLEL="-j $(nproc)"
