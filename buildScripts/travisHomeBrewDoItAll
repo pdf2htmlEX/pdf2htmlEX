@@ -6,8 +6,6 @@
 # https://docs.travis-ci.com/user/installing-dependencies/#using-homebrew-without-addon-on-older-macos-images
 # For details on obtaining/using the correct ruby version for homebrew.
 
-rvm use $brew_ruby
 brew tap pdf2htmlEX/homebrew-brewTap
 brew update
 brew install pdf2htmlex-new
-rvm use $TRAVIS_RUBY_VERSION # optionally, switch back to the Ruby version you need.

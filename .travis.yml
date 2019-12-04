@@ -82,7 +82,7 @@ jobs:
 #      services:
 #        - docker
 #      dist: bionic
-#      script: ./buildScripts/travisLinuxDoItAll
+#      script: ./buildScripts/travisLinuxAptDoItAll
     - stage: build-osx
       os:
         - osx
