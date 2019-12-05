@@ -8,4 +8,4 @@
 
 brew tap pdf2htmlEX/homebrew-brewTap
 brew update
-brew install pdf2htmlex-new
+brew install -v pdf2htmlex-new
