@@ -86,6 +86,7 @@ jobs:
     - stage: build-osx
       os:
         - osx
+      osx_image: xcode10.1
       addons:
         homebrew:
           update: true
