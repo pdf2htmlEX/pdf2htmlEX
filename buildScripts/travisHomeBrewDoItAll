@@ -44,6 +44,7 @@ echo $LDFLAGS
 echo $CPPFLAGS
 which clang
 which python
+ls -la $(which python)
 python --version
 echo "-------------------------------------------------"
 #brew install -v pdf2htmlex-new
