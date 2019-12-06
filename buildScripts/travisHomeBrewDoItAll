@@ -26,6 +26,20 @@ echo $LDFLAGS
 echo $CPPFLAGS
 which clang
 echo "-------------------------------------------------"
+brew install -v python@2
+echo "-------------------------------------------------"
+echo $PATH
+echo $LDFLAGS
+echo $CPPFLAGS
+which clang
+echo "-------------------------------------------------"
+brew switch python 2.7
+echo "-------------------------------------------------"
+echo $PATH
+echo $LDFLAGS
+echo $CPPFLAGS
+which clang
+echo "-------------------------------------------------"
 brew install -v pdf2htmlex-new
 echo "-------------------------------------------------"
 echo $PATH
