@@ -43,11 +43,12 @@ echo $PATH
 echo $LDFLAGS
 echo $CPPFLAGS
 which clang
+ls -la $(which clang)
 which python
 ls -la $(which python)
 python --version
 echo "-------------------------------------------------"
-#brew install -v pdf2htmlex-new
+brew install -v pdf2htmlex-new
 echo "-------------------------------------------------"
 echo $PATH
 echo $LDFLAGS
