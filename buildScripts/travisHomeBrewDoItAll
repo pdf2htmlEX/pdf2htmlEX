@@ -33,7 +33,7 @@ echo $PATH
 echo $LDFLAGS
 echo $CPPFLAGS
 which clang
-export python2Version=$(brew info --json=v1 python@2 | jq '.[].installed[].version')
+export python2Version=$(brew info --json=v1 python@2 | jq '.[].installed[].version' | tr -d '"')
 echo $python2Version
 echo "-------------------------------------------------"
 brew info python@2
