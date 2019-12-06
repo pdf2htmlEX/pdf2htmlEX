@@ -33,7 +33,7 @@ echo $LDFLAGS
 echo $CPPFLAGS
 which clang
 echo "-------------------------------------------------"
-brew switch python 2.7
+brew switch python 2.7.17
 echo "-------------------------------------------------"
 echo $PATH
 echo $LDFLAGS
