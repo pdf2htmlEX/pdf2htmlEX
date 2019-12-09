@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# This bash script builds everyting on an TravisCI Mac OSx worker
+
+# See:
+# https://docs.travis-ci.com/user/installing-dependencies/#using-homebrew-without-addon-on-older-macos-images
+# For details on obtaining/using the correct ruby version for homebrew.
+
+brew update
+brew tap pdf2htmlEX/homebrew-brewTap
+brew install pdf2htmlex-new

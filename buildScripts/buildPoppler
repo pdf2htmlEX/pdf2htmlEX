@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# This bash script builds the latest poppler
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "BUILDING Poppler"
+echo "-------------------------------------------------------------------"
+echo ""
+
+cd poppler
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local \
+    -DENABLE_LIBOPENJPEG=none ..
+make $MAKE_PARALLEL

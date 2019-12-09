@@ -20,7 +20,7 @@ add_custom_target(dist
 find_package(PkgConfig)
 
 
-pkg_check_modules(POPPLER REQUIRED poppler>=0.25.0)
+pkg_check_modules(POPPLER REQUIRED poppler>=0.81.0)
 include_directories(${POPPLER_INCLUDE_DIRS})
 link_directories(${POPPLER_LIBRARY_DIRS})
 set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} ${POPPLER_LIBRARIES})
@@ -55,6 +55,7 @@ if(ENABLE_SVG)
 endif()
 
 # fontforge starts using pkg-config 'correctly' since 2.0.0
+#pkg_check_modules(FONTFORGE REQUIRED libfontforge>=2.0.20170731)
 pkg_check_modules(FONTFORGE REQUIRED libfontforge>=2.0.0)
 include_directories(${FONTFORGE_INCLUDE_DIRS})
 link_directories(${FONTFORGE_LIBRARY_DIRS})
@@ -149,6 +150,8 @@ set(PDF2HTMLEX_SRC ${PDF2HTMLEX_SRC}
     src/util/unicode.cc
     src/util/mingw.h
     src/util/mingw.cc
+    src/util/SignalHandler.h
+    src/util/SignalHandler.cc
     src/ArgParser.h
     src/ArgParser.cc
     src/Base64Stream.h

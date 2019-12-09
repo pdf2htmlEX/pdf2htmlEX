@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# This bash script exports environment variables for the latest software
+# versions
+
+#export POPPLER_VERSION=poppler-0.82.0
+export POPPLER_VERSION=poppler-0.81.0
+
+#export FONTFORGE_VERSION=20190801
+export FONTFORGE_VERSION=20170731
+
+if [ -z "$PDF2HTMLEX_BRANCH" ]; then
+  export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+  if [ -z "$PDF2HTMLEX_BRANCH" ]; then
+    echo ""
+    read -p "Enter the pdf2htmlEX branch or version: " PDF2HTMLEX_BRANCH
+    echo ""
+    if [ -z "$PDF2HTMLEX_BRANCH" ]; then 
+      echo "PDF2HTMLEX_BRANCH not set... so we can not build anything."
+      exit 1
+    fi
+  fi
+fi
+
+export MACHINE_ARCH="$(uname -m)"
+
+export BUILD_TIME="$(date +%Y_%m_%d-%H_%M_%S)"
+
+echo "export POPPLER_VERSION=\"$POPPLER_VERSION\""     >  buildScripts/reSourceVersionEnvs
+echo "export FONTFORGE_VERSION=\"$FONTFORGE_VERSION\"" >> buildScripts/reSourceVersionEnvs
+echo "export PDF2HTMLEX_BRANCH=\"$PDF2HTMLEX_BRANCH\"" >> buildScripts/reSourceVersionEnvs
+echo "export MACHINE_ARCH=\"$MACHINE_ARCH\""           >> buildScripts/reSourceVersionEnvs
+echo "export BUILD_TIME=\"$BUILD_TIME\""               >> buildScripts/reSourceVersionEnvs
+

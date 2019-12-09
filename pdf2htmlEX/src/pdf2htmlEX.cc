@@ -25,6 +25,8 @@
 
 #include "pdf2htmlEX-config.h"
 
+#include "util/SignalHandler.h"
+
 #if ENABLE_SVG
 #include <cairo.h>
 #endif
@@ -55,11 +57,15 @@ void show_usage_and_exit(const char * dummy = nullptr)
 
 void show_version_and_exit(const char * dummy = nullptr)
 {
+    const FFWVersionInfo* ffwVersionInfo = ffw_get_version_info();
+
     cerr << "pdf2htmlEX version " << PDF2HTMLEX_VERSION << endl;
     cerr << "Copyright 2012-2015 Lu Wang <coolwanglu@gmail.com> and other contributors" << endl;
     cerr << "Libraries: " << endl;
     cerr << "  poppler " << POPPLER_VERSION << endl;
-    cerr << "  libfontforge " << ffw_get_version() << endl;
+    cerr << "  libfontforge " << ffwVersionInfo->majorVersion << "." <<
+      ffwVersionInfo->minorVersion << "." << ffwVersionInfo->gitVersion << endl;
+    cerr << "  libfontforge (date) " << ffwVersionInfo->versionDate << endl;
 #if ENABLE_SVG
     cerr << "  cairo " << cairo_version_string() << endl;
 #endif
@@ -368,6 +374,13 @@ int main(int argc, char **argv)
     param.data_dir = PDF2HTMLEX_DATA_PATH;
 #endif
 
+    if (getenv("APPDIR")) {
+      // we are running inside an AppImage so we need to adjust the data_dir
+      // however the user can supply some other absolute path later
+      //
+      param.data_dir = string(getenv("APPDIR")) + param.data_dir;
+    }
+
     parse_options(argc, argv);
     check_param();
 
@@ -386,6 +399,12 @@ int main(int argc, char **argv)
         cerr << s << endl;
         exit(EXIT_FAILURE);
     }
+
+    // setup the signal handler
+    setupSignalHandler(argc, (const char**)argv,
+      param.data_dir.c_str(),
+      param.poppler_data_dir.c_str(),
+      param.tmp_dir.c_str());
 
     bool finished = false;
     // read config file

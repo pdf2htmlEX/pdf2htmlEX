@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# This bash script installs Poppler into the local system
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "INSTALLING Poppler locally"
+echo "  (UNATTENDED: [$UNATTENDED])"
+echo "-------------------------------------------------------------------"
+echo ""
+
+
+if [ -z "$UNATTENDED" ] ; then
+  echo "WARNING: this may over-write any existing"
+  echo "Poppler version you have installed on your system."
+  echo "This may break other packages/applications."
+  echo ""
+  echo "This installation assumes you have 'sudo' privileges."
+  echo ""
+  echo "Type ctrl-c now if DO NOT want to continue"
+  read -p "Type anything else to continue: "
+fi
+
+cd poppler/build
+sudo make install
+
+cd ..
+
+sudo mkdir -p               /usr/local/include/poppler
+sudo cp poppler/*.h /usr/local/include/poppler
+
+sudo mkdir -p               /usr/local/include/poppler/goo
+sudo cp goo/*.h     /usr/local/include/poppler/goo
+
+sudo mkdir -p               /usr/local/include/poppler/fofi
+sudo cp fofi/*.h    /usr/local/include/poppler/fofi
+
+sudo mkdir -p               /usr/local/include/poppler/splash
+sudo cp splash/*.h  /usr/local/include/poppler/splash
+
+sudo cp build/poppler/poppler-config.h \
+        /usr/local/include/poppler

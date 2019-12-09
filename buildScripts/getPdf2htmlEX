@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# This bash script automates the process of getting the original pdf2htmlEX 
+# source
+
+PDF2HTMLEX_BRANCH=newBuildSystem
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "GETTING pdf2htmlEX sources (using wget)"
+echo "  (PDF2HTMLEX_BRANCH: [$PDF2HTMLEX_BRANCH])"
+echo "-------------------------------------------------------------------"
+echo ""
+
+
+wget https://codeload.github.com/stephengaito/pdf2htmlEX/zip/$PDF2HTMLEX_BRANCH
+
+mv $PDF2HTMLEX_BRANCH $PDF2HTMLEX_BRANCH.zip
+
+sudo apt install unzip
+
+unzip $PDF2HTMLEX_BRANCH.zip
+
+mv pdf2htmlEX-$PDF2HTMLEX_BRANCH pdf2htmlEX

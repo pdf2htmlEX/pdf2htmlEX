@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# This bash script build FontForge
+
+source buildScripts/reSourceVersionEnvs
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "BUILDING FontForge"
+echo "-------------------------------------------------------------------"
+echo ""
+
+# This is a work-around to fix TravisCI's declaration of PYTHON_CFLAGS
+# which is then honoured exactly as is by the fontforge bootstrap and
+# configure steps.
+#
+# see: https://github.com/travis-ci/travis-ci/issues/5301 (unfixed)
+#
+if [ -n "$PYTHON_CFLAGS" ] ; then
+  export PYTHON_CFLAGS="$(pkg-config --cflags python) $PYTHON_CFLAGS"
+fi
+
+echo ""
+echo "PYTHON_CFLAGS:"
+echo "-------------------------------"
+echo $PYTHON_CFLAGS
+echo "-------------------------------"
+echo ""
+
+# Can use "configure --disable-silent-rules" to debug configuration/make 
+# problems
+#
+cd fontforge
+./bootstrap
+./configure
+
+# Apply any patches required for fontforge raw sources before we make
+#
+for APATCHFILE in $(ls ../patches/fontforge-$FONTFORGE_VERSION-*)
+do
+  echo "patching fontforge using [$APATCHFILE]" 
+  patch -p 1 < $APATCHFILE
+done
+
+make $MAKE_PARALLEL
+

@@ -1,0 +1,111 @@
+language: cpp
+
+sudo: true
+
+# for windows *test* of AppImage
+# see https://docs.travis-ci.com/user/build-matrix/#using-different-programming-languages-per-job
+# and https://discourse.appimage.org/t/run-appimage-on-windows/177
+# and https://docs.travis-ci.com/user/reference/windows/
+# why fuse is not possible on windows: https://superuser.com/questions/179436/is-it-possible-to-use-fuse-with-windows  
+
+compiler: gcc
+
+branches:
+  except:  # do not build tags that we create using the upload.sh script
+    - /^(?i:continuous.*)$/
+
+#  apt:
+#  update: true
+#  packages:
+#    # build tools
+#    - git
+#    - pkg-config
+#    - ruby
+#    - autoconf
+#    - libtool
+#    - cmake
+#    - make
+#    - gcc
+#    - g++
+#    - gettext
+#    - openjdk-8-jre-headless
+#    - tree
+#    # dev libraries
+#    - libcairo-dev
+#    - libspiro-dev
+#    - libpng-dev
+#    - libjpeg-dev
+#    - poppler-data
+#    - libpango1.0-dev
+#    - liblcms2-dev
+#    - libxml2-dev
+#    - libuninameslist-dev
+#  homebrew:
+#    packages:
+#       - pdf2html-new
+#      - autoconf
+#      - pkg-config
+#      - git
+#      - cmake
+#      - freetype
+#      # Poppler-specific packages
+#      - fontconfig
+#      - jpeg
+#      - nss
+#      # libuninameslist-specific packages
+#      - automake
+#      - libtool
+#      # fontforge-specific packages
+#      - python
+#      - glib
+#      - xml2
+#      - libspiro
+#      - gettext
+#      # pdf2htmlEX-specific packages
+#      - cairo
+#      - pango
+#  sauce_connect: true
+
+matrix:
+  fast_finish: true
+#  allow_failures:
+#    - os: osx # Until the build passes, then re-enable.
+
+jobs:
+  include:
+#    - stage: build-linux
+#      os:
+#        - linux
+#      env:
+#        global:
+#          - DOCKER_FROM="ubuntu:18.04"
+#      services:
+#        - docker
+#      dist: bionic
+#      script: ./buildScripts/travisLinuxAptDoItAll
+    - stage: build-osx
+      os:
+        - osx
+      osx_image: xcode10.1
+      addons:
+        homebrew:
+          update: true
+      script:
+        - ./buildScripts/travisHomeBrewDoItAll
+        - pdf2htmlEX --version
+#    - stage: test
+#      os: 
+#        - linux
+        #- osx
+        #- windows
+#      script: ./testScripts/doItAllTravis
+#deploy:
+#  provider: releases
+#  api_key:
+#    secure: ALWKAkgeLSPS4ULyTtxU50ZmSICEafCirCQ1YmuVTqe9nrc8E9Jm+4QaBlab5k6v90EpzNvZBnMOiT8cT1Wp2lqJzcGdGMcG49mhRvirdYhXgWuHYnygVgkxEhgejXcQaEiaGPDV3Y1k9MuiAVr8ApjUvIMlY4Hg1y0r7/rqR2fYmen+f+6a87bp5PptwakC9bfoYb92651d0TbugFfKT6TGKlE2jGlQ6On1alzLQ2DXA8coUjwpp4NcDD8OhnYGN/VZWkqckaBrMrHwjJ5FTfy5MGBOqCLzNix8sCGLEeCKkKC8J0nniNJ7+KOu9LJ2uIezKYfaUOJV0kik7F9ErvxjbfSRieako2yaSOR8X39aicTtpbyoXPRSKDU4WYX56vt4Dx7aNrYtP5b/UwWGXZa9MK7rNGJ+hiMDO1AzuyXirzR4RaJXCyC8n5W9ahBZBHCMqd5gMg5sMGPNj3Rgt34+R+nGYssum5wvr+6IKNl57sIoZFCgqviBrw2gJOCqlgOcEk/4ZSehWnXPCk6Gzxvkqkt/dmp8pJLNyvMaWcEZ6CXNHDU8MZS7bASo8Z7eAYvmX0MMjVty8J47expVaJ8M3OFHu6lE6tU8wwfd+Igr2TlWcixqaa3hDMgS+ghwdiZbYuMdR1AyZnEqK3xwvXXPPXrqRsB9xHtczLibkjY=
+#  file: pdf2htmlEX-newBuildSystem-x86_64.AppImage
+#  skip_cleanup: true
+#  on:
+#    tags: true
+#    repo: stephengaito/pdf2htmlEX
+

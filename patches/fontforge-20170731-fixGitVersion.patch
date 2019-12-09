@@ -1,0 +1,13 @@
+fontforge-config.h
+--- a/inc/fontforge-config.h	2019-11-23 06:38:36.632042953 +0000
++++ b/inc/fontforge-config.h	2019-11-23 06:38:47.424229496 +0000
+@@ -67,7 +67,7 @@
+ /* #undef FONTFORGE_DEBUG */
+ 
+ /* "git hash that source are built from" */
+-#define FONTFORGE_GIT_VERSION ""
++#define FONTFORGE_GIT_VERSION "20170731"
+ 
+ /* ExeLibFontForge Major Version */
+ #define FONTFORGE_LIBFFE_VERSION_MAJOR 2
+

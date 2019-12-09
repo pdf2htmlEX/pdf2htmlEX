@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# This bash script creates the pdf2htmlEX AppImage and Docker Images
+
+#################
+# do the creation
+
+./buildScripts/reportEnvs        || { echo 'reportEnvs FAILED'        ; exit 1 ; }
+
+./buildScripts/createAppImage    || { echo 'createAppImage FAILED'    ; exit 1 ; }
+
+./buildScripts/createDockerImage || { echo 'createDockerImage FAILED' ; exit 1 ; }
+
+

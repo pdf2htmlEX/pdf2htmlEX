@@ -23,7 +23,15 @@ extern "C" {
 // global
 void ffw_init(int debug);
 void ffw_finalize(void);
-long ffw_get_version(void);
+
+typedef struct ffw_version_info {
+  const char* gitVersion;
+  const char* majorVersion;
+  const char* minorVersion;
+  const char* versionDate;
+} FFWVersionInfo ;
+
+const FFWVersionInfo* ffw_get_version_info(void);
 
 ////////////////////////
 // load & save
