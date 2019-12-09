@@ -1,6 +1,7 @@
 #ifndef FONTFORGE_SPLINEUTIL_H
 #define FONTFORGE_SPLINEUTIL_H
 
+#include "glif_name_hash.h"
 #include "psfont.h"
 #include "splinefont.h"
 #include "ttfinstrs.h"
@@ -56,6 +57,8 @@ extern int SplineExistsInSS(Spline *s, SplineSet *ss);
 extern int SplinePointIsACorner(SplinePoint *sp);
 extern int SplineSetIntersect(SplineSet *spl, Spline **_spline, Spline **_spline2);
 extern int SplineSetsRemoveAnnoyingExtrema(SplineSet *ss, bigreal err);
+extern int SplineRemoveWildControlPoints(Spline *s, bigreal distratio);
+extern int SplineSetsRemoveWildControlPoints(SplineSet *ss, bigreal distratio);
 
 /* Two lines intersect in at most 1 point */
 /* Two quadratics intersect in at most 4 points */
@@ -130,6 +133,7 @@ extern void GlyphVariantsFree(struct glyphvariants *gv);
 extern void GradientFree(struct gradient *grad);
 extern void GrowBufferAdd(GrowBuf *gb, int ch);
 extern void GrowBufferAddStr(GrowBuf *gb, char *str);
+extern void GuidelineSetFree(GuidelineSet *gl);
 extern void ImageListsFree(ImageList *imgs);
 extern void JstfLangFree(struct jstf_lang *jl);
 extern void JustifyFree(Justify *just);
@@ -172,7 +176,6 @@ extern void SFInstanciateRefs(SplineFont *sf);
 extern void SFReinstanciateRefs(SplineFont *sf);
 extern void SFRemoveAnchorClass(SplineFont *sf, AnchorClass *an);
 extern void SFRemoveSavedTable(SplineFont *sf, uint32 tag);
-extern void SPLCategorizePointsKeepCorners(SplinePointList *spl);
 extern void SplineCharFindBounds(SplineChar *sc, DBounds *bounds);
 extern void SplineCharFreeContents(SplineChar *sc);
 extern void SplineCharLayerFindBounds(SplineChar *sc, int layer, DBounds *bounds);
@@ -206,12 +209,9 @@ extern void TTFLangNamesFree(struct ttflangname *l);
 extern void TtfTablesFree(struct ttf_table *tab);
 extern void ValDevFree(ValDevTab *adjust);
 
-#ifdef FF_UTHASH_GLIF_NAMES
-struct glif_name_index;
 extern int KerningClassSeekByAbsoluteIndex(const struct splinefont *sf, int seek_index, struct kernclass **okc, int *oisv, int *oisr, int *ooffset);
 extern int HashKerningClassNames(SplineFont *sf, struct glif_name_index * class_name_hash);
 extern int HashKerningClassNamesCaps(SplineFont *sf, struct glif_name_index * class_name_hash);
 extern int HashKerningClassNamesFlex(SplineFont *sf, struct glif_name_index * class_name_hash, int capitalize);
-#endif /* FF_UTHASH_GLIF_NAMES */
 
 #endif /* FONTFORGE_SPLINEUTIL_H */
