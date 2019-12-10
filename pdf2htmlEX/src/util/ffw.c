@@ -146,15 +146,18 @@ void ffw_load_font(const char * filename)
     assert((cur_fv == NULL) && "Previous font is not destroyed");
 
     char * _filename = strcopy(filename);
-    SplineFont * font = LoadSplineFont(_filename, 1);
+    SplineFont * font = LoadSplineFont(_filename, of_fstypepermitted);
 
     free(_filename);
 
     if(!font)
         err("Cannot load font %s\n", filename);
 
-    if(!font->fv)
+
+    if(!font->fv) {
+        assert(fv_interface && "fv_interface not initialized!");
         FVAppend(_FontViewCreate(font));
+    }
 
     assert(font->fv);
 
