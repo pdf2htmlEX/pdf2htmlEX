@@ -70,6 +70,7 @@ static void dumb_post_error(const char * title, const char * error, ...) { }
 void ffw_init(int debug)
 {
     ffwSetAction("initialize");
+    FindProgDir(NULL);
     InitSimpleStuff();
     if ( default_encoding==NULL )
         default_encoding=FindOrMakeEncoding("ISO8859-1");
