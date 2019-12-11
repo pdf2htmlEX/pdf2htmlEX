@@ -439,7 +439,7 @@ int main(int argc, char **argv)
         param.last_page = min<int>(max<int>(param.last_page, param.first_page), doc->getNumPages());
 
 
-        unique_ptr<HTMLRenderer>(argv[0], new HTMLRenderer(param))->process(doc);
+        unique_ptr<HTMLRenderer>(new HTMLRenderer(argv[0], param))->process(doc);
 
         finished = true;
     }
