@@ -41,7 +41,7 @@ using std::abs;
 using std::cerr;
 using std::endl;
 
-HTMLRenderer::HTMLRenderer(Param & param)
+HTMLRenderer::HTMLRenderer(const char* progPath, Param & param)
     :OutputDev()
     ,param(param)
     ,html_text_page(param, all_manager)
@@ -56,7 +56,7 @@ HTMLRenderer::HTMLRenderer(Param & param)
         globalParams->setErrQuiet(true);
     }
 
-    ffw_init(param.debug);
+    ffw_init(progPath, param.debug);
 
     cur_mapping.resize(0x10000);
     cur_mapping2.resize(0x100);

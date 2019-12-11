@@ -21,7 +21,7 @@ extern "C" {
 
 ////////////////////////
 // global
-void ffw_init(int debug);
+void ffw_init(const char* progPath, int debug);
 void ffw_finalize(void);
 
 typedef struct ffw_version_info {

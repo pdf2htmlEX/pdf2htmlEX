@@ -19,6 +19,7 @@
 #include "SignalHandler.h"
 
 #include "ffw.h"
+#include "gfile.h"
 #include "fontforge-version-extras.h" // needed for FONTFORGE_GIT_VERSION
 #include "fontforge-20190801/autowidth.h"
 #include "fontforge-20190801/bitmapchar.h"
@@ -67,10 +68,11 @@ static void dumb_logwarning(const char * format, ...) { }
 
 static void dumb_post_error(const char * title, const char * error, ...) { }
 
-void ffw_init(int debug)
+void ffw_init(const char* progPath, int debug)
 {
     ffwSetAction("initialize");
-    FindProgDir(NULL);
+    char *localProgPath = strdup(progPath);
+    FindProgDir(localProgPath);
     InitSimpleStuff();
     if ( default_encoding==NULL )
         default_encoding=FindOrMakeEncoding("ISO8859-1");
