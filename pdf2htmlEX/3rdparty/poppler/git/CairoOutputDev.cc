@@ -38,7 +38,7 @@
 //
 //========================================================================
 
-#include <config.h>
+#include <poppler-config.h>
 
 #include <cstdint>
 #include <string.h>
