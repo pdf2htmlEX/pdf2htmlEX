@@ -44,7 +44,7 @@
 
 /* This implements a box filter that supports non-integer box sizes */
 
-#include <poppler-config.h>
+#include <config.h>
 
 #include <cstdint>
 #include <stdint.h>
@@ -62,8 +62,8 @@
 
 static void downsample_row_box_filter (
         int start, int width,
-        uint32_t *src, uint32_t *src_limit, uint32_t *dest,
-        int coverage[], int pixel_coverage)
+        uint32_t *src, const uint32_t *src_limit, uint32_t *dest,
+        const int coverage[], int pixel_coverage)
 {
     /* we need an array of the pixel contribution of each destination pixel on the boundaries.
      * we invert the value to get the value on the other size of the box */

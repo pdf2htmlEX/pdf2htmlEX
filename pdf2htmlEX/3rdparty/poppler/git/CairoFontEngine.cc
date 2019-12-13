@@ -36,8 +36,9 @@
 //
 //========================================================================
 
-#include <poppler-config.h>
+#include <config.h>
 
+#include "config.h"
 #include <string.h>
 #include "CairoFontEngine.h"
 #include "CairoOutputDev.h"
@@ -90,7 +91,7 @@ CairoFont::getFontFace(void) {
 
 unsigned long
 CairoFont::getGlyph(CharCode code,
-		    Unicode *u, int uLen) {
+		    const Unicode *u, int uLen) {
   FT_UInt gid;
 
   if (codeToGID && code < codeToGIDLen) {

@@ -3,7 +3,7 @@
 # This bash script automates the process of getting the original pdf2htmlEX 
 # source
 
-PDF2HTMLEX_BRANCH=fontforge-update
+PDF2HTMLEX_BRANCH=update-poppler
 
 echo ""
 echo "-------------------------------------------------------------------"

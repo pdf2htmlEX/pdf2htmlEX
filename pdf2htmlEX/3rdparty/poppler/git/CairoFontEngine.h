@@ -15,7 +15,7 @@
 // under GPL version 2 or later
 //
 // Copyright (C) 2005, 2006 Kristian Høgsberg <krh@redhat.com>
-// Copyright (C) 2005, 2018 Albert Astals Cid <aacid@kde.org>
+// Copyright (C) 2005, 2018, 2019 Albert Astals Cid <aacid@kde.org>
 // Copyright (C) 2006, 2007 Jeff Muizelaar <jeff@infidigm.net>
 // Copyright (C) 2006, 2010 Carlos Garcia Campos <carlosgc@gnome.org>
 // Copyright (C) 2008, 2017 Adrian Johnson <ajohnson@redneon.com>
@@ -54,7 +54,7 @@ public:
 
   virtual bool matches(Ref &other, bool printing);
   cairo_font_face_t *getFontFace(void);
-  unsigned long getGlyph(CharCode code, Unicode *u, int uLen);
+  unsigned long getGlyph(CharCode code, const Unicode *u, int uLen);
   double getSubstitutionCorrection(GfxFont *gfxFont);
 
   bool isSubstitute() { return substitute; }

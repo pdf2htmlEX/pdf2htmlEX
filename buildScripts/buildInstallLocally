@@ -10,7 +10,7 @@ export MAKE_PARALLEL="-j $(nproc)"
 
 # choose one of the following...
 #
-export PDF2HTMLEX_BRANCH=fontforge-update
+export PDF2HTMLEX_BRANCH=update-poppler
 # export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 
 ################
