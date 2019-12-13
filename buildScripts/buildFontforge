@@ -17,7 +17,11 @@ echo ""
 # see: https://github.com/travis-ci/travis-ci/issues/5301 (unfixed)
 #
 if [ -n "$PYTHON_CFLAGS" ] ; then
-  export PYTHON_CFLAGS="$(pkg-config --cflags python) $PYTHON_CFLAGS"
+  export PYTHON_CFLAGS="$(python3-config --cflags) $PYTHON_CFLAGS"
+fi
+
+if [ -n "$PYTHON_LIBS" ] ; then
+  export PYTHON_LIBS="$(python3-config --ldflags) $PYTHON_LIBS"
 fi
 
 echo ""
@@ -26,21 +30,34 @@ echo "-------------------------------"
 echo $PYTHON_CFLAGS
 echo "-------------------------------"
 echo ""
+echo ""
+echo "PYTHON_LIBS:"
+echo "-------------------------------"
+echo $PYTHON_LIBS
+echo "-------------------------------"
+echo ""
 
 # Can use "configure --disable-silent-rules" to debug configuration/make 
 # problems
 #
 cd fontforge
+
 ./bootstrap
-./configure
+
+./configure			\
+  --prefix=/usr/local		\
+  --enable-python-scripting=3	\
+  --disable-dependency-tracking	\
+  --disable-silent-rules	\
+  --without-x
 
 # Apply any patches required for fontforge raw sources before we make
 #
-for APATCHFILE in $(ls ../patches/fontforge-$FONTFORGE_VERSION-*)
-do
-  echo "patching fontforge using [$APATCHFILE]" 
-  patch -p 1 < $APATCHFILE
-done
+#for APATCHFILE in $(ls ../patches/fontforge-$FONTFORGE_VERSION-*)
+#do
+#  echo "patching fontforge using [$APATCHFILE]" 
+#  patch -p 1 < $APATCHFILE
+#done
 
 make $MAKE_PARALLEL
 

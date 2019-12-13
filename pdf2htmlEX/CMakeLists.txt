@@ -59,6 +59,7 @@ endif()
 pkg_check_modules(FONTFORGE REQUIRED libfontforge>=2.0.0)
 include_directories(${FONTFORGE_INCLUDE_DIRS})
 link_directories(${FONTFORGE_LIBRARY_DIRS})
+set(FONTFORGE_LIBRARIES ${FONTFORGE_LIBRARIES} -lgutils)
 set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} ${FONTFORGE_LIBRARIES})
 
 # debug build flags (overwrite default cmake debug flags)

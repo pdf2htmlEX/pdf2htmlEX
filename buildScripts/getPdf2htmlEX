@@ -3,7 +3,7 @@
 # This bash script automates the process of getting the original pdf2htmlEX 
 # source
 
-PDF2HTMLEX_BRANCH=newBuildSystem
+PDF2HTMLEX_BRANCH=fontforge-update
 
 echo ""
 echo "-------------------------------------------------------------------"

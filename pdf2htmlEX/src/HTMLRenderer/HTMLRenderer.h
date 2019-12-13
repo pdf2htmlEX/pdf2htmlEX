@@ -75,7 +75,7 @@ namespace pdf2htmlEX {
 
 struct HTMLRenderer : OutputDev
 {
-    HTMLRenderer(Param & param);
+    HTMLRenderer(const char* progPath, Param & param);
     virtual ~HTMLRenderer();
 
     void process(PDFDoc * doc);

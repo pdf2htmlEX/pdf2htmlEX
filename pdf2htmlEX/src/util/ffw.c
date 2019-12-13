@@ -18,19 +18,21 @@
 
 #include "SignalHandler.h"
 
-#include "ffw.h"
-#include "fontforge-2.0.20170731/autowidth.h"
-#include "fontforge-2.0.20170731/bitmapchar.h"
-#include "fontforge-2.0.20170731/cvimages.h"
-#include "fontforge-2.0.20170731/encoding.h"
-#include "fontforge-2.0.20170731/fvfonts.h"
-#include "fontforge-2.0.20170731/namelist.h"
-#include "fontforge-2.0.20170731/savefont.h"
-#include "fontforge-2.0.20170731/splineorder2.h"
-#include "fontforge-2.0.20170731/splineutil.h"
-#include "fontforge-2.0.20170731/splineutil2.h"
-#include "fontforge-2.0.20170731/start.h"
-#include "fontforge-2.0.20170731/tottf.h"
+#include "ffw.h"                             // needed for:
+#include "gfile.h"                           //   FindProgDir
+#include "fontforge-version-extras.h"        //   FONTFORGE_GIT_VERSION
+#include "fontforge-20190801/autowidth.h"    //   FVRemoveKerns
+#include "fontforge-20190801/bitmapchar.h"   //   SFReplaceEncodingBDFProps
+#include "fontforge-20190801/cvimages.h"     //   FVImportImages
+#include "fontforge-20190801/encoding.h"     //   (helpful as we have a name conflict)
+#include "fontforge-20190801/fvfonts.h"      //   SFFindSlot
+#include "fontforge-20190801/namelist.h"     //   UniFromName
+#include "fontforge-20190801/savefont.h"     //   GenerateScript
+#include "fontforge-20190801/splineorder2.h" //   SFConvertToOrder2
+#include "fontforge-20190801/splineutil.h"   //   AltUniFree
+#include "fontforge-20190801/splineutil2.h"  //   SplineFontNew
+#include "fontforge-20190801/start.h"        //   InitSimpleStuff
+#include "fontforge-20190801/tottf.h"        //   SFDefaultOS2Info
 
 static real EPS=1e-6;
 
@@ -66,9 +68,11 @@ static void dumb_logwarning(const char * format, ...) { }
 
 static void dumb_post_error(const char * title, const char * error, ...) { }
 
-void ffw_init(int debug)
+void ffw_init(const char* progPath, int debug)
 {
     ffwSetAction("initialize");
+    char *localProgPath = strdup(progPath);
+    FindProgDir(localProgPath);
     InitSimpleStuff();
     if ( default_encoding==NULL )
         default_encoding=FindOrMakeEncoding("ISO8859-1");
@@ -126,7 +130,7 @@ const FFWVersionInfo* ffw_get_version_info(void)
     ffwVersionInfo.gitVersion   = FONTFORGE_GIT_VERSION;
     ffwVersionInfo.majorVersion = xstr(FONTFORGE_VERSION_MAJOR);
     ffwVersionInfo.minorVersion = xstr(FONTFORGE_VERSION_MINOR);
-    ffwVersionInfo.versionDate  = FONTFORGE_VERSIONDATE;
+    ffwVersionInfo.versionDate  = FONTFORGE_VERSION;
 
     return &ffwVersionInfo;
 }
@@ -145,15 +149,18 @@ void ffw_load_font(const char * filename)
     assert((cur_fv == NULL) && "Previous font is not destroyed");
 
     char * _filename = strcopy(filename);
-    SplineFont * font = LoadSplineFont(_filename, 1);
+    SplineFont * font = LoadSplineFont(_filename, of_fstypepermitted);
 
     free(_filename);
 
     if(!font)
         err("Cannot load font %s\n", filename);
 
-    if(!font->fv)
+
+    if(!font->fv) {
+        assert(fv_interface && "fv_interface not initialized!");
         FVAppend(_FontViewCreate(font));
+    }
 
     assert(font->fv);
 
@@ -170,9 +177,9 @@ void ffw_load_font(const char * filename)
     ffwClearAction();
 }
 
-/*
- * Fight again dirty stuffs
- */
+//
+// Fight again dirty stuffs
+//
 void ffw_prepare_font(void)
 {
     ffwSetAction("prepare");
@@ -181,10 +188,10 @@ void ffw_prepare_font(void)
     FVRemoveKerns(cur_fv);
     FVRemoveVKerns(cur_fv);
 
-    /*
-     * Remove Alternate Unicodes
-     * We never use them because we will do a force encoding
-     */
+    //
+    // Remove Alternate Unicodes
+    // We never use them because we will do a force encoding
+    //
     int i;
     SplineFont * sf = cur_fv->sf;
     for(i = 0; i < sf->glyphcnt; ++i)
@@ -201,10 +208,10 @@ void ffw_prepare_font(void)
         }
     }
 
-    /*
-     * Wipe out font name
-     * browsers may rejects fonts with malformed font names
-     */
+    //
+    // Wipe out font name
+    // browsers may rejects fonts with malformed font names
+    //
     free(sf->fontname);
     sf->fontname = strcopy("");
     ffwClearAction();
@@ -226,6 +233,7 @@ void ffw_save(const char * filename)
         err("Cannot save font to %s\n", filename);
     ffwClearAction();
 }
+
 void ffw_close(void)
 {
     ffwSetAction("close");
@@ -347,14 +355,14 @@ void ffw_cidflatten(void)
         return;
     }
     ffwSetAction("flatten the cid in");
-    SFFlatten(cur_fv->sf->cidmaster);
+    SFFlatten(&(cur_fv->sf->cidmaster));
     ffwClearAction();
 }
 
-/*
- * There is no check if a glyph with the same unicode exists!
- * TODO: let FontForge fill in the standard glyph name <- or maybe this might cause collision?
- */
+//
+// There is no check if a glyph with the same unicode exists!
+// TODO: let FontForge fill in the standard glyph name <- or maybe this might cause collision?
+//
 void ffw_add_empty_char(int32_t unicode, int width)
 {
     ffwSetAction("add an empty character to");
@@ -424,17 +432,17 @@ void ffw_set_metric(double ascent, double descent)
     if(a < 0) a = 0;
     if(d > 0) d = 0;
 
-    /*
-    sf->ascent = min(a, em);
-    sf->descent = em - bb.maxy;
-    */
+    //
+    //sf->ascent = min(a, em);
+    //sf->descent = em - bb.maxy;
+    //
 
-    /*
-     * The embedded fonts are likely to have inconsistent values for the 3 sets of ascent/descent
-     * PDF viewers don't care, since they don't even use these values
-     * But have to unify them, for different browsers on different platforms
-     * Things may become easier when there are CSS rules for baseline-based positioning.
-     */
+    //
+    // The embedded fonts are likely to have inconsistent values for the 3 sets of ascent/descent
+    // PDF viewers don't care, since they don't even use these values
+    // But have to unify them, for different browsers on different platforms
+    // Things may become easier when there are CSS rules for baseline-based positioning.
+    //
     info->os2_winascent = a;
     info->os2_typoascent = a;
     info->hhead_ascent = a;
@@ -454,9 +462,9 @@ void ffw_set_metric(double ascent, double descent)
     ffwClearAction();
 }
 
-/*
- * TODO:bitmap, reference have not been considered in this function
- */
+//
+// TODO:bitmap, reference have not been considered in this function
+//
 void ffw_set_widths(int * width_list, int mapping_len,
         int stretch_narrow, int squeeze_wide)
 {
@@ -475,9 +483,9 @@ void ffw_set_widths(int * width_list, int mapping_len,
     int imax = min(mapping_len, map->enccount);
     for(i = 0; i < imax; ++i)
     {
-        /*
-         * Don't mess with it if the glyphs is not used.
-         */
+        //
+        // Don't mess with it if the glyphs is not used.
+        //
         if(width_list[i] == -1)
         {
             continue;
