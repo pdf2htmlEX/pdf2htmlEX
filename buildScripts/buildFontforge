@@ -16,23 +16,18 @@ echo ""
 #
 # see: https://github.com/travis-ci/travis-ci/issues/5301 (unfixed)
 #
-if [ -n "$PYTHON_CFLAGS" ] ; then
-  export PYTHON_CFLAGS="$(python3-config --cflags) $PYTHON_CFLAGS"
-fi
-
-if [ -n "$PYTHON_LIBS" ] ; then
-  export PYTHON_LIBS="$(python3-config --ldflags) $PYTHON_LIBS"
-fi
 
 echo ""
 echo "PYTHON_CFLAGS:"
 echo "-------------------------------"
+export PYTHON_CFLAGS="$(python3-config --cflags) $PYTHON_CFLAGS"
 echo $PYTHON_CFLAGS
 echo "-------------------------------"
 echo ""
 echo ""
 echo "PYTHON_LIBS:"
 echo "-------------------------------"
+export PYTHON_LIBS="$(python3-config --ldflags) $PYTHON_LIBS"
 echo $PYTHON_LIBS
 echo "-------------------------------"
 echo ""
