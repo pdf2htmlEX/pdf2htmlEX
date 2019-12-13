@@ -74,7 +74,7 @@ void HTMLRenderer::drawString(GfxState * state, const GooString * s)
     int uLen;
 
     CharCode code;
-    Unicode *u = nullptr;
+    Unicode const *u = nullptr;
 
     HR_DEBUG(printf("HTMLRenderer::drawString:len=%d\n", len));
 

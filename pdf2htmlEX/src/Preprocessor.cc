@@ -65,7 +65,7 @@ void Preprocessor::process(PDFDoc * doc)
 void Preprocessor::drawChar(GfxState *state, double x, double y,
       double dx, double dy,
       double originX, double originY,
-      CharCode code, int nBytes, Unicode *u, int uLen)
+      CharCode code, int nBytes, const Unicode *u, int uLen)
 {
     GfxFont * font = state->getFont();
     if(!font) return;

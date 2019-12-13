@@ -636,7 +636,8 @@ void HTMLRenderer::embed_font(const string & filepath, GfxFont * font, FontInfo 
             if(mapped_code > max_key)
                 max_key = mapped_code;
 
-            Unicode u, *pu=&u;
+            Unicode u;
+            Unicode const *pu=&u;
             if(info.use_tounicode)
             {
                 int n = ctu ?

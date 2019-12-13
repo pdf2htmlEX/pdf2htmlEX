@@ -407,8 +407,11 @@ int main(int argc, char **argv)
       param.tmp_dir.c_str());
 
     bool finished = false;
-    // read config file
-    globalParams = new GlobalParams(!param.poppler_data_dir.empty() ? param.poppler_data_dir.c_str() : NULL);
+    // read poppler config file
+    globalParams = std::make_unique<GlobalParams>(
+      !param.poppler_data_dir.empty() ? param.poppler_data_dir.c_str() : NULL
+    );
+
     // open PDF file
     PDFDoc * doc = nullptr;
     try
@@ -435,8 +438,11 @@ int main(int argc, char **argv)
             cerr << "Document has copy-protection bit set." << endl;
         }
 
-        param.first_page = min<int>(max<int>(param.first_page, 1), doc->getNumPages());
-        param.last_page = min<int>(max<int>(param.last_page, param.first_page), doc->getNumPages());
+        param.first_page =
+          min<int>(max<int>(param.first_page, 1), doc->getNumPages());
+        param.last_page =
+          min<int>(max<int>(param.last_page, param.first_page),
+                   doc->getNumPages());
 
 
         unique_ptr<HTMLRenderer>(new HTMLRenderer(argv[0], param))->process(doc);
@@ -454,7 +460,7 @@ int main(int argc, char **argv)
 
     // clean up
     delete doc;
-    delete globalParams;
+    globalParams.reset();
 
     // check for memory leaks
     // Poppler Object class (Object.h) no longer has memCheck

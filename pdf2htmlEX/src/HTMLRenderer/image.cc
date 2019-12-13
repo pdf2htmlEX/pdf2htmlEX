@@ -12,7 +12,9 @@
 
 namespace pdf2htmlEX {
 
-void HTMLRenderer::drawImage(GfxState * state, Object * ref, Stream * str, int width, int height, GfxImageColorMap * colorMap, bool interpolate, int *maskColors, bool inlineImg)
+void HTMLRenderer::drawImage(GfxState * state, Object * ref, Stream * str,
+                             int width, int height, GfxImageColorMap * colorMap,
+                             bool interpolate, const int *maskColors, bool inlineImg)
 {
     tracer.draw_image(state);
 
