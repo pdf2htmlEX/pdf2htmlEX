@@ -26,17 +26,22 @@ sudo make install
 
 cd ..
 
-sudo mkdir -p               /usr/local/include/poppler
-sudo cp poppler/*.h /usr/local/include/poppler
+sudo mkdir -p               $PDF2HTMLEX_PREFIX/include/poppler
+sudo cp poppler/*.h $PDF2HTMLEX_PREFIX/include/poppler
 
-sudo mkdir -p               /usr/local/include/poppler/goo
-sudo cp goo/*.h     /usr/local/include/poppler/goo
+sudo mkdir -p               $PDF2HTMLEX_PREFIX/include/poppler/goo
+sudo cp goo/*.h     $PDF2HTMLEX_PREFIX/include/poppler/goo
 
-sudo mkdir -p               /usr/local/include/poppler/fofi
-sudo cp fofi/*.h    /usr/local/include/poppler/fofi
+sudo mkdir -p               $PDF2HTMLEX_PREFIX/include/poppler/fofi
+sudo cp fofi/*.h    $PDF2HTMLEX_PREFIX/include/poppler/fofi
 
-sudo mkdir -p               /usr/local/include/poppler/splash
-sudo cp splash/*.h  /usr/local/include/poppler/splash
+sudo mkdir -p               $PDF2HTMLEX_PREFIX/include/poppler/splash
+sudo cp splash/*.h  $PDF2HTMLEX_PREFIX/include/poppler/splash
 
 sudo cp build/poppler/poppler-config.h \
-        /usr/local/include/poppler
+        $PDF2HTMLEX_PREFIX/include/poppler
+
+cd ../poppler-data
+
+sudo make install prefix=$PDF2HTMLEX_PREFIX
+

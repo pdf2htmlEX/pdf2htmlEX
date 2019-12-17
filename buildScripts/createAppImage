@@ -41,11 +41,11 @@ wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/$LI
 
 chmod a+x $LINUX_DEPLOY_APP_IMAGE
 
-./$LINUX_DEPLOY_APP_IMAGE		\
-  -e appDir/usr/local/bin/pdf2htmlEX	\
-  --create-desktop-file			\
-  -i ../pdf2htmlEX/logo/pdf2htmlEX.svg	\
-  --appdir=appDir			\
+./$LINUX_DEPLOY_APP_IMAGE			\
+  -e appDir/$PDF2HTMLEX_PREFIX/bin/pdf2htmlEX	\
+  --create-desktop-file				\
+  -i ../pdf2htmlEX/logo/pdf2htmlEX.svg		\
+  --appdir=appDir				\
   --output appimage
 
 

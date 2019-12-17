@@ -13,6 +13,8 @@ export MAKE_PARALLEL="-j $(nproc)"
 export PDF2HTMLEX_BRANCH=update-poppler
 # export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 
+export PDF2HTMLEX_PREFIX=toBeDetermined
+
 ################
 # do the build
 

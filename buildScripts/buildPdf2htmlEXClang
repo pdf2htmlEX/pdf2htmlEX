@@ -11,5 +11,5 @@ echo ""
 cd pdf2htmlEX
 mkdir build
 cd build
-CC=clang CXX=clang++ cmake -DCMAKE_INSTALL_PREFIX=/usr/local ..
+CC=clang CXX=clang++ cmake -DCMAKE_INSTALL_PREFIX=$PDF2HTMLEX_PREFIX ..
 make $MAKE_PARALLEL

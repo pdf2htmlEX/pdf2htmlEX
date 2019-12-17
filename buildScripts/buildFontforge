@@ -40,7 +40,7 @@ cd fontforge
 ./bootstrap
 
 ./configure			\
-  --prefix=/usr/local		\
+  --prefix=$PDF2HTMLEX_PREFIX	\
   --enable-python-scripting=3	\
   --disable-dependency-tracking	\
   --disable-silent-rules	\

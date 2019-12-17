@@ -62,7 +62,7 @@ echo "export DOCKER_NAME=\"$DOCKER_NAME\""         >> buildScripts/reSourceVersi
 FROM $DOCKER_FROM
 COPY ./ /
 RUN ldconfig
-ENTRYPOINT ["/usr/local/bin/pdf2htmlEX"]
+ENTRYPOINT ["$PDF2HTMLEX_PREFIX/bin/pdf2htmlEX"]
 DOCKERFILE_HERE_DOC
 
   cd ..

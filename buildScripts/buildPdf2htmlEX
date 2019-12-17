@@ -11,5 +11,5 @@ echo ""
 cd pdf2htmlEX
 mkdir build
 cd build
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PDF2HTMLEX_PREFIX ..
 make $MAKE_PARALLEL
