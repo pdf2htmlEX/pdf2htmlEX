@@ -25,7 +25,11 @@ sudo rm -rf install_manifest.txt
 
 make install DESTDIR=../../imageBuild/appDir
 
-cd ../../imageBuild
+cd ../../poppler-data
+
+make install DESTDIR=../../imageBuild/appDir
+
+cd ../imageBuild
 
 # force libfontconfig into AppImage (linuxdeploy blacklists libfontconfig)
 #
