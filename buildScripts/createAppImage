@@ -27,7 +27,7 @@ make install DESTDIR=../../imageBuild/appDir
 
 cd ../../poppler-data
 
-make install DESTDIR=../../imageBuild/appDir
+make install prefix=$PDF2HTMLEX_PREFIX DESTDIR=../../imageBuild/appDir
 
 cd ../imageBuild
 
