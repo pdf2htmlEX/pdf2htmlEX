@@ -15,8 +15,6 @@ export PDF2HTMLEX_BRANCH=update-poppler
 
 export PDF2HTMLEX_PREFIX=/usr/local
 
-echo "export PDF2HTMLEX_PREFIX=\"$PDF2HTMLEX_PREFIX\"" >> buildScripts/reSourceVersionEnvs
-
 ################
 # do the build
 
