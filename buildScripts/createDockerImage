@@ -50,7 +50,7 @@ echo "export DOCKER_NAME=\"$DOCKER_NAME\""         >> buildScripts/reSourceVersi
 
   cd ../../poppler-data
 
-  make install prefix=$PDF2HTMLEX_PREFIX DESTDIR=../../imageBuild/dockerDir
+  make install prefix=$PDF2HTMLEX_PREFIX DESTDIR=../imageBuild/dockerDir
 
   cd ../imageBuild/dockerDir
 
