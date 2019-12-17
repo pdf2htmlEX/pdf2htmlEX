@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# This bash script automates getting the required build tools (brew install)
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "INSTALLING Build Tools (using Home/Linux Brew)"
+echo "-------------------------------------------------------------------"
+echo ""
+
+brew update
+brew install	\
+  git		\
+  pkg-config	\
+  ruby		\
+  autoconf	\
+  libtool	\
+  cmake		\
+  make		\
+  gcc		\
+  gettext	\
+  openjdk	\
+  jq		\
+  tree
