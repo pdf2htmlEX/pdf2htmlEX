@@ -55,7 +55,7 @@ Unicode unicode_from_font (CharCode code, GfxFont * font)
     return map_to_private(code);
 }
 
-Unicode check_unicode(Unicode * u, int len, CharCode code, GfxFont * font)
+Unicode check_unicode(Unicode const * u, int len, CharCode code, GfxFont * font)
 {
     if(len == 0)
         return map_to_private(code);

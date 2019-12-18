@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# This bash script automates getting the development libraries required to 
+# build poppler and fontforge (using Home/Linux Brew)
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "INSTALLING development libraries (using Home/Linux Brew)"
+echo "-------------------------------------------------------------------"
+echo ""
+
+brew update
+brew install		\
+  cairo			\
+  libspiro		\
+  libpng		\
+  jpeg			\
+  pango			\
+  little-cms2		\
+  libxml2		\
+  libuninameslist	\

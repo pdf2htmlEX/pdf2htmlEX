@@ -10,9 +10,9 @@ echo "        build dir: [$TRAVIS_BUILD_DIR]"
 echo "        repo slug: [$TRAVIS_REPO_SLUG]"
 
 echo "Build env:"
+echo "           prefix: [$PDF2HTMLEX_PREFIX]"
 echo "       unattended: [$UNATTENDED]"
 echo "    make parallel: [$MAKE_PARALLEL]"
-
 source ./buildScripts/reSourceVersionEnvs
 
 echo "pdf2htmlEX env:"

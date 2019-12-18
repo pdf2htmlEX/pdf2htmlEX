@@ -65,7 +65,7 @@ void SplashBackgroundRenderer::startPage(int pageNum, GfxState *state, XRef *xre
 void SplashBackgroundRenderer::drawChar(GfxState *state, double x, double y,
   double dx, double dy,
   double originX, double originY,
-  CharCode code, int nBytes, Unicode *u, int uLen)
+  CharCode code, int nBytes, const Unicode *u, int uLen)
 {
     if (param.proof || html_renderer->is_char_covered(drawn_char_count)) {
         SplashOutputDev::drawChar(state,x,y,dx,dy,originX,originY,code,nBytes,u,uLen);

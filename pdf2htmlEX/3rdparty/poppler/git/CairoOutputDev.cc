@@ -712,7 +712,7 @@ void CairoOutputDev::updateFont(GfxState *state) {
 
 /* Align stroke coordinate i if the point is the start or end of a
  * horizontal or vertical line */
-void CairoOutputDev::alignStrokeCoords(GfxSubpath *subpath, int i, double *x, double *y)
+void CairoOutputDev::alignStrokeCoords(const GfxSubpath *subpath, int i, double *x, double *y)
 {
   double x1, y1, x2, y2;
   bool align = false;
@@ -752,13 +752,12 @@ void CairoOutputDev::alignStrokeCoords(GfxSubpath *subpath, int i, double *x, do
 
 #undef STROKE_COORD_TOLERANCE
 
-void CairoOutputDev::doPath(cairo_t *c, GfxState *state, GfxPath *path) {
-  GfxSubpath *subpath;
+void CairoOutputDev::doPath(cairo_t *c, GfxState *state, const GfxPath *path) {
   int i, j;
   double x, y;
   cairo_new_path (c);
   for (i = 0; i < path->getNumSubpaths(); ++i) {
-    subpath = path->getSubpath(i);
+    const GfxSubpath *subpath = path->getSubpath(i);
     if (subpath->getNumPoints() > 0) {
       if (align_stroke_coords) {
         alignStrokeCoords(subpath, 0, &x, &y);
@@ -1395,7 +1394,7 @@ void CairoOutputDev::beginString(GfxState *state, const GooString *s)
 void CairoOutputDev::drawChar(GfxState *state, double x, double y,
 			      double dx, double dy,
 			      double originX, double originY,
-			      CharCode code, int nBytes, Unicode *u, int uLen)
+			      CharCode code, int nBytes, const Unicode *u, int uLen)
 {
   if (currentFont) {
     glyphs[glyphCount].index = currentFont->getGlyph (code, u, uLen);
@@ -1512,7 +1511,7 @@ finish:
 
 bool CairoOutputDev::beginType3Char(GfxState *state, double x, double y,
 				      double dx, double dy,
-				      CharCode code, Unicode *u, int uLen) {
+				      CharCode code, const Unicode *u, int uLen) {
 
   cairo_save (cairo);
   cairo_matrix_t matrix;
@@ -3068,7 +3067,7 @@ private:
   GfxRGB *lookup;
   int width;
   GfxImageColorMap *colorMap;
-  int *maskColors;
+  const int *maskColors;
   int current_row;
   bool imageError;
 
@@ -3078,7 +3077,7 @@ public:
                                   int scaledWidth, int scaledHeight,
                                   bool printing,
                                   GfxImageColorMap *colorMapA,
-                                  int *maskColorsA) {
+                                  const int *maskColorsA) {
     cairo_surface_t *image = nullptr;
     int i;
 
@@ -3253,7 +3252,7 @@ void CairoOutputDev::drawImage(GfxState *state, Object *ref, Stream *str,
 			       int widthA, int heightA,
 			       GfxImageColorMap *colorMap,
 			       bool interpolate,
-			       int *maskColors, bool inlineImg)
+			       const int *maskColors, bool inlineImg)
 {
   cairo_surface_t *image;
   cairo_pattern_t *pattern, *maskPattern;
@@ -3474,7 +3473,7 @@ void CairoImageOutputDev::setSoftMaskFromImageMask(GfxState *state, Object *ref,
 
 void CairoImageOutputDev::drawImage(GfxState *state, Object *ref, Stream *str,
 				    int width, int height, GfxImageColorMap *colorMap,
-				    bool interpolate, int *maskColors, bool inlineImg)
+				    bool interpolate, const int *maskColors, bool inlineImg)
 {
   cairo_t *cr;
   cairo_surface_t *surface;

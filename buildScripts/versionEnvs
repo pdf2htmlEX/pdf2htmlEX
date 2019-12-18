@@ -3,8 +3,9 @@
 # This bash script exports environment variables for the latest software
 # versions
 
+export POPPLER_VERSION=poppler-0.83.0
 #export POPPLER_VERSION=poppler-0.82.0
-export POPPLER_VERSION=poppler-0.81.0
+#export POPPLER_VERSION=poppler-0.81.0
 
 export FONTFORGE_VERSION=20190801
 #export FONTFORGE_VERSION=20170731
@@ -31,4 +32,4 @@ echo "export FONTFORGE_VERSION=\"$FONTFORGE_VERSION\"" >> buildScripts/reSourceV
 echo "export PDF2HTMLEX_BRANCH=\"$PDF2HTMLEX_BRANCH\"" >> buildScripts/reSourceVersionEnvs
 echo "export MACHINE_ARCH=\"$MACHINE_ARCH\""           >> buildScripts/reSourceVersionEnvs
 echo "export BUILD_TIME=\"$BUILD_TIME\""               >> buildScripts/reSourceVersionEnvs
-
+echo "export PDF2HTMLEX_PREFIX=\"$PDF2HTMLEX_PREFIX\"" >> buildScripts/reSourceVersionEnvs

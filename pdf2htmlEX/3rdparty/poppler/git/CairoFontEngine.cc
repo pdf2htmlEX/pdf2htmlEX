@@ -90,7 +90,7 @@ CairoFont::getFontFace(void) {
 
 unsigned long
 CairoFont::getGlyph(CharCode code,
-		    Unicode *u, int uLen) {
+		    const Unicode *u, int uLen) {
   FT_UInt gid;
 
   if (codeToGID && code < codeToGIDLen) {

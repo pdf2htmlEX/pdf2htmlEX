@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# This bash script builds the complete pdf2htmlEX application LOCALLY
+# (It does not create the AppImage or Docker images)
+
+# Adjust the following two environment variables to suit your needs
+#
+export UNATTENDED="--assume-yes"
+export MAKE_PARALLEL="-j $(nproc)"
+
+# choose one of the following...
+#
+export PDF2HTMLEX_BRANCH=update-poppler
+# export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+
+export PDF2HTMLEX_PREFIX=toBeDetermined
+
+################
+# do the build
+
+./buildScripts/versionEnvs         || { echo 'versionEnvs FAILED'         ; exit 1 ; }
+
+./buildScripts/reportEnvs          || { echo 'reportEnvs FAILED'          ; exit 1 ; }
+
+./buildScripts/getBuildToolsBrew   || { echo 'getBuildToolsBrew FAILED'   ; exit 1 ; }
+
+./buildScripts/getDevLibrariesBrew || { echo 'getDevLibrariesBrew FAILED' ; exit 1 ; }
+
+./buildScripts/getPoppler          || { echo 'getPoppler FAILED'          ; exit 1 ; }
+
+./buildScripts/buildPoppler        || { echo 'buildPoppler FAILED'        ; exit 1 ; }
+
+./buildScripts/installPoppler      || { echo 'installPoppler FAILED'      ; exit 1 ; }
+
+./buildScripts/getFontforge        || { echo 'getFontforge FAILED'        ; exit 1 ; }
+
+./buildScripts/buildFontforge      || { echo 'buildFontforge FAILED'      ; exit 1 ; }
+
+./buildScripts/installFontforge    || { echo 'installFontforge FAILED'    ; exit 1 ; }
+
+./buildScripts/buildPdf2htmlEX     || { echo 'buildPdf2htmlEX FAILED'     ; exit 1 ; }
+
+./buildScripts/installPdf2htmlEX   || { echo 'installPdf2htmlEX FAILED'   ; exit 1 ; }

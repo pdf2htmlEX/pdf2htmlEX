@@ -156,7 +156,9 @@ struct HTMLRenderer : OutputDev
     
     virtual void drawString(GfxState * state, const GooString * s);
 
-    virtual void drawImage(GfxState * state, Object * ref, Stream * str, int width, int height, GfxImageColorMap * colorMap, bool interpolate, int *maskColors, bool inlineImg);
+    virtual void drawImage(GfxState * state, Object * ref, Stream * str,
+                 int width, int height, GfxImageColorMap * colorMap,
+                 bool interpolate, const int *maskColors, bool inlineImg);
 
     virtual void drawSoftMaskedImage(GfxState *state, Object *ref, Stream *str,
                        int width, int height,

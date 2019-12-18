@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/pdf2htmlEX/pdf2htmlEX.svg?branch=master)](https://travis-ci.org/pdf2htmlEX/pdf2htmlEX)
 
-# Differences from upstream pdf2htmlEX:
+# Differences from upstream pdf2htmlEX: 
 
 This is my branch of pdf2htmlEX which aims to allow an open collaboration to help keep the project active. A number of changes and improvements have been incorperated from other forks:
 

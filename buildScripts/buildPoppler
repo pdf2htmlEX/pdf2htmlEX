@@ -11,6 +11,6 @@ echo ""
 cd poppler
 mkdir build
 cd build
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local \
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PDF2HTMLEX_PREFIX \
     -DENABLE_LIBOPENJPEG=none ..
 make $MAKE_PARALLEL

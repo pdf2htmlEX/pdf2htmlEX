@@ -136,10 +136,10 @@ void DrawingTracer::restore()
 #endif
 }
 
-void DrawingTracer::do_path(GfxState * state, GfxPath * path)
+void DrawingTracer::do_path(GfxState * state, const GfxPath * path)
 {
     //copy from CairoOutputDev::doPath
-    GfxSubpath *subpath;
+    const GfxSubpath *subpath;
     int i, j;
     double x, y;
     cairo_new_path(cairo);
@@ -220,9 +220,9 @@ void DrawingTracer::stroke(GfxState * state)
         break;
     }
 
-    GfxPath * path = state->getPath();
+    const GfxPath * path = state->getPath();
     for (int i = 0; i < path->getNumSubpaths(); ++i) {
-        GfxSubpath * subpath = path->getSubpath(i);
+        const GfxSubpath * subpath = path->getSubpath(i);
         if (subpath->getNumPoints() <= 0)
             continue;
         double x = subpath->getX(0);

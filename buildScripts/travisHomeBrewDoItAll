@@ -26,23 +26,23 @@ echo $LDFLAGS
 echo $CPPFLAGS
 which clang
 echo "-------------------------------------------------"
-brew install llvm
-brew install -v python@2
-brew install jq
+#brew install llvm
+#brew install -v python@2
+#brew install jq
 echo "-------------------------------------------------"
 echo $PATH
 echo $LDFLAGS
 echo $CPPFLAGS
 which clang
-export llvmVersion=$(brew info --json=v1 llvm | jq '.[].installed[].version' | tr -d '"')
+#export llvmVersion=$(brew info --json=v1 llvm | jq '.[].installed[].version' | tr -d '"')
 echo $llvmVersion
-export python2Version=$(brew info --json=v1 python@2 | jq '.[].installed[].version' | tr -d '"')
+#export python2Version=$(brew info --json=v1 python@2 | jq '.[].installed[].version' | tr -d '"')
 echo $python2Version
 echo "-------------------------------------------------"
-brew info llvm
-brew switch llvm $llvmVersion
-brew info python@2
-brew switch python@2 $python2Version
+#brew info llvm
+#brew switch llvm $llvmVersion
+#brew info python@2
+#brew switch python@2 $python2Version
 echo "-------------------------------------------------"
 echo $PATH
 echo $LDFLAGS

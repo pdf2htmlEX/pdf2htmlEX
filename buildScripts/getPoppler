@@ -21,4 +21,12 @@ wget https://poppler.freedesktop.org/$POPPLER_VERSION.tar.xz
 
 tar xvf $POPPLER_VERSION.tar.xz
 
+echo "Getting poppler-data version: 0.4.9"
+
 mv $POPPLER_VERSION poppler
+
+wget https://poppler.freedesktop.org/poppler-data-0.4.9.tar.gz
+
+tar xvf poppler-data-0.4.9.tar.gz
+
+mv poppler-data-0.4.9 poppler-data

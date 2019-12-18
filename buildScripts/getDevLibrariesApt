@@ -19,7 +19,6 @@ sudo apt-get $UNATTENDED install	\
   libspiro-dev				\
   libpng-dev				\
   libjpeg-dev				\
-  poppler-data				\
   libpango1.0-dev			\
   liblcms2-dev				\
   libxml2-dev				\
