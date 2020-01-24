@@ -19,8 +19,8 @@ add_custom_target(dist
 
 find_package(PkgConfig)
 
-
-pkg_check_modules(POPPLER REQUIRED poppler>=0.25.0)
+# Compilation errors with poppler versions newer than 0.81.0
+pkg_check_modules(POPPLER REQUIRED poppler>=0.25.0 poppler<0.82.0)
 include_directories(${POPPLER_INCLUDE_DIRS})
 link_directories(${POPPLER_LIBRARY_DIRS})
 set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} ${POPPLER_LIBRARIES})
