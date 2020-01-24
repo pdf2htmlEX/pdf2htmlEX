@@ -4,7 +4,7 @@ set(CMAKE_BUILD_TYPE Release CACHE STRING "Build configuration (Debug, Release, 
 
 project(pdf2htmlEX)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-cmake_minimum_required(VERSION 2.6.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 
 option(ENABLE_SVG "Enable SVG support, for generating SVG background images and converting Type 3 fonts" ON)
 
@@ -78,27 +78,14 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Woverloaded-virtual")
 #  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
 #endif()
 
-# CYGWIN or GCC 4.5.x bug
-if(CYGWIN)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
-else()
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -pthread")
-endif()
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} Threads::Threads)
 
-# check the C++11 features we need
-include(CheckCXXSourceCompiles)
-check_cxx_source_compiles("
-#include <vector>
-int main()
-{
-  char * ptr = nullptr;
-  std::vector<int> v;
-  auto f = [&](){ for(auto & i : v) ++i; };
-  f();
-}
-" CXX0X_SUPPORT)
-if(NOT CXX0X_SUPPORT)
-    message(FATAL_ERROR "Error: your compiler does not support C++0x/C++11, please update it.")
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+if(NOT CYGWIN)
+    set(CMAKE_CXX_EXTENSIONS OFF)
 endif()
 
 
