@@ -26,27 +26,22 @@ link_directories(${POPPLER_LIBRARY_DIRS})
 set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} ${POPPLER_LIBRARIES})
 
 if(ENABLE_SVG)
-    pkg_check_modules(CAIRO REQUIRED cairo>=1.10.0)
-    message("Trying to locate cairo-svg...")
-    find_path(CAIRO_SVG_INCLUDE_PATH cairo-svg.h PATHS ${CAIRO_INCLUDE_DIRS} NO_DEFAULT_PATH)
-    if(CAIRO_SVG_INCLUDE_PATH)
-        include_directories(${CAIRO_INCLUDE_DIRS})
-        link_directories(${CAIRO_LIBRARY_DIRS})
-        set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} ${CAIRO_LIBRARIES})
-        set(ENABLE_SVG 1)
-        set(CAIROOUTPUTDEV_PATH 3rdparty/poppler/git)
-        include_directories(${CAIROOUTPUTDEV_PATH})
-        set(PDF2HTMLEX_SRC ${PDF2HTMLEX_SRC}
-            ${CAIROOUTPUTDEV_PATH}/CairoFontEngine.h
-            ${CAIROOUTPUTDEV_PATH}/CairoFontEngine.cc
-            ${CAIROOUTPUTDEV_PATH}/CairoRescaleBox.h
-            ${CAIROOUTPUTDEV_PATH}/CairoRescaleBox.cc
-            ${CAIROOUTPUTDEV_PATH}/CairoOutputDev.h
-            ${CAIROOUTPUTDEV_PATH}/CairoOutputDev.cc
-        )
-    else()
-        message(FATAL_ERROR "Error: no SVG support found in Cairo")
-    endif()
+    pkg_check_modules(CAIRO REQUIRED cairo-svg>=1.10.0)
+
+    include_directories(${CAIRO_INCLUDE_DIRS})
+    link_directories(${CAIRO_LIBRARY_DIRS})
+    set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} ${CAIRO_LIBRARIES})
+    set(ENABLE_SVG 1)
+    set(CAIROOUTPUTDEV_PATH 3rdparty/poppler/git)
+    include_directories(${CAIROOUTPUTDEV_PATH})
+    set(PDF2HTMLEX_SRC ${PDF2HTMLEX_SRC}
+        ${CAIROOUTPUTDEV_PATH}/CairoFontEngine.h
+        ${CAIROOUTPUTDEV_PATH}/CairoFontEngine.cc
+        ${CAIROOUTPUTDEV_PATH}/CairoRescaleBox.h
+        ${CAIROOUTPUTDEV_PATH}/CairoRescaleBox.cc
+        ${CAIROOUTPUTDEV_PATH}/CairoOutputDev.h
+        ${CAIROOUTPUTDEV_PATH}/CairoOutputDev.cc
+    )
 
     find_package(Freetype REQUIRED)
     include_directories(${FREETYPE_INCLUDE_DIRS})
