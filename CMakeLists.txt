@@ -4,7 +4,7 @@ set(CMAKE_BUILD_TYPE Release CACHE STRING "Build configuration (Debug, Release, 
 
 project(pdf2htmlEX)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-cmake_minimum_required(VERSION 2.6.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 
 option(ENABLE_SVG "Enable SVG support, for generating SVG background images and converting Type 3 fonts" ON)
 
@@ -19,34 +19,30 @@ add_custom_target(dist
 
 find_package(PkgConfig)
 
-
-pkg_check_modules(POPPLER REQUIRED poppler>=0.25.0)
+# Compilation errors with poppler versions newer than 0.81.0
+# Compiling against pre 0.70.0 not possible either
+pkg_check_modules(POPPLER REQUIRED poppler>=0.70.0 poppler<0.82.0)
 include_directories(${POPPLER_INCLUDE_DIRS})
 link_directories(${POPPLER_LIBRARY_DIRS})
 set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} ${POPPLER_LIBRARIES})
 
 if(ENABLE_SVG)
-    pkg_check_modules(CAIRO REQUIRED cairo>=1.10.0)
-    message("Trying to locate cairo-svg...")
-    find_path(CAIRO_SVG_INCLUDE_PATH cairo-svg.h PATHS ${CAIRO_INCLUDE_DIRS} NO_DEFAULT_PATH)
-    if(CAIRO_SVG_INCLUDE_PATH)
-        include_directories(${CAIRO_INCLUDE_DIRS})
-        link_directories(${CAIRO_LIBRARY_DIRS})
-        set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} ${CAIRO_LIBRARIES})
-        set(ENABLE_SVG 1)
-        set(CAIROOUTPUTDEV_PATH 3rdparty/poppler/git)
-        include_directories(${CAIROOUTPUTDEV_PATH})
-        set(PDF2HTMLEX_SRC ${PDF2HTMLEX_SRC}
-            ${CAIROOUTPUTDEV_PATH}/CairoFontEngine.h
-            ${CAIROOUTPUTDEV_PATH}/CairoFontEngine.cc
-            ${CAIROOUTPUTDEV_PATH}/CairoRescaleBox.h
-            ${CAIROOUTPUTDEV_PATH}/CairoRescaleBox.cc
-            ${CAIROOUTPUTDEV_PATH}/CairoOutputDev.h
-            ${CAIROOUTPUTDEV_PATH}/CairoOutputDev.cc
-        )
-    else()
-        message(FATAL_ERROR "Error: no SVG support found in Cairo")
-    endif()
+    pkg_check_modules(CAIRO REQUIRED cairo-svg>=1.10.0)
+
+    include_directories(${CAIRO_INCLUDE_DIRS})
+    link_directories(${CAIRO_LIBRARY_DIRS})
+    set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} ${CAIRO_LIBRARIES})
+    set(ENABLE_SVG 1)
+    set(CAIROOUTPUTDEV_PATH 3rdparty/poppler/git)
+    include_directories(${CAIROOUTPUTDEV_PATH})
+    set(PDF2HTMLEX_SRC ${PDF2HTMLEX_SRC}
+        ${CAIROOUTPUTDEV_PATH}/CairoFontEngine.h
+        ${CAIROOUTPUTDEV_PATH}/CairoFontEngine.cc
+        ${CAIROOUTPUTDEV_PATH}/CairoRescaleBox.h
+        ${CAIROOUTPUTDEV_PATH}/CairoRescaleBox.cc
+        ${CAIROOUTPUTDEV_PATH}/CairoOutputDev.h
+        ${CAIROOUTPUTDEV_PATH}/CairoOutputDev.cc
+    )
 
     find_package(Freetype REQUIRED)
     include_directories(${FREETYPE_INCLUDE_DIRS})
@@ -78,27 +74,14 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Woverloaded-virtual")
 #  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
 #endif()
 
-# CYGWIN or GCC 4.5.x bug
-if(CYGWIN)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
-else()
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -pthread")
-endif()
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} Threads::Threads)
 
-# check the C++11 features we need
-include(CheckCXXSourceCompiles)
-check_cxx_source_compiles("
-#include <vector>
-int main()
-{
-  char * ptr = nullptr;
-  std::vector<int> v;
-  auto f = [&](){ for(auto & i : v) ++i; };
-  f();
-}
-" CXX0X_SUPPORT)
-if(NOT CXX0X_SUPPORT)
-    message(FATAL_ERROR "Error: your compiler does not support C++0x/C++11, please update it.")
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+if(NOT CYGWIN)
+    set(CMAKE_CXX_EXTENSIONS OFF)
 endif()
 
 
