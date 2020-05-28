@@ -41,11 +41,22 @@ wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/$LI
 
 chmod a+x $LINUX_DEPLOY_APP_IMAGE
 
-./$LINUX_DEPLOY_APP_IMAGE			\
+if [ -f /.dockerenv ] ; then
+  # WE ARE INSIDE A DOCKER CONTAINER...
+  #
+  # We explicilty extract the appimage to a squashfs to allow it to be used 
+  # inside Docker containers
+  #
+  ./$LINUX_DEPLOY_APP_IMAGE --appimage-extract
+  #
+  LINUX_DEPLOY_APP_IMAGE=squashfs-root/AppRun
+fi
+
+./$LINUX_DEPLOY_APP_IMAGE						\
   -e appDir/$PDF2HTMLEX_PREFIX/bin/pdf2htmlEX	\
-  --create-desktop-file				\
-  -i ../pdf2htmlEX/logo/pdf2htmlEX.svg		\
-  --appdir=appDir				\
+  --create-desktop-file							\
+  -i ../pdf2htmlEX/logo/pdf2htmlEX.svg			\
+  --appdir=appDir								\
   --output appimage
 
 

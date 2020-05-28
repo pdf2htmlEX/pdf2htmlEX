@@ -8,53 +8,58 @@ echo "CREATING pdf2htmlEX Docker Image"
 echo "-------------------------------------------------------------------"
 echo ""
 
-if [ -x "$(which docker)" ]; then
+# Collect everything that will be needed...
 
-  source buildScripts/reSourceVersionEnvs
+source buildScripts/reSourceVersionEnvs
 
-  source buildScripts/dockerFunctions
+source buildScripts/dockerFunctions
 
-if [ -z "$DOCKER_FROM" ]; then
-  echo ""
-  read -p "Enter the docker image for the 'from' base: " DOCKER_FROM
-  echo ""
+
+mkdir -p imageBuild/dockerDir
+
+cd pdf2htmlEX/build
+
+sudo rm -rf install_manifest.txt
+
+make install DESTDIR=../../imageBuild/dockerDir
+
+cd ../../poppler-data
+
+make install prefix=$PDF2HTMLEX_PREFIX DESTDIR=../imageBuild/dockerDir
+
+cd ../imageBuild/dockerDir
+
+copy_deps
+
+# Now. IF we have docker, THEN build the docker image...
+
+  if [ -x "$(which docker)" ]; then
+
   if [ -z "$DOCKER_FROM" ]; then
-    echo "DOCKER_FROM not set... so we can not build the docker image"
-    exit 1
+    echo ""
+    read -p "Enter the docker image for the 'from' base: " DOCKER_FROM
+    echo ""
+    if [ -z "$DOCKER_FROM" ]; then
+      echo "DOCKER_FROM not set... so we can not build the docker image"
+      exit 1
+    fi
   fi
-fi
 
-if [ -z "$DOCKER_USERNAME" ]; then
-  echo ""
-  read -p "Enter a docker username: " DOCKER_USERNAME
-  echo ""
   if [ -z "$DOCKER_USERNAME" ]; then
-    echo "DOCKER_USERNAME not set... so we can not build the docker image"
-    exit 1
+    echo ""
+    read -p "Enter a docker username: " DOCKER_USERNAME
+    echo ""
+    if [ -z "$DOCKER_USERNAME" ]; then
+      echo "DOCKER_USERNAME not set... so we can not build the docker image"
+      exit 1
+    fi
   fi
-fi
 
-export DOCKER_NAME="$DOCKER_USERNAME/pdf2htmlex:$PDF2HTMLEX_BRANCH-$BUILD_TIME"
+  export DOCKER_NAME="$DOCKER_USERNAME/pdf2htmlex:$PDF2HTMLEX_BRANCH-$BUILD_TIME"
 
-echo "export DOCKER_FROM=\"$DOCKER_FROM\""         >> buildScripts/reSourceVersionEnvs
-echo "export DOCKER_USERNAME=\"$DOCKER_USERNAME\"" >> buildScripts/reSourceVersionEnvs
-echo "export DOCKER_NAME=\"$DOCKER_NAME\""         >> buildScripts/reSourceVersionEnvs
-
-  mkdir -p imageBuild/dockerDir
-
-  cd pdf2htmlEX/build
-
-  sudo rm -rf install_manifest.txt
-
-  make install DESTDIR=../../imageBuild/dockerDir
-
-  cd ../../poppler-data
-
-  make install prefix=$PDF2HTMLEX_PREFIX DESTDIR=../imageBuild/dockerDir
-
-  cd ../imageBuild/dockerDir
-
-  copy_deps
+  echo "export DOCKER_FROM=\"$DOCKER_FROM\""         >> buildScripts/reSourceVersionEnvs
+  echo "export DOCKER_USERNAME=\"$DOCKER_USERNAME\"" >> buildScripts/reSourceVersionEnvs
+  echo "export DOCKER_NAME=\"$DOCKER_NAME\""         >> buildScripts/reSourceVersionEnvs
 
   delete_blacklisted
 
