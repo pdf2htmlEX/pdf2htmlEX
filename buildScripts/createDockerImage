@@ -33,7 +33,7 @@ copy_deps
 
 # Now. IF we have docker, THEN build the docker image...
 
-  if [ -x "$(which docker)" ]; then
+if [ -x "$(which docker)" ]; then
 
   if [ -z "$DOCKER_FROM" ]; then
     echo ""
