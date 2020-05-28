@@ -1,3 +1,6 @@
+imageBuild
+poppler-data
+buildScripts/reSourceVersionEnvs
 brewFormula
 fontforge
 *.tar.*
