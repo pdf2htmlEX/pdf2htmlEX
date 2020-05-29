@@ -21,18 +21,18 @@
 #include "ffw.h"                             // needed for:
 #include "gfile.h"                           //   FindProgDir
 #include "fontforge-version-extras.h"        //   FONTFORGE_GIT_VERSION
-#include "fontforge-20190801/autowidth.h"    //   FVRemoveKerns
-#include "fontforge-20190801/bitmapchar.h"   //   SFReplaceEncodingBDFProps
-#include "fontforge-20190801/cvimages.h"     //   FVImportImages
-#include "fontforge-20190801/encoding.h"     //   (helpful as we have a name conflict)
-#include "fontforge-20190801/fvfonts.h"      //   SFFindSlot
-#include "fontforge-20190801/namelist.h"     //   UniFromName
-#include "fontforge-20190801/savefont.h"     //   GenerateScript
-#include "fontforge-20190801/splineorder2.h" //   SFConvertToOrder2
-#include "fontforge-20190801/splineutil.h"   //   AltUniFree
-#include "fontforge-20190801/splineutil2.h"  //   SplineFontNew
-#include "fontforge-20190801/start.h"        //   InitSimpleStuff
-#include "fontforge-20190801/tottf.h"        //   SFDefaultOS2Info
+#include "fontforge/autowidth.h"    //   FVRemoveKerns
+#include "fontforge/bitmapchar.h"   //   SFReplaceEncodingBDFProps
+#include "fontforge/cvimages.h"     //   FVImportImages
+#include "fontforge/encoding.h"     //   (helpful as we have a name conflict)
+#include "fontforge/fvfonts.h"      //   SFFindSlot
+#include "fontforge/namelist.h"     //   UniFromName
+#include "fontforge/savefont.h"     //   GenerateScript
+#include "fontforge/splineorder2.h" //   SFConvertToOrder2
+#include "fontforge/splineutil.h"   //   AltUniFree
+#include "fontforge/splineutil2.h"  //   SplineFontNew
+#include "fontforge/start.h"        //   InitSimpleStuff
+#include "fontforge/tottf.h"        //   SFDefaultOS2Info
 
 static real EPS=1e-6;
 

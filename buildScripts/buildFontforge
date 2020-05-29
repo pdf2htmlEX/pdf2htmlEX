@@ -39,11 +39,16 @@ cd fontforge
 
 ./bootstrap
 
-./configure			\
+./configure			            \
   --prefix=$PDF2HTMLEX_PREFIX	\
   --enable-python-scripting=3	\
   --disable-dependency-tracking	\
-  --disable-silent-rules	\
+  --disable-silent-rules	    \
+  --disable-python-scripting    \
+  --disable-python-extension    \
+  --disable-shared              \
+  --enable-static               \
+  --with-pic                    \
   --without-x
 
 # Apply any patches required for fontforge raw sources before we make
