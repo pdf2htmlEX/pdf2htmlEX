@@ -20,10 +20,24 @@ add_custom_target(dist
 find_package(PkgConfig)
 
 
-pkg_check_modules(POPPLER REQUIRED poppler>=0.81.0)
-include_directories(${POPPLER_INCLUDE_DIRS})
-link_directories(${POPPLER_LIBRARY_DIRS})
-set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} ${POPPLER_LIBRARIES})
+# SINCE we have a very intimate relationship with a particular version of 
+# poppler... we explicitly describe the poppler include and library 
+# paths.
+
+include_directories(
+  ../poppler/build/poppler
+  ../poppler/build
+  ../poppler/poppler
+  ../poppler
+)
+
+#link_directories(
+#  ../poppler/build
+#)
+set(POPPLER_LIBRARIES ${POPPLER_LIBRARIES}
+  ${CMAKE_SOURCE_DIR}/../poppler/build/libpoppler.a
+  ${CMAKE_SOURCE_DIR}/../poppler/build/glib/libpoppler-glib.a
+)
 
 if(ENABLE_SVG)
     pkg_check_modules(CAIRO REQUIRED cairo>=1.10.0)
@@ -54,13 +68,44 @@ if(ENABLE_SVG)
     set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} ${FREETYPE_LIBRARIES})
 endif()
 
-# fontforge starts using pkg-config 'correctly' since 2.0.0
-#pkg_check_modules(FONTFORGE REQUIRED libfontforge>=2.0.20170731)
-pkg_check_modules(FONTFORGE REQUIRED libfontforge>=2.0.0)
+# SINCE we have a very intimate relationship with a particular version of 
+# fontforge... we explicitly describe the fontforge include and library 
+# paths.
+
+include_directories(
+  ../fontforge/fontforge
+  ../fontforge
+  ../fontforge/build/inc
+  ../fontforge/inc
+)
+
 include_directories(${FONTFORGE_INCLUDE_DIRS})
 link_directories(${FONTFORGE_LIBRARY_DIRS})
-set(FONTFORGE_LIBRARIES ${FONTFORGE_LIBRARIES} -lgutils)
-set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} ${FONTFORGE_LIBRARIES})
+set(FONTFORGE_LIBRARIES ${FONTFORGE_LIBRARIES}
+  ${CMAKE_SOURCE_DIR}/../fontforge/fontforge/.libs/libfontforge.a
+  ${CMAKE_SOURCE_DIR}/../fontforge/Unicode/.libs/libgunicode.a
+  ${CMAKE_SOURCE_DIR}/../fontforge/gutils/.libs/libgutils.a
+)
+
+set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS}
+  ${POPPLER_LIBRARIES}
+  ${FONTFORGE_LIBRARIES}
+  -lfreetype
+  -lfontconfig
+  -ljpeg
+  -lz
+  -llcms2
+  -lpng
+  -lz
+  -llcms2
+  -pthread
+  -lspiro
+  -luninameslist
+  -lm
+  -lxml2
+  -lglib-2.0
+  -lgio-2.0
+)
 
 # debug build flags (overwrite default cmake debug flags)
 set(CMAKE_C_FLAGS_DEBUG "-ggdb -pg")
