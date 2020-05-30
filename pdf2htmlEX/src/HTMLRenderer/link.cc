@@ -34,7 +34,11 @@ using std::endl;
  * The string will be put into a HTML attribute, surrounded by single quotes
  * So pay attention to the characters used here
  */
-static string get_linkdest_detail_str(LinkDest * dest, Catalog * catalog, int & pageno)
+static string get_linkdest_detail_str(
+  LinkDest * dest,   // borrow the caller's std::unique_ptr
+  Catalog * catalog,
+  int & pageno
+)
 {
     pageno = 0;
     if(dest->isPageRef())
@@ -126,7 +130,10 @@ static string get_linkdest_detail_str(LinkDest * dest, Catalog * catalog, int & 
     return sout.str();
 }
 
-string HTMLRenderer::get_linkaction_str(const LinkAction * action, string & detail)
+string HTMLRenderer::get_linkaction_str(
+  const LinkAction * action,
+  string & detail
+)
 {
     string dest_str;
     detail = "";
@@ -137,21 +144,26 @@ string HTMLRenderer::get_linkaction_str(const LinkAction * action, string & deta
         {
             case actionGoTo:
                 {
-                    auto * real_action = dynamic_cast<const LinkGoTo*>(action);
-                    LinkDest * dest = nullptr;
+                    auto * real_action = 
+                        dynamic_cast<const LinkGoTo*>(action);
+                    std::unique_ptr<LinkDest> dest = nullptr;
                     if(auto _ = real_action->getDest())
-                        dest = _->copy();
+                        dest = std::unique_ptr<LinkDest>( _->copy() );
                     else if (auto _ = real_action->getNamedDest())
                         dest = cur_catalog->findDest(_);
                     if(dest)
                     {
                         int pageno = 0;
-                        detail = get_linkdest_detail_str(dest, cur_catalog, pageno);
+                        detail = get_linkdest_detail_str(
+                            dest.get(), cur_catalog, pageno
+                        );
                         if(pageno > 0)
                         {
-                            dest_str = (char*)str_fmt("#%s%x", CSS::PAGE_FRAME_CN, pageno);
+                            dest_str = (char*)str_fmt(
+                              "#%s%x", CSS::PAGE_FRAME_CN, pageno
+                            );
                         }
-                        delete dest;
+                        dest.reset();
                     }
                 }
                 break;
@@ -164,7 +176,7 @@ string HTMLRenderer::get_linkaction_str(const LinkAction * action, string & deta
                 {
                     auto * real_action = dynamic_cast<const LinkURI*>(action);
                     assert(real_action != nullptr);
-                    dest_str = real_action->getURI()->toStr();
+                    dest_str = real_action->getURI();
                 }
                 break;
             case actionLaunch:

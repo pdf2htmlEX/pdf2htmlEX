@@ -9,9 +9,9 @@
 #export POPPLER_VERSION=poppler-0.89.0
 #export POPPLER_VERSION=poppler-0.88.0
 #export POPPLER_VERSION=poppler-0.87.0
-#export POPPLER_VERSION=poppler-0.86.1
+export POPPLER_VERSION=poppler-0.86.1
 #export POPPLER_VERSION=poppler-0.86.0
-export POPPLER_VERSION=poppler-0.85.0
+#export POPPLER_VERSION=poppler-0.85.0
 #export POPPLER_VERSION=poppler-0.84.0
 #export POPPLER_VERSION=poppler-0.83.0
 #export POPPLER_VERSION=poppler-0.82.0
