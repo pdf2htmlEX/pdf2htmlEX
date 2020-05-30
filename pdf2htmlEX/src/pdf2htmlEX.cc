@@ -63,9 +63,8 @@ void show_version_and_exit(const char * dummy = nullptr)
     cerr << "Copyright 2012-2015 Lu Wang <coolwanglu@gmail.com> and other contributors" << endl;
     cerr << "Libraries: " << endl;
     cerr << "  poppler " << POPPLER_VERSION << endl;
-    cerr << "  libfontforge " << ffwVersionInfo->majorVersion << "." <<
-      ffwVersionInfo->minorVersion << "." << ffwVersionInfo->gitVersion << endl;
     cerr << "  libfontforge (date) " << ffwVersionInfo->versionDate << endl;
+    cerr << "  libfontforge  (git) " << ffwVersionInfo->gitVersion << endl;
 #if ENABLE_SVG
     cerr << "  cairo " << cairo_version_string() << endl;
 #endif

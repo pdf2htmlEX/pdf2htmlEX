@@ -34,13 +34,9 @@ export PDF2HTMLEX_PREFIX=/usr/local
 
 ./buildScripts/buildPoppler       || { echo 'buildPoppler FAILED'       ; exit 1 ; }
 
-#./buildScripts/installPoppler     || { echo 'installPoppler FAILED'     ; exit 1 ; }
-
 ./buildScripts/getFontforge       || { echo 'getFontforge FAILED'       ; exit 1 ; }
 
 ./buildScripts/buildFontforge     || { echo 'buildFontforge FAILED'     ; exit 1 ; }
-
-#./buildScripts/installFontforge   || { echo 'installFontforge FAILED'   ; exit 1 ; }
 
 ./buildScripts/buildPdf2htmlEX    || { echo 'buildPdf2htmlEX FAILED'    ; exit 1 ; }
 

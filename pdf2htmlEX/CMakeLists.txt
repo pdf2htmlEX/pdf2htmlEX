@@ -73,9 +73,7 @@ include_directories(
 include_directories(${FONTFORGE_INCLUDE_DIRS})
 link_directories(${FONTFORGE_LIBRARY_DIRS})
 set(FONTFORGE_LIBRARIES ${FONTFORGE_LIBRARIES}
-  ${CMAKE_SOURCE_DIR}/../fontforge/fontforge/.libs/libfontforge.a
-  ${CMAKE_SOURCE_DIR}/../fontforge/Unicode/.libs/libgunicode.a
-  ${CMAKE_SOURCE_DIR}/../fontforge/gutils/.libs/libgutils.a
+  ${CMAKE_SOURCE_DIR}/../fontforge/build/lib/libfontforge.a
 )
 
 set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS}
