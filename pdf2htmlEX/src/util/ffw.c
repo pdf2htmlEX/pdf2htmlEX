@@ -20,7 +20,6 @@
 
 #include "ffw.h"                      // needed for:
 #include "gfile.h"                    //   FindProgDir
-#include "fontforge-version-extras.h" //   FONTFORGE_GIT_VERSION
 #include "fontforge/autowidth.h"      //   FVRemoveKerns
 #include "fontforge/bitmapchar.h"     //   SFReplaceEncodingBDFProps
 #include "fontforge/cvimages.h"       //   FVImportImages
@@ -127,7 +126,6 @@ static FFWVersionInfo ffwVersionInfo;
 
 const FFWVersionInfo* ffw_get_version_info(void)
 {
-    ffwVersionInfo.gitVersion   = FONTFORGE_GIT_VERSION;
     ffwVersionInfo.versionDate  = FONTFORGE_VERSION;
 
     return &ffwVersionInfo;

@@ -64,7 +64,6 @@ void show_version_and_exit(const char * dummy = nullptr)
     cerr << "Libraries: " << endl;
     cerr << "  poppler " << POPPLER_VERSION << endl;
     cerr << "  libfontforge (date) " << ffwVersionInfo->versionDate << endl;
-    cerr << "  libfontforge  (git) " << ffwVersionInfo->gitVersion << endl;
 #if ENABLE_SVG
     cerr << "  cairo " << cairo_version_string() << endl;
 #endif

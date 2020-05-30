@@ -158,7 +158,6 @@ void setupSignalHandler(
   detailInfo = detailInfo + "Libraries:\n" ;
   detailInfo = detailInfo + "  poppler " + POPPLER_VERSION + "\n";
   detailInfo = detailInfo + "  libfontforge (date) " + ffwVersionInfo->versionDate + "\n";
-  detailInfo = detailInfo + "  libfontforge  (git) " + ffwVersionInfo->gitVersion + "\n";
 #if ENABLE_SVG
   detailInfo = detailInfo + "  cairo " + cairo_version_string() + "\n";
 #endif
