@@ -25,9 +25,6 @@ void ffw_init(const char* progPath, int debug);
 void ffw_finalize(void);
 
 typedef struct ffw_version_info {
-  const char* gitVersion;
-  const char* majorVersion;
-  const char* minorVersion;
   const char* versionDate;
 } FFWVersionInfo ;
 

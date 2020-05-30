@@ -18,21 +18,20 @@
 
 #include "SignalHandler.h"
 
-#include "ffw.h"                             // needed for:
-#include "gfile.h"                           //   FindProgDir
-#include "fontforge-version-extras.h"        //   FONTFORGE_GIT_VERSION
-#include "fontforge/autowidth.h"    //   FVRemoveKerns
-#include "fontforge/bitmapchar.h"   //   SFReplaceEncodingBDFProps
-#include "fontforge/cvimages.h"     //   FVImportImages
-#include "fontforge/encoding.h"     //   (helpful as we have a name conflict)
-#include "fontforge/fvfonts.h"      //   SFFindSlot
-#include "fontforge/namelist.h"     //   UniFromName
-#include "fontforge/savefont.h"     //   GenerateScript
-#include "fontforge/splineorder2.h" //   SFConvertToOrder2
-#include "fontforge/splineutil.h"   //   AltUniFree
-#include "fontforge/splineutil2.h"  //   SplineFontNew
-#include "fontforge/start.h"        //   InitSimpleStuff
-#include "fontforge/tottf.h"        //   SFDefaultOS2Info
+#include "ffw.h"                      // needed for:
+#include "gfile.h"                    //   FindProgDir
+#include "fontforge/autowidth.h"      //   FVRemoveKerns
+#include "fontforge/bitmapchar.h"     //   SFReplaceEncodingBDFProps
+#include "fontforge/cvimages.h"       //   FVImportImages
+#include "fontforge/encoding.h"       //   (helpful as we have a name conflict)
+#include "fontforge/fvfonts.h"        //   SFFindSlot
+#include "fontforge/namelist.h"       //   UniFromName
+#include "fontforge/savefont.h"       //   GenerateScript
+#include "fontforge/splineorder2.h"   //   SFConvertToOrder2
+#include "fontforge/splineutil.h"     //   AltUniFree
+#include "fontforge/splineutil2.h"    //   SplineFontNew
+#include "fontforge/start.h"          //   InitSimpleStuff
+#include "fontforge/tottf.h"          //   SFDefaultOS2Info
 
 static real EPS=1e-6;
 
@@ -127,9 +126,6 @@ static FFWVersionInfo ffwVersionInfo;
 
 const FFWVersionInfo* ffw_get_version_info(void)
 {
-    ffwVersionInfo.gitVersion   = FONTFORGE_GIT_VERSION;
-    ffwVersionInfo.majorVersion = xstr(FONTFORGE_VERSION_MAJOR);
-    ffwVersionInfo.minorVersion = xstr(FONTFORGE_VERSION_MINOR);
     ffwVersionInfo.versionDate  = FONTFORGE_VERSION;
 
     return &ffwVersionInfo;
@@ -528,7 +524,16 @@ void ffw_import_svg_glyph(int code, const char * filename, double ox, double oy,
 
     memset(cur_fv->selected, 0, cur_fv->map->enccount);
     cur_fv->selected[enc] = 1;
-    int ok = FVImportImages(cur_fv, (char*)filename, fv_svg, 0, -1);
+    ImportParams ip;
+    InitImportParams(&ip);
+    int ok = FVImportImages(
+      cur_fv,
+      (char*)filename,
+      fv_svg,
+      0 /*toback*/,
+      true /*preclear*/,
+      &ip
+    );
     if(!ok)
         err("Import SVG glyph failed");
 

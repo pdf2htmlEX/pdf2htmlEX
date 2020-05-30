@@ -31,9 +31,11 @@ make install prefix=$PDF2HTMLEX_PREFIX DESTDIR=../imageBuild/appDir
 
 cd ../imageBuild
 
-# force libfontconfig into AppImage (linuxdeploy blacklists libfontconfig)
+# force libfontconfig into AppImage (linuxdeploy blacklists libfontconfig) 
+# (turned off since libfontconfig needs to be matched to the underlying 
+#  OS's collection of fonts and /etc/fonts configuration files) 
 #
-cp /usr/lib/x86_64-linux-gnu/libfontconfig.so.1 appDir/usr/lib/
+#cp /usr/lib/x86_64-linux-gnu/libfontconfig.so.1 appDir/usr/lib/
 
 LINUX_DEPLOY_APP_IMAGE=linuxdeploy-$MACHINE_ARCH.AppImage
 
