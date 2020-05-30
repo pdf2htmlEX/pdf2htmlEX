@@ -59,7 +59,6 @@ SplashBackgroundRenderer::SplashBackgroundRenderer(const string & imgFormat, HTM
 void SplashBackgroundRenderer::startPage(int pageNum, GfxState *state, XRef *xrefA)
 {
     SplashOutputDev::startPage(pageNum, state, xrefA);
-//    clearModRegion();
 }
 
 void SplashBackgroundRenderer::drawChar(GfxState *state, double x, double y,
@@ -127,8 +126,7 @@ void SplashBackgroundRenderer::embed_image(int pageno)
 {
     // xmin->xmax is top->bottom
     int xmin, xmax, ymin, ymax;
-//    getModRegion(&xmin, &ymin, &xmax, &ymax);
-// poppler-0.84.0 hack to recover from the removal of ModRegion tracking 
+// poppler-0.84.0 hack to recover from the removal of *ModRegion tracking 
 //
 	auto * bitmap = getBitmap();
 	xmin = 0;
