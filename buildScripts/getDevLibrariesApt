@@ -14,13 +14,16 @@ echo "-------------------------------------------------------------------"
 echo ""
 
 sudo apt-get update
-sudo apt-get $UNATTENDED install	\
-  libcairo-dev				\
-  libspiro-dev				\
-  libpng-dev				\
-  libjpeg-dev				\
-  libpango1.0-dev			\
-  liblcms2-dev				\
-  libxml2-dev				\
-  libuninameslist-dev			\
-  python3-dev
+sudo apt-get $UNATTENDED install \
+  libcairo-dev                   \
+  libpng-dev                     \
+  libjpeg-dev                    \
+
+
+#  libspiro-dev				\
+#  libpango1.0-dev			\
+#  liblcms2-dev				\
+#  libxml2-dev				\
+#  libuninameslist-dev			\
+#  python3-dev
+
