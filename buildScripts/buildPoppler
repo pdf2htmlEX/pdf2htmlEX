@@ -4,7 +4,7 @@
 
 echo ""
 echo "-------------------------------------------------------------------"
-echo "BUILDING Poppler"
+echo "BUILDING Poppler (using CMake)"
 echo "-------------------------------------------------------------------"
 echo ""
 
@@ -13,8 +13,81 @@ mkdir build
 cd build
 cmake                                       \
   -DCMAKE_BUILD_TYPE=Release                \
-  -DBUILD_SHARED_LIBS:BOOL=OFF              \
   -DCMAKE_INSTALL_PREFIX=$PDF2HTMLEX_PREFIX \
-  -DENABLE_LIBOPENJPEG=none                 \
+  -DENABLE_UNSTABLE_API_ABI_HEADERS=OFF     \
+  -DBUILD_GTK_TESTS=OFF                     \
+  -DBUILD_QT5_TESTS=OFF                     \
+  -DBUILD_CPP_TESTS=OFF                     \
+  -DENABLE_SPLASH=ON                        \
+  -DENABLE_UTILS=OFF                        \
+  -DENABLE_CPP=OFF                          \
+  -DENABLE_GLIB=ON                          \
+  -DENABLE_GOBJECT_INTROSPECTION=OFF        \
+  -DENABLE_GTK_DOC=OFF                      \
+  -DENABLE_QT5=OFF                          \
+  -DENABLE_LIBOPENJPEG="none"               \
+  -DENABLE_CMS="none"                       \
+  -DENABLE_DCTDECODER="libjpeg"             \
+  -DENABLE_LIBCURL=OFF                      \
+  -DENABLE_ZLIB=ON                          \
+  -DENABLE_ZLIB_UNCOMPRESS=OFF              \
+  -DUSE_FLOAT=OFF                           \
+  -DBUILD_SHARED_LIBS=OFF                   \
+  -DRUN_GPERF_IF_PRESENT=OFF                \
+  -DEXTRA_WARN=OFF                          \
   ..
+
 make $MAKE_PARALLEL
+
+
+###############################################################
+# Poppler CMakeLists.text build options (2020/05/31):
+
+# ENABLE_UNSTABLE_API_ABI_HEADERS=OFF "Install API/ABI unstable xpdf headers."
+# BUILD_GTK_TESTS=OFF                 "Whether to compile the GTK+ test programs."
+# BUILD_QT5_TESTS=OFF                 "Whether to compile the Qt5 test programs."
+# BUILD_CPP_TESTS=OFF                 "Whether to compile the CPP test programs."
+# ENABLE_SPLASH=ON                    "Build the Splash graphics backend."
+# ENABLE_UTILS=OFF                    "Compile poppler command line utils."
+# ENABLE_CPP=ON                       "Compile poppler cpp wrapper."
+# ENABLE_GLIB=ON                      "Compile poppler glib wrapper."
+# ENABLE_GOBJECT_INTROSPECTION=ON     "Whether to generate GObject introspection."
+# ENABLE_GTK_DOC=OFF                  "Whether to generate glib API documentation."
+# ENABLE_QT5=OFF                      "Compile poppler qt5 wrapper."
+#
+# ENABLE_LIBOPENJPEG="none"
+#
+# "Use libopenjpeg for JPX streams. Possible values: openjpeg2, 
+# unmaintained, none. 'unmaintained' gives you the internal unmaintained 
+# decoder. Use at your own risk. 'none' compiles no JPX decoder at all. 
+# Default: openjpeg2"
+#
+# ENABLE_CMS="lcms2"
+#
+# "Use color management system. Possible values: lcms2, none. 'none' 
+# disables color management system." 
+# 
+# ENABLE_DCTDECODER="libjpeg"
+#
+# "Use libjpeg for DCT streams. Possible values: libjpeg, unmaintained, 
+# none. will use libjpeg if available or fail if not. 'unmaintained' gives 
+# you the internal unmaintained decoder. Use at your own risk. 'none' 
+# compiles no DCT decoder at all. Default: libjpeg" 
+# 
+# ENABLE_LIBCURL=OFF                  "Build libcurl based HTTP support."
+# ENABLE_ZLIB=ON                      "Build with zlib."
+# ENABLE_ZLIB_UNCOMPRESS=OFF          "Use zlib to uncompress flate streams (not totally safe)."
+# USE_FLOAT=OFF                       "Use single precision arithmetic in the Splash backend"
+# BUILD_SHARED_LIBS=OFF               "Build poppler as a shared library"
+# RUN_GPERF_IF_PRESENT=OFF            "Run gperf if it is found"
+# EXTRA_WARN=OFF                      "Enable extra compile warnings"
+
+# The following packages are optional and only used if found:
+#   JPEG is required by pdf2htmlEX
+#   PNG  is required by pdf2htmlEX
+#   TIFF is not used by pdf2htmlEX
+#   NSS3 is not used by pdf2htmlEX?
+#   CAIRO is required by pdf2htmlEX
+#   GLIB is requrired by pdf2htmlEX
+#   GObjectIntrospection is not needed by pdf2htmlEX?
+#   Iconv is only used if ENABLE_CPP
