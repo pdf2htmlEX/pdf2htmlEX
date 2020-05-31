@@ -1,3 +1,9 @@
+pdf2htmlex (0.18.7-1~git20200531r3fcd0-0ubuntu1) UNRELEASED; urgency=medium
+
+  * test packaging
+
+ -- Stephen Gaito <dev@pDev>  Sun, 31 May 2020 13:38:59 +0000
+
 pdf2htmlex (0.18.7-1~git20190927rb69b8-0ubuntu1) disco; urgency=low
 
   * Package for poppler-0.81.0

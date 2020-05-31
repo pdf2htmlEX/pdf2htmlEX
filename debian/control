@@ -2,7 +2,7 @@ Source: pdf2htmlex
 Section: universe/web
 Priority: extra
 Maintainer: Trent Petersen <trentpetersen.523@gmail.com>
-Build-Depends: cmake (>= 2.6.0), pkg-config, debhelper (>= 10), libpoppler-dev (>= 0.20.3), libpng-dev, libjpeg-dev, libfontforge-dev, libspiro-dev, python-dev, openjdk-8-jre-headless
+Build-Depends: cmake (>= 2.6.0), pkg-config, debhelper (>= 10), libpng-dev, libjpeg-dev, openjdk-8-jre-headless
 Standards-Version: 3.9.3
 Homepage: http://github.com/pdf2htmlEX/pdf2htmlEX
 

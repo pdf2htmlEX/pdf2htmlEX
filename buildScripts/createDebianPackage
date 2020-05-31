@@ -12,6 +12,25 @@ modified for general git repo
 2013.05.30
 """
 
+# CONSIDER PORTING to either BASH or PERL (as used by dpkg-buldpackage)
+# CONSIDER BINARY ONLY PACKAGE based on appDir or docerDir
+#
+# See: https://blog.serverdensity.com/how-to-create-a-debian-deb-package/
+# See: http://www.sj-vs.net/creating-a-simple-debian-deb-package-based-on-a-directory-structure/
+# See: https://unix.stackexchange.com/questions/30303/how-to-create-a-deb-file-manually
+# See: https://askubuntu.com/questions/1130558/how-to-build-deb-package-for-ubuntu-18-04
+# See: https://blog.knoldus.com/create-a-debian-package-using-dpkg-deb-tool/
+# See: http://www.tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/
+# See: https://coderwall.com/p/urkybq/how-to-create-debian-package-from-source
+#
+# NOTES:
+# 1. Should use something to force update of changelog
+# 2. How best to compute dpkg version
+# 3. Distribute only binary package (no source package -- link to main github repo)
+# 4. Use ppa: https://launchpad.net/~pdf2htmlex/+archive/ubuntu/pdf2htmlex
+# 5. Rename poppler-data destination to poppler-pdf2htmlEX 
+# 6. Ensure source code location of poppler-data has been updated
+
 import os
 import sys
 import re
@@ -21,28 +40,31 @@ package='pdf2htmlex'
 ppa_name='ppa:pdf2htmlex/pdf2htmlex'
 supported_distributions=('disco',)
 dist_pattern=re.compile('|'.join(['\\) '+i for i in supported_distributions]))
-archive_cmd='(rm CMakeCache.txt || true) && cmake . && make dist'
+archive_cmd='cd pdf2htmlEX/build && (rm CMakeCache.txt || true) && cmake .. && make dist'
 archive_suffix='.tar.bz2'
 
-if os.path.exists('../build-area'):
-    sys.stdout.write('Build area already exists, delete to continue?(y/n)')
-    sys.stdout.flush()
-    ans = raw_input().lower()
-    while ans not in ['y', 'n']:
-        sys.stdout.write('I don\'t understand, enter \'y\' or \'n\':')
-        ans = raw_input().lower()
-
-    if ans == 'n':
-        print 'Skipped.'
-        sys.exit(0)
-
-    if os.system('rm -rf ../build-area') != 0:
-        print 'Failed to clean up old build directory'
-        sys.exit(-1)
+#if os.path.exists('imageBuild/debianDir'):
+#    sys.stdout.write('Build area already exists, delete to continue?(y/n)')
+#    sys.stdout.flush()
+#    ans = raw_input().lower()
+#    while ans not in ['y', 'n']:
+#        sys.stdout.write('I don\'t understand, enter \'y\' or \'n\':')
+#        ans = raw_input().lower()
+#
+#    if ans == 'n':
+#        print 'Skipped.'
+#        sys.exit(0)
+#
+if os.system('rm -rf imageBuild/debianDir') != 0:
+    print 'Failed to clean up old build directory'
+    sys.exit(-1)
 
 print 'Generating version...'
 try:
-    version = re.findall(r'set\(PDF2HTMLEX_VERSION\s*"([^"]*)"\)', open('CMakeLists.txt').read())[0]
+    version = re.findall(
+        r'set\(PDF2HTMLEX_VERSION\s*"([^"]*)"\)',
+        open('pdf2htmlEX/CMakeLists.txt').read()
+    )[0]
 except:
     print 'Cannot get package name and version number'
     sys.exit(-1)
@@ -90,16 +112,16 @@ if os.system(archive_cmd) != 0:
     sys.exit(-1)
 
 orig_tar_filename = package+'-'+version+archive_suffix
-os.mkdir('../build-area')
-if os.system('test -e %s && cp %s ../build-area/' % (orig_tar_filename, orig_tar_filename)) != 0:
+os.mkdir('imageBuild/debianDir')
+if os.system('test -e pdf2htmlEX/build/%s && cp pdf2htmlEX/build/%s imageBuild/debianDir/' % (orig_tar_filename, orig_tar_filename)) != 0:
     print 'Cannot copy tarball file to build area'
     sys.exit(-1)
 
 deb_orig_tar_filename = package+'_'+deb_version+'.orig'+archive_suffix
 try:
-    os.chdir('../build-area')
+    os.chdir('imageBuild/debianDir')
 except:
-    print 'Cannot find ../build-area'
+    print 'Cannot find imageBuild/debianDir'
     sys.exit(-1)
 
 # remove old dir
