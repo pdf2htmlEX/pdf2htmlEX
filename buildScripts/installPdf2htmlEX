@@ -20,3 +20,12 @@ fi
 cd pdf2htmlEX/build
 
 sudo make install
+
+## NEED to install poppler-data!!!
+#
+cd ../../poppler-data
+
+make install                                  \
+  prefix=$PDF2HTMLEX_PREFIX                   \
+  datadir=$PDF2HTMLEX_PREFIX/share/pdf2htmlEX \
+  DESTDIR=../imageBuild/appDir

@@ -68,6 +68,7 @@ void show_version_and_exit(const char * dummy = nullptr)
     cerr << "  cairo " << cairo_version_string() << endl;
 #endif
     cerr << "Default data-dir: " << param.data_dir << endl;
+    cerr << "Poppler data-dir: " << param.poppler_data_dir << endl;
     cerr << "Supported image format:";
 #ifdef ENABLE_LIBPNG
     cerr << " png";
@@ -378,7 +379,7 @@ int main(int argc, char **argv)
       //
       param.data_dir = string(getenv("APPDIR")) + param.data_dir;
     }
-
+    param.poppler_data_dir = param.data_dir + "/poppler"
     parse_options(argc, argv);
     check_param();
 
