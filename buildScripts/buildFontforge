@@ -25,8 +25,8 @@ cmake        		                        \
   -DENABLE_NATIVE_SCRIPTING:BOOL=ON         \
   -DENABLE_PYTHON_SCRIPTING:BOOL=OFF        \
   -DENABLE_PYTHON_EXTENSION:AUTO=OFF        \
-  -DENABLE_LIBSPIRO:BOOL=ON                 \
-  -DENABLE_LIBUNINAMESLIST:BOOL=ON          \
+  -DENABLE_LIBSPIRO:BOOL=OFF                \
+  -DENABLE_LIBUNINAMESLIST:BOOL=OFF         \
   -DENABLE_LIBGIF:AUTO=OFF                  \
   -DENABLE_LIBJPEG:AUTO=ON                  \
   -DENABLE_LIBPNG:AUTO=ON                   \

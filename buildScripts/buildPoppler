@@ -20,13 +20,13 @@ cmake                                       \
   -DBUILD_CPP_TESTS=OFF                     \
   -DENABLE_SPLASH=ON                        \
   -DENABLE_UTILS=OFF                        \
-  -DENABLE_CPP=ON                           \
+  -DENABLE_CPP=OFF                          \
   -DENABLE_GLIB=ON                          \
-  -DENABLE_GOBJECT_INTROSPECTION=ON         \
+  -DENABLE_GOBJECT_INTROSPECTION=OFF        \
   -DENABLE_GTK_DOC=OFF                      \
   -DENABLE_QT5=OFF                          \
   -DENABLE_LIBOPENJPEG="none"               \
-  -DENABLE_CMS="lcms2"                      \
+  -DENABLE_CMS="none"                       \
   -DENABLE_DCTDECODER="libjpeg"             \
   -DENABLE_LIBCURL=OFF                      \
   -DENABLE_ZLIB=ON                          \
