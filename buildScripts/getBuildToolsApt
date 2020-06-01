@@ -25,6 +25,7 @@ sudo apt-get $UNATTENDED install \
   gcc                            \
   g++                            \
   dpkg                           \
+  dpkg-dev                       \
   gettext                        \
   openjdk-8-jre-headless         \
   jq                             \

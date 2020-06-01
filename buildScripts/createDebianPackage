@@ -10,7 +10,9 @@ echo "CREATING pdf2htmlEX (binary) Debian package"
 echo "-------------------------------------------------------------------"
 echo ""
 
-export DPKG_NAME="pdf2htmlEX-$PDF2HTMLEX_BRANCH-$BUILD_TIME-$MACHINE_ARCH-$(lsb_release -cs).deb"
+source /etc/lsb-release
+
+export DPKG_NAME="pdf2htmlEX-$PDF2HTMLEX_BRANCH-$BUILD_TIME-$MACHINE_ARCH-$DISTRIB_CODENAME.deb"
 
 echo "export DPKG_NAME=\"$DPKG_NAME\"" >> buildScripts/reSourceVersionEnvs
 
@@ -66,7 +68,6 @@ find $DEBDIR -type f | xargs md5sum > $md5sumsFile
 # Accumulate the control file information
 #
 versionValue=$(git describe --abbrev=0)
-releaseValue=$(lsb_release -cs)
 architectureValue=$(dpkg-architecture -q DEB_BUILD_ARCH_CPU)
 maintainerValue="$(git config --get user.name) <$(git config --get user.email)>"
 
@@ -74,7 +75,7 @@ maintainerValue="$(git config --get user.name) <$(git config --get user.email)>"
 #
 echo "Package: pdf2htmlEX"                                      > $controlFile
 echo "Version: 0:0.$versionValue-0"                            >> $controlFile
-echo "Distribution: $releaseValue"                             >> $controlFile
+echo "Distribution: $DISTRIB_CODENAME"                         >> $controlFile
 echo "Architecture: $architectureValue"                        >> $controlFile
 echo "Section: universe/web"                                   >> $controlFile
 echo "Priority: optional"                                      >> $controlFile

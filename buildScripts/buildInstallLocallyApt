@@ -10,8 +10,8 @@ export MAKE_PARALLEL="-j $(nproc)"
 
 # choose one of the following...
 #
-export PDF2HTMLEX_BRANCH=update-poppler
-# export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+# export PDF2HTMLEX_BRANCH=<<yourTagHereNoSpaces>>
+export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 
 # The following environment variable determines where the poppler,
 # poppler-data, fontforge and pdf2htmlEX packages are installed.
