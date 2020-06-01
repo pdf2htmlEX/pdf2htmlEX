@@ -25,7 +25,10 @@ make install DESTDIR=../../imageBuild/dockerDir
 
 cd ../../poppler-data
 
-make install prefix=$PDF2HTMLEX_PREFIX DESTDIR=../imageBuild/dockerDir
+make install                                  \
+  prefix=$PDF2HTMLEX_PREFIX                   \
+  datadir=$PDF2HTMLEX_PREFIX/share/pdf2htmlEX \
+  DESTDIR=../imageBuild/dockerDir
 
 cd ../imageBuild/dockerDir
 
