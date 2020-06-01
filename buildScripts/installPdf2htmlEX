@@ -27,5 +27,4 @@ cd ../../poppler-data
 
 make install                                  \
   prefix=$PDF2HTMLEX_PREFIX                   \
-  datadir=$PDF2HTMLEX_PREFIX/share/pdf2htmlEX \
-  DESTDIR=../imageBuild/appDir
+  datadir=$PDF2HTMLEX_PREFIX/share/pdf2htmlEX

@@ -19,10 +19,3 @@ sudo apt-get $UNATTENDED install \
   libpng-dev                     \
   libjpeg-dev                    \
   libxml2-dev                    \
-
-#  libspiro-dev				\
-#  libpango1.0-dev			\
-#  liblcms2-dev				\
-#  libuninameslist-dev			\
-#  python3-dev
-
