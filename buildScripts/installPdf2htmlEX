@@ -25,6 +25,6 @@ sudo make install
 #
 cd ../../poppler-data
 
-make install                                  \
+sudo make install                             \
   prefix=$PDF2HTMLEX_PREFIX                   \
   datadir=$PDF2HTMLEX_PREFIX/share/pdf2htmlEX

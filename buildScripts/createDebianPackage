@@ -44,6 +44,12 @@ cd ..
 #
 git log --format="%cd %h %d %n    %s%n" --date=short > $DOCDIR/gitLog
 
+# Ensure the license and readme details are embedded in the debian archive 
+#
+cp LICENSE       $DOCDIR
+cp LICENSE_GPLv3 $DOCDIR
+cp README.md     $DOCDIR
+
 ########################################
 # setup the DEBIAN package files
 
@@ -73,7 +79,7 @@ echo "Architecture: $architectureValue"                        >> $controlFile
 echo "Section: universe/web"                                   >> $controlFile
 echo "Priority: optional"                                      >> $controlFile
 echo "Essential: no"                                           >> $controlFile
-echo "Depends:  libglib2.0-0, libcairo2, libpng16-16, libjpeg-turbo8, libxml2" >> $controlFile
+echo "Depends:  libglib2.0-0, libfreetype6, libfontconfig1, libcairo2, libpng16-16, libjpeg-turbo8, libxml2" >> $controlFile
 echo "Maintainer: $maintainerValue"                            >> $controlFile
 echo "Homepage: http://github.com/pdf2htmlEX/pdf2htmlEX"       >> $controlFile
 echo "Description: Converts PDF to HTML without losing format" >> $controlFile
