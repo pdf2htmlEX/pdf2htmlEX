@@ -66,17 +66,17 @@ maintainerValue="$(git config --get user.name) <$(git config --get user.email)>"
 
 # Now create the control file
 #
-echo "Package: pdf2htmlEX"                                        > $controlFile
-echo "Version: 0:0.$versionValue-0"                              >> $controlFile
-echo "Distribution: $releaseValue"                               >> $controlFile
-echo "Architecture: $architectureValue"                          >> $controlFile
-echo "Section: universe/web"                                     >> $controlFile
-echo "Priority: optional"                                        >> $controlFile
-echo "Essential: no"                                             >> $controlFile
-echo "Depends:  libcairo2, libpng16-16, libjpeg-turbo8, libxml2" >> $controlFile
-echo "Maintainer: $maintainerValue"                              >> $controlFile
-echo "Homepage: http://github.com/pdf2htmlEX/pdf2htmlEX"         >> $controlFile
-echo "Description: Converts PDF to HTML without losing format"   >> $controlFile
+echo "Package: pdf2htmlEX"                                      > $controlFile
+echo "Version: 0:0.$versionValue-0"                            >> $controlFile
+echo "Distribution: $releaseValue"                             >> $controlFile
+echo "Architecture: $architectureValue"                        >> $controlFile
+echo "Section: universe/web"                                   >> $controlFile
+echo "Priority: optional"                                      >> $controlFile
+echo "Essential: no"                                           >> $controlFile
+echo "Depends:  libglib2.0-0, libcairo2, libpng16-16, libjpeg-turbo8, libxml2" >> $controlFile
+echo "Maintainer: $maintainerValue"                            >> $controlFile
+echo "Homepage: http://github.com/pdf2htmlEX/pdf2htmlEX"       >> $controlFile
+echo "Description: Converts PDF to HTML without losing format" >> $controlFile
 echo "  pdf2htmlEX converts PDF to HTML while retaining text, format & style as much as possible" >> $controlFile
 
 # Create the (empty) conffiles
