@@ -35,6 +35,25 @@ jobs:
       addons:
         homebrew:
           update: true
+          packages:
+          # taken from getBuildToolsLinuxBrew
+          - git
+          - pkg-config
+          - ruby
+          - autoconf
+          - libtool
+          - cmake
+          - make
+          - gcc
+          - gettext
+          - openjdk
+          - jq
+          - tree
+          # taken from getDevLibrariesBrew
+          - cairo
+          - libpng
+          - jpeg
+          - libxml2
       script:
         - ./buildScripts/travisHomeBrewDoItAll
 #        - pdf2htmlEX --version
