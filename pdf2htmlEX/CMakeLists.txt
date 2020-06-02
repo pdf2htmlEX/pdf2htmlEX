@@ -39,6 +39,7 @@ set(POPPLER_LIBRARIES ${POPPLER_LIBRARIES}
   ${CMAKE_SOURCE_DIR}/../poppler/build/libpoppler.a
 )
 
+
 if(ENABLE_SVG)
     pkg_check_modules(CAIRO REQUIRED cairo>=1.10.0)
     message("-- Trying to locate cairo-svg...")
@@ -46,8 +47,10 @@ if(ENABLE_SVG)
     if(CAIRO_SVG_INCLUDE_PATH)
         message("--    found cairo-svg...")
         include_directories(${CAIRO_INCLUDE_DIRS})
-        link_directories(${CAIRO_LIBRARY_DIRS})
-        set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} ${CAIRO_LIBRARIES})
+        if(NOT DEFINED ENV{USING_BREW})
+            link_directories(${CAIRO_LIBRARY_DIRS})
+            set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} ${CAIRO_LIBRARIES})
+        endif()
         set(ENABLE_SVG 1)
     else()
         message(FATAL_ERROR "Error: no SVG support found in Cairo")
@@ -56,7 +59,7 @@ if(ENABLE_SVG)
     find_package(Freetype REQUIRED)
     include_directories(${FREETYPE_INCLUDE_DIRS})
     link_directories(${FREETYPE_LIBRARY_DIRS})
-    set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} ${FREETYPE_LIBRARIES})
+#    set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} ${FREETYPE_LIBRARIES})
 endif()
 
 # SINCE we have a very intimate relationship with a particular version of 
@@ -79,16 +82,17 @@ set(FONTFORGE_LIBRARIES ${FONTFORGE_LIBRARIES}
 set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS}
   ${POPPLER_LIBRARIES}
   ${FONTFORGE_LIBRARIES}
-  -lfreetype
-  -lfontconfig
+  ${CAIRO_LIBRARIES}
   -ljpeg
   -lpng
-  -lz
-  -pthread
-  -lm
+  -lfontconfig
+  -lfreetype
   -lxml2
   -lglib-2.0
   -lgio-2.0
+  -pthread
+  -lz
+  -lm
 )
 
 #  -llcms2

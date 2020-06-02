@@ -10,13 +10,21 @@ export MAKE_PARALLEL="-j $(nproc)"
 
 # choose one of the following...
 #
-export PDF2HTMLEX_BRANCH=update-poppler
-# export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+# export PDF2HTMLEX_BRANCH="<<YourTagHereWithNoSpaces>>"
+export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 
-export PDF2HTMLEX_PREFIX=toBeDetermined
+# The following environment variable determines where the poppler,
+# poppler-data, fontforge and pdf2htmlEX packages are installed.
+# CHANGE IT TO SUIT YOUR NEEDS:
+#
+export PDF2HTMLEX_PREFIX=/home/linuxbrew/.linuxbrew
 
 ################
 # do the build
+
+# The following is used by the pdf2htmlEX CMakeLists.txt file
+#
+export USING_BREW=1
 
 ./buildScripts/versionEnvs         || { echo 'versionEnvs FAILED'         ; exit 1 ; }
 
@@ -30,13 +38,9 @@ export PDF2HTMLEX_PREFIX=toBeDetermined
 
 ./buildScripts/buildPoppler        || { echo 'buildPoppler FAILED'        ; exit 1 ; }
 
-./buildScripts/installPoppler      || { echo 'installPoppler FAILED'      ; exit 1 ; }
-
 ./buildScripts/getFontforge        || { echo 'getFontforge FAILED'        ; exit 1 ; }
 
 ./buildScripts/buildFontforge      || { echo 'buildFontforge FAILED'      ; exit 1 ; }
-
-./buildScripts/installFontforge    || { echo 'installFontforge FAILED'    ; exit 1 ; }
 
 ./buildScripts/buildPdf2htmlEX     || { echo 'buildPdf2htmlEX FAILED'     ; exit 1 ; }
 

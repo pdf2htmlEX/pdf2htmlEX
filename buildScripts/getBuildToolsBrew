@@ -9,16 +9,16 @@ echo "-------------------------------------------------------------------"
 echo ""
 
 brew update
-brew install	\
-  git		\
-  pkg-config	\
-  ruby		\
-  autoconf	\
-  libtool	\
-  cmake		\
-  make		\
-  gcc		\
-  gettext	\
-  openjdk	\
-  jq		\
+brew install \
+  git        \
+  pkg-config \
+  ruby       \
+  autoconf   \
+  libtool    \
+  cmake      \
+  make       \
+  gcc        \
+  gettext    \
+  openjdk    \
+  jq         \
   tree

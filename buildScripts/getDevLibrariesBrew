@@ -10,12 +10,13 @@ echo "-------------------------------------------------------------------"
 echo ""
 
 brew update
-brew install		\
-  cairo			\
-  libspiro		\
-  libpng		\
-  jpeg			\
-  pango			\
-  little-cms2		\
-  libxml2		\
-  libuninameslist	\
+brew install \
+  cairo      \
+  libpng     \
+  jpeg       \
+  libxml2    \
+
+#  libspiro		\
+#  pango			\
+#  little-cms2		\
+#  libuninameslist	\
