@@ -15,7 +15,7 @@ export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 
 ./buildScripts/versionEnvs
 ./buildScripts/reportEnvs
-./buildScripts/getBuildToolsBrew
+./buildScripts/getBuildToolsHomeBrew
 ./buildScripts/getDevLibrariesBrew
 ./buildScripts/getPoppler
 ./buildScripts/buildPoppler
