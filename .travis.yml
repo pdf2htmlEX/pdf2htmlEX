@@ -1,10 +1,12 @@
 language: cpp
 
-# for windows *test* of AppImage
-# see https://docs.travis-ci.com/user/build-matrix/#using-different-programming-languages-per-job
-# and https://discourse.appimage.org/t/run-appimage-on-windows/177
-# and https://docs.travis-ci.com/user/reference/windows/
-# why fuse is not possible on windows: https://superuser.com/questions/179436/is-it-possible-to-use-fuse-with-windows  
+# NOTE: Since we do not have direct access to either MacOS or Windows 
+# machines on which to develop WE DO NOT support building on MacOS or 
+# Windows. 
+
+# For Windows, it is known that the more recent Windows 10 versions are 
+# able to use either the debian archive OR AppImage (as Windows 10 now 
+# allows FUSE). 
 
 compiler: gcc
 
@@ -12,56 +14,20 @@ branches:
   except:  # do not build tags that we create using the upload.sh script
     - /^(?i:continuous.*)$/
 
-#matrix:
-#  fast_finish: true
-#  allow_failures:
-#    - os: osx # Until the build passes, then re-enable.
-
 jobs:
   fast_finish: true
   include:
-#    - stage: build-linux
-#      os: linux
+    - stage: build-linux
+      os: linux
 #      env:
 #        global: DOCKER_FROM="ubuntu:18.04"
 #      services:
 #        - docker
-#      dist: bionic
-#      script: ./buildScripts/travisLinuxAptDoItAll
-    - stage: build-osx
-      os:
-        - osx
-      osx_image: xcode10.1
-      addons:
-        homebrew:
-          update: true
-          packages:
-          # taken from getBuildToolsLinuxBrew
-          - git
-          - pkg-config
-          - ruby
-          - autoconf
-          - libtool
-          - cmake
-          - make
-          - gcc
-          - gettext
-          - openjdk
-          - jq
-          - tree
-          # taken from getDevLibrariesBrew
-          - cairo
-          - libpng
-          - jpeg
-          - libxml2
-      script:
-        - ./buildScripts/travisHomeBrewDoItAll
-#        - pdf2htmlEX --version
+      dist: bionic
+      script: ./buildScripts/travisLinuxAptDoItAll
 #    - stage: test
 #      os: 
 #        - linux
-        #- osx
-        #- windows
 #      script: ./testScripts/doItAllTravis
 #deploy:
 #  provider: releases

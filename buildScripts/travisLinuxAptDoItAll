@@ -9,6 +9,11 @@ export MAKE_PARALLEL="-j $(nproc)"
 
 export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 
+export PDF2HTMLEX_PREFIX=/usr/local
+
+################
+# do the build
+
 ./buildScripts/versionEnvs
 ./buildScripts/reportEnvs
 ./buildScripts/getBuildToolsApt
