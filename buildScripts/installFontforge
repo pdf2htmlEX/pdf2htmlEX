@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -ev
+
 echo ""
 echo "-------------------------------------------------------------------"
 echo "INSTALLING FontForge locally"
