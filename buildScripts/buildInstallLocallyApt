@@ -10,7 +10,7 @@ export MAKE_PARALLEL="-j $(nproc)"
 
 # choose one of the following...
 #
-# export PDF2HTMLEX_BRANCH=<<yourTagHereNoSpaces>>
+# export PDF2HTMLEX_BRANCH="<<YourTagHereWithNoSpaces>>"
 export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 
 # The following environment variable determines where the poppler,
