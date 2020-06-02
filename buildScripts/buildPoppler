@@ -35,6 +35,11 @@ cmake                                       \
   -DBUILD_SHARED_LIBS=OFF                   \
   -DRUN_GPERF_IF_PRESENT=OFF                \
   -DEXTRA_WARN=OFF                          \
+  -DENABLE_JPEG=ON                          \
+  -DENABLE_PNG=ON                           \
+  -DENABLE_TIFF=OFF                         \
+  -DENABLE_NSS=OFF                          \
+  -DENABLE_Cairo=ON                         \
   ..
 
 make $MAKE_PARALLEL
@@ -91,3 +96,6 @@ make $MAKE_PARALLEL
 #   GLIB is requrired by pdf2htmlEX
 #   GObjectIntrospection is not needed by pdf2htmlEX?
 #   Iconv is only used if ENABLE_CPP
+#
+# They can be explicitly DISABLED using ENABLE_XXXX:BOOL=OFF where XXXX is 
+# the package name 
