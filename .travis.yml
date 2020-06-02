@@ -20,23 +20,23 @@ branches:
 jobs:
   fast_finish: true
   include:
-    - stage: build-linux
-      os: linux
-      env:
-        global: DOCKER_FROM="ubuntu:18.04"
-      services:
-        - docker
-      dist: bionic
-      script: ./buildScripts/travisLinuxAptDoItAll
-#    - stage: build-osx
-#      os:
-#        - osx
-#      osx_image: xcode10.1
-#      addons:
-#        homebrew:
-#          update: true
-#      script:
-#        - ./buildScripts/travisHomeBrewDoItAll
+#    - stage: build-linux
+#      os: linux
+#      env:
+#        global: DOCKER_FROM="ubuntu:18.04"
+#      services:
+#        - docker
+#      dist: bionic
+#      script: ./buildScripts/travisLinuxAptDoItAll
+    - stage: build-osx
+      os:
+        - osx
+      osx_image: xcode10.1
+      addons:
+        homebrew:
+          update: true
+      script:
+        - ./buildScripts/travisHomeBrewDoItAll
 #        - pdf2htmlEX --version
 #    - stage: test
 #      os: 
