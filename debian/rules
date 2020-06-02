@@ -1,0 +1,14 @@
+#!/usr/bin/make -f
+%:
+	dh $@
+
+override_dh_auto_test:
+	dh_auto_test || true
+
+# The following override is required when creating a Debian package 
+# associated with a version of poppler which has NO debian package (ie when 
+# poppler has been compiled and installed from source).
+#
+override_dh_shlibdeps:
+	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
+

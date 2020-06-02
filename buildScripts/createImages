@@ -5,10 +5,12 @@
 #################
 # do the creation
 
-./buildScripts/reportEnvs        || { echo 'reportEnvs FAILED'        ; exit 1 ; }
+./buildScripts/reportEnvs          || { echo 'reportEnvs FAILED'          ; exit 1 ; }
 
-./buildScripts/createAppImage    || { echo 'createAppImage FAILED'    ; exit 1 ; }
+./buildScripts/createAppImage      || { echo 'createAppImage FAILED'      ; exit 1 ; }
 
-./buildScripts/createDockerImage || { echo 'createDockerImage FAILED' ; exit 1 ; }
+./buildScripts/createDockerImage   || { echo 'createDockerImage FAILED'   ; exit 1 ; }
+
+./buildScripts/createDebianPackage || { echo 'createDebianPackage FAILED' ; exit 1 ; }
 
 

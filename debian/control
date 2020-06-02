@@ -1,0 +1,14 @@
+Source: pdf2htmlex
+Section: universe/web
+Priority: extra
+Maintainer: Trent Petersen <trentpetersen.523@gmail.com>
+Build-Depends: cmake (>= 2.6.0), pkg-config, debhelper (>= 10), libpng-dev, libjpeg-dev, openjdk-8-jre-headless
+Standards-Version: 3.9.3
+Homepage: http://github.com/pdf2htmlEX/pdf2htmlEX
+
+Package: pdf2htmlex
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Suggests: ttfautohint
+Description: Converts PDF to HTML without losing format
+ pdf2htmlEX converts PDF to HTML while retaining text, format & style as much as possible

@@ -95,12 +95,6 @@ set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS}
   -lm
 )
 
-#  -llcms2
-#  -lz
-#  -llcms2
-#  -lspiro
-#  -luninameslist
-
 # debug build flags (overwrite default cmake debug flags)
 set(CMAKE_C_FLAGS_DEBUG "-ggdb -pg")
 set(CMAKE_CXX_FLAGS_DEBUG "-ggdb -pg")
