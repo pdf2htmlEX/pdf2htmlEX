@@ -8,6 +8,8 @@ echo "BUILDING pdf2htmlEX (using CLang)"
 echo "-------------------------------------------------------------------"
 echo ""
 
+set -ev
+
 cd pdf2htmlEX
 mkdir build
 cd build

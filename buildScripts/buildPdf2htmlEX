@@ -1,14 +1,15 @@
 #!/bin/bash
 
-set -ev
-
 # This bash script builds pdf2htmlEX
 
 echo ""
 echo "-------------------------------------------------------------------"
 echo "BUILDING pdf2htmlEX (using gcc)"
 echo "-------------------------------------------------------------------"
+
 echo ""
+
+set -ev
 
 cd pdf2htmlEX
 mkdir build

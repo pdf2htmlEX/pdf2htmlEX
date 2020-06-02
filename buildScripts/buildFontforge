@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -ev
-
 # This bash script build FontForge
 
 source buildScripts/reSourceVersionEnvs
@@ -11,6 +9,8 @@ echo "-------------------------------------------------------------------"
 echo "BUILDING FontForge (using CMake)"
 echo "-------------------------------------------------------------------"
 echo ""
+
+set -ev
 
 cd fontforge
 

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -ev
-
 # This bash script builds the latest poppler
 
 echo ""
@@ -9,6 +7,8 @@ echo "-------------------------------------------------------------------"
 echo "BUILDING Poppler (using CMake)"
 echo "-------------------------------------------------------------------"
 echo ""
+
+set -ev
 
 cd poppler
 mkdir build
@@ -37,11 +37,11 @@ cmake                                       \
   -DBUILD_SHARED_LIBS=OFF                   \
   -DRUN_GPERF_IF_PRESENT=OFF                \
   -DEXTRA_WARN=OFF                          \
-  -DENABLE_JPEG=ON                          \
-  -DENABLE_PNG=ON                           \
-  -DENABLE_TIFF=OFF                         \
-  -DENABLE_NSS=OFF                          \
-  -DENABLE_Cairo=ON                         \
+  -DWITH_JPEG=ON                            \
+  -DWITH_PNG=ON                             \
+  -DWITH_TIFF=OFF                           \
+  -DWITH_NSS=OFF                            \
+  -DWITH_Cairo=ON                           \
   ..
 
 make $MAKE_PARALLEL

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -ev
-
 echo ""
 echo "-------------------------------------------------------------------"
 echo "INSTALLING FontForge locally"
@@ -20,6 +18,8 @@ if [ -z "$UNATTENDED" ] ; then
   echo "Type ctrl-c now if DO NOT want to continue"
   read -p "Type anything else to continue: "
 fi
+
+set -ev
 
 cd fontforge
 sudo make install

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -ev
-
 # This bash script automates getting the required build tools (brew install)
 
 echo ""
@@ -9,6 +7,8 @@ echo "-------------------------------------------------------------------"
 echo "INSTALLING Build Tools (using Home/Linux Brew)"
 echo "-------------------------------------------------------------------"
 echo ""
+
+set -ev
 
 brew update
 brew install \

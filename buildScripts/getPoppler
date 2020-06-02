@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -ev
-
 # This bash script gets and unpacks the latest Poppler source code
 
 source buildScripts/reSourceVersionEnvs
@@ -20,6 +18,8 @@ rm -rf $POPPLER_VERSION.tar.xz
 rm -rf poppler
 rm -rf poppler-data-0.4.9.tar.gz
 rm -rf poppler-data
+
+set -ev
 
 wget https://poppler.freedesktop.org/$POPPLER_VERSION.tar.xz
 

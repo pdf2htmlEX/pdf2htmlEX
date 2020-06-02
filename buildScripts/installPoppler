@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -ev
-
 # This bash script installs Poppler into the local system
 
 echo ""
@@ -22,6 +20,8 @@ if [ -z "$UNATTENDED" ] ; then
   echo "Type ctrl-c now if DO NOT want to continue"
   read -p "Type anything else to continue: "
 fi
+
+set -ev
 
 cd poppler/build
 sudo make install

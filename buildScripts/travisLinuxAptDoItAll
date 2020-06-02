@@ -2,22 +2,24 @@
 
 # This bash script builds everyting on an TravisCI Linux (Ubunutu) worker
 
+set -ev
+
 export UNATTENDED="--assume-yes"
 export MAKE_PARALLEL="-j $(nproc)"
 
 export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 
-./buildScripts/versionEnvs         || travis_terminate 1;
-./buildScripts/reportEnvs          || travis_terminate 1;
-./buildScripts/getBuildToolsApt    || travis_terminate 1;
-./buildScripts/getDevLibrariesApt  || travis_terminate 1;
-./buildScripts/getPoppler          || travis_terminate 1;
-./buildScripts/buildPoppler        || travis_terminate 1;
-./buildScripts/getFontforge        || travis_terminate 1;
-./buildScripts/buildFontforge      || travis_terminate 1;
-./buildScripts/buildPdf2htmlEX     || travis_terminate 1;
-./buildScripts/installPdf2htmlEX   || travis_terminate 1;
-#./buildScripts/createAppImage      || travis_terminate 1;
-#./buildScripts/createDockerImage   || travis_terminate 1;
-#./buildScripts/uploadGitHubRelease || travis_terminate 1;
-#./buildScripts/uploadDockerImage   || travis_terminate 1;
+./buildScripts/versionEnvs
+./buildScripts/reportEnvs
+./buildScripts/getBuildToolsApt
+./buildScripts/getDevLibrariesApt
+./buildScripts/getPoppler
+./buildScripts/buildPoppler
+./buildScripts/getFontforge
+./buildScripts/buildFontforge
+./buildScripts/buildPdf2htmlEX
+./buildScripts/installPdf2htmlEX
+#./buildScripts/createAppImage
+#./buildScripts/createDockerImage
+#./buildScripts/uploadGitHubRelease
+#./buildScripts/uploadDockerImage

@@ -12,6 +12,7 @@ echo "  (PDF2HTMLEX_BRANCH: [$PDF2HTMLEX_BRANCH])"
 echo "-------------------------------------------------------------------"
 echo ""
 
+set -ev
 
 wget https://codeload.github.com/stephengaito/pdf2htmlEX/zip/$PDF2HTMLEX_BRANCH
 

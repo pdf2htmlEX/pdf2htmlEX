@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -ev
-
 echo ""
 echo "-------------------------------------------------------------------"
 echo "INSTALLING pdf2htmlEX locally"
@@ -18,6 +16,8 @@ if [ -z "$UNATTENDED" ] ; then
   read -p "Type anything else to continue: "
 
 fi
+
+set -ev
 
 cd pdf2htmlEX/build
 
