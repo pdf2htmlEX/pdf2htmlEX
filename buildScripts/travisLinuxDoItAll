@@ -16,8 +16,8 @@ export PDF2HTMLEX_PREFIX=/usr/local
 
 ./buildScripts/versionEnvs
 ./buildScripts/reportEnvs
-./buildScripts/getBuildToolsApt
-./buildScripts/getDevLibrariesApt
+./buildScripts/getBuildTools
+./buildScripts/getDevLibraries
 ./buildScripts/getPoppler
 ./buildScripts/buildPoppler
 ./buildScripts/getFontforge

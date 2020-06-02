@@ -19,25 +19,35 @@ export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 #
 export PDF2HTMLEX_PREFIX=/usr/local
 
+set -ev
+
 ################
 # do the build
 
-./buildScripts/versionEnvs        || { echo 'versionEnvs FAILED'        ; exit 1 ; }
+./buildScripts/versionEnvs
 
-./buildScripts/reportEnvs         || { echo 'reportEnvs FAILED'         ; exit 1 ; }
+./buildScripts/reportEnvs
 
-./buildScripts/getBuildToolsApt   || { echo 'getBuildToolsApt FAILED'   ; exit 1 ; }
+./buildScripts/getBuildTools
 
-./buildScripts/getDevLibrariesApt || { echo 'getDevLibrariesApt FAILED' ; exit 1 ; }
+./buildScripts/getDevLibraries
 
-./buildScripts/getPoppler         || { echo 'getPoppler FAILED'         ; exit 1 ; }
+./buildScripts/getPoppler
 
-./buildScripts/buildPoppler       || { echo 'buildPoppler FAILED'       ; exit 1 ; }
+./buildScripts/buildPoppler
 
-./buildScripts/getFontforge       || { echo 'getFontforge FAILED'       ; exit 1 ; }
+./buildScripts/getFontforge
 
-./buildScripts/buildFontforge     || { echo 'buildFontforge FAILED'     ; exit 1 ; }
+./buildScripts/buildFontforge
 
-./buildScripts/buildPdf2htmlEX    || { echo 'buildPdf2htmlEX FAILED'    ; exit 1 ; }
+./buildScripts/buildPdf2htmlEX
 
-./buildScripts/installPdf2htmlEX  || { echo 'installPdf2htmlEX FAILED'  ; exit 1 ; }
+./buildScripts/installPdf2htmlEX
+
+#./buildScripts/createAppImage
+
+#./buildScripts/createDockerImage
+
+#./buildScripts/uploadGitHubRelease
+
+#./buildScripts/uploadDockerImage

@@ -24,7 +24,7 @@ jobs:
 #      services:
 #        - docker
       dist: bionic
-      script: ./buildScripts/travisLinuxAptDoItAll
+      script: ./buildScripts/travisLinuxDoItAll
 #    - stage: test
 #      os: 
 #        - linux
