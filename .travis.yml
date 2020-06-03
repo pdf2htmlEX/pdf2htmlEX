@@ -25,10 +25,10 @@ jobs:
 #        - docker
       dist: bionic
       script: ./buildScripts/travisLinuxDoItAll
-#    - stage: test
-#      os: 
-#        - linux
-#      script: ./testScripts/doItAllTravis
+    - stage: test
+      os: 
+        - linux
+      script: ./testScripts/runLocalTests
 #deploy:
 #  provider: releases
 #  api_key:
