@@ -4,6 +4,4 @@ set -ev
 
 # This bash script runs the (simple non-browser) tests
 
-ls -la
-
 python3 test_output.py
