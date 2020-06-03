@@ -28,7 +28,9 @@ export DEBIAN_FRONTEND=noninteractive
 ./buildScripts/buildFontforge
 ./buildScripts/buildPdf2htmlEX
 ./buildScripts/installPdf2htmlEX
-#./buildScripts/createAppImage
-#./buildScripts/createDockerImage
+#./testScripts/runLocalTests
+./buildScripts/createAppImage
+./buildScripts/createDebianPackage
+./buildScripts/createDockerImage
 #./buildScripts/uploadGitHubRelease
 #./buildScripts/uploadDockerImage

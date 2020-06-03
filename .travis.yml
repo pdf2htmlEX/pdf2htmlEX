@@ -26,7 +26,6 @@ jobs:
       dist: bionic
       script:
       - ./buildScripts/travisLinuxDoItAll
-      - ./testScripts/runLocalTests
 #    - stage: test
 #      os: 
 #        - linux
