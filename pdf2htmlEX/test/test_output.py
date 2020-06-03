@@ -16,7 +16,11 @@ class test_output(Common, unittest.TestCase):
         result = self.run_pdf2htmlEX(args)
         self.maxDiff = None
         if expected_output_files:
-            self.assertItemsEqual(result['output_files'], expected_output_files)
+            # assertItemsEqual has change in python 3.2 to assertCountEqual
+            # "Test that sequence first contains the same elements as second, regardless of their order."
+            # see: https://docs.python.org/3/library/unittest.html#assert-methods
+            #
+            self.assertCountEqual(result['output_files'], expected_output_files)
             print("test_output ", input_file, ": matched ", expected_output_files)
         else:
             print("test_output ", input_file, ": passed")

@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+
+# This python script regenerates the html files associated with a given browser test.
+#
+# This script MUST ONLY be run after the full (local) browser test.
+#
+
+import os
+import sys
+import shutil
+
+if len(sys.argv) != 2 :
+	print("usage: compareTestImages <<aTestFileName>>")
+	sys.exit(-1)
+
+print("")
+baseFileName  = os.path.splitext(sys.argv[1])[0]
+testDir       = "/tmp/pdf2htmlEX/out"
+ref_htmlDir   = os.path.join("browser_tests", baseFileName)
+test_htmlFile = os.path.join(testDir, baseFileName+'.html')
+
+if baseFileName == "test_fail" :
+  print("The test_fail test can not be regenerated")
+  print("")
+  sys.exit(-1)
+
+if not os.path.isfile(test_htmlFile) :
+  print("The test file [", test_htmlFile, "] has not been found")
+  print("Do you need to re-run the browser tests?")
+  print("")
+  sys.exit(-1)
+
+print("Are you sure you want to copy: ")
+print("  ", test_htmlFile)
+print("to: ")
+print("  ", ref_htmlDir)
+try:
+  input("\nType Ctrl-C now to abort: ")
+except:
+  print("\n")
+  sys.exit(0)
+
+shutil.rmtree(ref_htmlDir, True)
+os.makedirs(ref_htmlDir, 0o755, True)
+shutil.copy(test_htmlFile, ref_htmlDir)
+
+print("")
+
