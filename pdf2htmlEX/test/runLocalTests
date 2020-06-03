@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# This bash script runs the (simple non-browser) tests
+
+python3 test_output.py

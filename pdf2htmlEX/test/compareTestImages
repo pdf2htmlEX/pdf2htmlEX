@@ -1,0 +1,31 @@
+#!/usr/bin/env python3
+
+# This python script displays the three images for a given test 
+#
+# ref  image: is the currently "corrrect" image archived with pdf2htmlEX 
+# out  image: is the result of pdf2htmlEXing a given test pdf
+# diff image: is the difference of the ref and out ('RGB') images
+#
+# In all cases, the diff image MUST be completely BLACK for a test to 
+# pass. 
+#
+# Type Ctrl-Q inside the image to quit each image display.
+#
+
+import os
+import sys
+
+if len(sys.argv) != 2 :
+	print("usage: compareTestImages <<aTestFileName>>")
+	sys.exit(-1)
+
+baseFileName = os.path.splitext(sys.argv[1])[0]
+testPNGDir  = "/tmp/pdf2htmlEX/png"
+
+outPNGFile  = os.path.join(testPNGDir, baseFileName+".out.png")
+refPNGFile  = os.path.join(testPNGDir, baseFileName+".ref.png")
+diffPNGFile = os.path.join(testPNGDir, baseFileName+".diff.png")
+
+os.system("display "+outPNGFile+"&")
+os.system("display "+refPNGFile+"&")
+os.system("display "+diffPNGFile+"&")

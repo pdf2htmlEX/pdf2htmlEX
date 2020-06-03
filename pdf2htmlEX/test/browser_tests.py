@@ -5,6 +5,7 @@ import subprocess
 import shutil
 import unittest
 
+#from selenium.common.exceptions import WebDriverException
 from PIL import Image, ImageChops
 from test import Common
 
@@ -30,7 +31,7 @@ class BrowserTests(Common):
 
     def run_test_case(self, filename, args=[], page_must_load=True):
         basefilename, extension = os.path.splitext(filename)
-        self.assertEquals(extension.lower(), '.pdf', 'Input file is not PDF')
+        self.assertEqual(extension.lower(), '.pdf', 'Input file is not PDF')
 
         htmlfilename = basefilename + '.html'
         ref_htmlfolder = os.path.join(self.TEST_DATA_DIR, basefilename)
@@ -52,21 +53,28 @@ class BrowserTests(Common):
 
         pngfilename_out = os.path.join(self.PNGDIR, basefilename + '.out.png')
         self.generate_image(out_htmlfilename, pngfilename_out)
-        out_img = Image.open(pngfilename_out)
+        out_img = Image.open(pngfilename_out).convert('RGB')
 
         pngfilename_ref = os.path.join(self.PNGDIR, basefilename + '.ref.png')
         self.generate_image(ref_htmlfilename, pngfilename_ref, page_must_load=page_must_load)
-        ref_img = Image.open(pngfilename_ref)
+        ref_img = Image.open(pngfilename_ref).convert('RGB')
 
         diff_img = ImageChops.difference(ref_img, out_img);
 
+        # ALWAYS save the diff image so we can manually check the diff
+        # see: (http://stackoverflow.com/questions/15721484):
+        diff_file_name = os.path.join(self.PNGDIR, basefilename + '.diff.png')
+        diff_img.convert('RGB').save(diff_file_name)
+        
         diff_bbox = diff_img.getbbox()
-        if diff_bbox is not None:
+        print("\nTesting at: [", basefilename, "]")
+        
+        if diff_bbox is None:
+            print("  passed")
+        else:
+            print("  diff bounding box: ", diff_bbox, " should be None")
             diff_size = (diff_bbox[2] - diff_bbox[0]) * (diff_bbox[3] - diff_bbox[1])
             img_size = ref_img.size[0] * ref_img.size[1]
-            # save the diff image (http://stackoverflow.com/questions/15721484):
-            diff_file_name = os.path.join(self.PNGDIR, basefilename + '.diff.png')
-            diff_img.convert('RGB').save(diff_file_name)
             self.fail(('PNG files %s and %s differ by at most %d pixels, '+
                        '(%f%% of %d pixels in total), difference: %s') %
                       (pngfilename_out, pngfilename_ref,

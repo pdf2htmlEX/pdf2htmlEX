@@ -69,7 +69,7 @@ class Common(object):
         with open(os.devnull, 'w') as fnull:
             return_code = subprocess.call(list(map(str, args)), stderr=fnull)
 
-        self.assertEquals(return_code, 0, 'cannot execute pdf2htmlEX')
+        self.assertEqual(return_code, 0, 'cannot execute pdf2htmlEX')
 
         files = os.listdir(self.TMPDIR)
         for file in files:

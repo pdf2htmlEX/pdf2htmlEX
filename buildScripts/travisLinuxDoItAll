@@ -11,6 +11,10 @@ export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 
 export PDF2HTMLEX_PREFIX=/usr/local
 
+# Ensure all Apt packages are installed with no user interaction
+#
+export DEBIAN_FRONTEND=noninteractive
+
 ################
 # do the build
 
