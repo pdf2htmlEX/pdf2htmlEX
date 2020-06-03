@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# This bash script builds everyting on an TravisCI Linux (Ubunutu) worker
+
+set -ev
+
+export UNATTENDED="--assume-yes"
+export MAKE_PARALLEL="-j $(nproc)"
+
+export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+
+export PDF2HTMLEX_PREFIX=/usr/local
+
+################
+# do the build
+
+./buildScripts/versionEnvs
+./buildScripts/reportEnvs
+./buildScripts/getBuildTools
+./buildScripts/getDevLibraries
+./buildScripts/getPoppler
+./buildScripts/buildPoppler
+./buildScripts/getFontforge
+./buildScripts/buildFontforge
+./buildScripts/buildPdf2htmlEX
+./buildScripts/installPdf2htmlEX
+#./buildScripts/createAppImage
+#./buildScripts/createDockerImage
+#./buildScripts/uploadGitHubRelease
+#./buildScripts/uploadDockerImage

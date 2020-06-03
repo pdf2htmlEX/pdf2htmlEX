@@ -13,6 +13,8 @@ echo "  (UNATTENDED: [$UNATTENDED])"
 echo "-------------------------------------------------------------------"
 echo ""
 
+set -ev
+
 sudo apt-get update
 sudo apt-get $UNATTENDED install \
   libcairo-dev                   \

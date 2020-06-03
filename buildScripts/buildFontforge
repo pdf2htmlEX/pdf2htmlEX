@@ -10,6 +10,8 @@ echo "BUILDING FontForge (using CMake)"
 echo "-------------------------------------------------------------------"
 echo ""
 
+set -ev
+
 cd fontforge
 
 mkdir build

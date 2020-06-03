@@ -12,6 +12,8 @@ echo ""
 
 source /etc/lsb-release
 
+set -ev
+
 export DPKG_NAME="pdf2htmlEX-$PDF2HTMLEX_BRANCH-$BUILD_TIME-$MACHINE_ARCH-$DISTRIB_CODENAME.deb"
 
 echo "export DPKG_NAME=\"$DPKG_NAME\"" >> buildScripts/reSourceVersionEnvs

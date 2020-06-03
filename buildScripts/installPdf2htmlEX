@@ -17,6 +17,8 @@ if [ -z "$UNATTENDED" ] ; then
 
 fi
 
+set -ev
+
 cd pdf2htmlEX/build
 
 sudo make install

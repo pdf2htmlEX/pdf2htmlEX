@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# This bash script builds the complete pdf2htmlEX application LOCALLY
+# (It does not create the AppImage or Docker images)
+
+# Adjust the following two environment variables to suit your needs
+#
+export UNATTENDED="--assume-yes"
+export MAKE_PARALLEL="-j $(nproc)"
+
+# choose one of the following...
+#
+# export PDF2HTMLEX_BRANCH="<<YourTagHereWithNoSpaces>>"
+export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+
+# The following environment variable determines where the poppler,
+# poppler-data, fontforge and pdf2htmlEX packages are installed.
+# CHANGE IT TO SUIT YOUR NEEDS:
+#
+export PDF2HTMLEX_PREFIX=/usr/local
+
+set -ev
+
+################
+# do the build
+
+./buildScripts/versionEnvs
+
+./buildScripts/reportEnvs
+
+./buildScripts/getBuildTools
+
+./buildScripts/getDevLibraries
+
+./buildScripts/getPoppler
+
+./buildScripts/buildPoppler
+
+./buildScripts/getFontforge
+
+./buildScripts/buildFontforge
+
+./buildScripts/buildPdf2htmlEX
+
+./buildScripts/installPdf2htmlEX
+
+#./buildScripts/createAppImage
+
+#./buildScripts/createDockerImage
+
+#./buildScripts/uploadGitHubRelease
+
+#./buildScripts/uploadDockerImage

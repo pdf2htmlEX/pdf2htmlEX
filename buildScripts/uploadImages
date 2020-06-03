@@ -6,6 +6,8 @@
 ################
 # do the uploads
 
+set -ev
+
 ./buildScripts/reportEnvs          || { echo 'reportEnvs FAILED'        ; exit 1 ; }
 
 ./buildScripts/uploadGitHubRelease || { echo 'uploadGitHubRelease FAILED' ; exit 1 ; }

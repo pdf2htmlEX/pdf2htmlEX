@@ -11,6 +11,8 @@ echo "  (FONTFORGE_VERSION: [$FONTFORGE_VERSION])"
 echo "-------------------------------------------------------------------"
 echo ""
 
+set -ev
+
 FONTFORGE_SRC=$FONTFORGE_VERSION.tar.gz
 
 rm -rf $FONTFORGE_SRC
