@@ -27,8 +27,6 @@ export DISPLAY=:99.0
 #
 echo "xwindows (xvfb) display: $DISPLAY"
 
-ls -la
-
 # Now we actually run the python3 based tests
 #
 echo ""
