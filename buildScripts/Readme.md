@@ -83,8 +83,7 @@ Each script can be used individually to re-run a particular step if needed.
 
 ### Top-level scripts
 
-However, typically, most users, will run one of the following
-"top-level" scripts: 
+Typically, most users, will run one of the following "top-level" scripts: 
 
 1. **`buildInstallLocally`**
 
