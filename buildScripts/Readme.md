@@ -15,13 +15,13 @@ to use these scripts to build `pdf2htmlEX`.
 **Table of contents**
 
 - [TL;DR ...](#tldr-)
-  - [Downloading precompiled versions](#http://localhost:5000/Readme.md#downloading-precompiled-versions-downloads)
-  - [Building yourself](#http://localhost:5000/Readme.md#building-yourself)
-- [The gory details ...](#http://localhost:5000/Readme.md#the-gory-details-)
-  - [Top-level scripts](#http://localhost:5000/Readme.md#top-level-scripts)
-  - [Individual steps](#http://localhost:5000/Readme.md#individual-steps)
-  - [Helper files and scripts](http://localhost:5000/Readme.md#helper-files-and-scripts)
-- [Yet more details?](http://localhost:5000/Readme.md#yet-more-details)
+  - [Downloading precompiled versions](#downloading-precompiled-versions-downloads)
+  - [Building yourself](#building-yourself)
+- [The gory details ...](#the-gory-details-)
+  - [Top-level scripts](#top-level-scripts)
+  - [Individual steps](#individual-steps)
+  - [Helper files and scripts](#helper-files-and-scripts)
+- [Yet more details?](#yet-more-details)
 
 ---
 
