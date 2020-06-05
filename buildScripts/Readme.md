@@ -137,12 +137,20 @@ Typically, most users, will run one of the following "top-level" scripts:
 ### Individual steps
 
 - **`buildFontforge`**: Compiles a *static* version of `libfontforge` for 
-  use by `pdf2htmlEX`. 
+  use by `pdf2htmlEX`.
+
+  Statically linking `libfontforge` into `phd2htmlEX` ensures that any 
+  versions of FontForge already installed by the user, are not broken by 
+  the user's installation of `pdf2htmlEX`. 
 
 - **`buildPdf2htmlEX`**: Compiles and links `pdf2htmlEX`. 
 
 - **`buildPoppler`**: Compiles a *static* version of `libpoppler` and 
   `libpopper-glib` for use by `pdf2htmlEX`. 
+
+  Statically linking `libpoppler` and `libpoppler-glib` into `phd2htmlEX` 
+  ensures that any versions of Poppler already installed by the user, are 
+  not broken by the user's installation of `pdf2htmlEX`. 
 
 - **`createAppImage`**: Using an already compiled version of `pdf2htmlEX`, 
   installs it and `popper-data` into an AppImage.
