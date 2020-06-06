@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -ev
-
 # This bash script runs the local browser tests
 
 # We start by running a virtual frame buffer as display 99.0
@@ -50,4 +48,8 @@ ps -ef | grep -v grep | grep Xvfb
 echo "-----------------------------------------------------------"
 echo ""
 
-exit $returnCode
+if [ -z "$TRAVIS_DIST"] ; then
+  exit $returnCode
+fi
+
+exit 0

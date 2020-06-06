@@ -51,6 +51,20 @@ class BrowserTests(Common):
             shutil.copytree(self.OUTDIR, ref_htmlfolder)
             return
 
+        # keep a record of the HTML files (and any differences) 
+        # for later reporting of test results
+        #
+        try:
+            os.makedirs(self.HTMDIR, 0o755, True)
+            outHtmlFile = os.path.join(self.HTMDIR, basefilename+'.out.html')
+            refHtmlFile = os.path.join(self.HTMDIR, basefilename+'.ref.html')
+            difHtmlFile = os.path.join(self.HTMDIR, basefilename+'.diff.html')
+            shutil.copy(out_htmlfilename, outHtmlFile)
+            shutil.copy(ref_htmlfilename, refHtmlFile)
+            os.system("diff "+outHtmlFile+" "+refHtmlFile+" > "+difHtmlFile+" 2>&1")
+        except:
+            pass
+
         pngfilename_out = os.path.join(self.PNGDIR, basefilename + '.out.png')
         self.generate_image(out_htmlfilename, pngfilename_out)
         out_img = Image.open(pngfilename_out).convert('RGB')

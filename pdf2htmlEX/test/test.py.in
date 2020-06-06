@@ -28,6 +28,7 @@ class Common(object):
     PNGDIR = "@PDF2HTMLEX_PNGDIR@"
     DATDIR = "@PDF2HTMLEX_DATDIR@"
     OUTDIR = "@PDF2HTMLEX_OUTDIR@"
+    HTMDIR = "@PDF2HTMLEX_HTMDIR@"
 
     def setUp(self):
         # filter manifest

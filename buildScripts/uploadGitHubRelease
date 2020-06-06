@@ -67,9 +67,10 @@ echo "machine uploads.github.com"  >> $HOME/.netrc
 echo "  login    $GITHUB_USERNAME" >> $HOME/.netrc
 echo "  password $GITHUB_TOKEN"    >> $HOME/.netrc
 
-echo $APPIMAGE_NAME > appImageName.txt
-echo $DOCKER_NAME   > dockerImageName.txt
-echo $DPKG_NAME     > debianArchiveName.txt
+echo $APPIMAGE_NAME     > appImageName.txt
+echo $DOCKER_NAME       > dockerImageName.txt
+echo $DPKG_NAME         > debianArchiveName.txt
+echo $TEST_RESULTS_NAME > testResultsName.txt
 
 deleteReleaseByTag "$TRAVIS_REPO_SLUG" "continuous-$BUILD_DIST"
 
@@ -77,9 +78,11 @@ createNewRelease   "$TRAVIS_REPO_SLUG" "continuous-$BUILD_DIST" "Latest $BUILD_D
   ../buildScripts/uploadGitHubReleaseMessage
 
 uploadAnAsset $upload_url "appImageName.txt"      "text/plain"
+uploadAnAsset $upload_url "testResultsName.txt"   "text/plain"
 uploadAnAsset $upload_url "buildInfo.sh"          "text/plain"
 uploadAnAsset $upload_url "dockerImageName.txt"   "text/plain"
 uploadAnAsset $upload_url "debianArchiveName.txt" "text/plain"
 uploadAnAsset $upload_url $APPIMAGE_NAME          "application/zip"
+uploadAnAsset $upload_url $TEST_RESULTS_NAME      "application/zip"
 uploadAnAsset $upload_url $DPKG_NAME              "application/x-debian-package"
 
