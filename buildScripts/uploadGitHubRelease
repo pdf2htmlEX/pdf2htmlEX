@@ -79,4 +79,5 @@ uploadAnAsset $upload_url "appImageName.txt"    "text/plain"
 uploadAnAsset $upload_url "buildInfo.sh"        "text/plain"
 uploadAnAsset $upload_url "dockerImageName.txt" "text/plain"
 uploadAnAsset $upload_url $APPIMAGE_NAME        "application/zip"
+uploadAnAsset $upload_url $DPKG_NAME            "application/x-debian-package"
 
