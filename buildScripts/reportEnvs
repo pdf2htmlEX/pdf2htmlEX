@@ -14,7 +14,8 @@ echo "Build env:"
 echo "           prefix: [$PDF2HTMLEX_PREFIX]"
 echo "       unattended: [$UNATTENDED]"
 echo "    make parallel: [$MAKE_PARALLEL]"
-echo "     distribution: [$BULD_DIST]"
+echo "     distribution: [$BUILD_DIST]"
+
 source ./buildScripts/reSourceVersionEnvs
 
 echo "pdf2htmlEX env:"
