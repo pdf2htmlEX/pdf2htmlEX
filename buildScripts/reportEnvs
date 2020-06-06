@@ -2,6 +2,8 @@
 
 # This bash script reports the more important TRAVIS environment variables
 
+source ./buildScripts/reSourceVersionEnvs
+
 echo "TravisCI env:"
 echo "             dist: [$TRAVIS_DIST]"
 echo "              tag: [$TRAVIS_TAG]"
@@ -15,8 +17,6 @@ echo "           prefix: [$PDF2HTMLEX_PREFIX]"
 echo "       unattended: [$UNATTENDED]"
 echo "    make parallel: [$MAKE_PARALLEL]"
 echo "     distribution: [$BUILD_DIST]"
-
-source ./buildScripts/reSourceVersionEnvs
 
 echo "pdf2htmlEX env:"
 echo "          poppler: [$POPPLER_VERSION]"
