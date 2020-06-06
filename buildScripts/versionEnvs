@@ -44,11 +44,7 @@ cat /etc/lsb-release
 
 source /etc/lsb-release
 
-echo "DISTRIB_CODENAME = $DISTRIB_CODENAME"
-
 export BUILD_DIST=$DISTRIB_CODENAME
-
-echo "BUILD_DIST = $BUILD_DIST"
 
 export BUILD_TIME="$(date +%Y_%m_%d-%H_%M_%S)"
 
@@ -61,5 +57,3 @@ echo "export MACHINE_ARCH=\"$MACHINE_ARCH\""           >> buildScripts/reSourceV
 echo "export BUILD_DIST=\"$BUILD_DIST\""               >> buildScripts/reSourceVersionEnvs
 echo "export BUILD_TIME=\"$BUILD_TIME\""               >> buildScripts/reSourceVersionEnvs
 echo "export PDF2HTMLEX_PREFIX=\"$PDF2HTMLEX_PREFIX\"" >> buildScripts/reSourceVersionEnvs
-
-cat buildScripts/reSourceVersionEnvs

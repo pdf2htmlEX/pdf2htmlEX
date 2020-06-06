@@ -73,7 +73,7 @@ echo $DPKG_NAME     > debianArchiveName.txt
 
 deleteReleaseByTag "$TRAVIS_REPO_SLUG" "continuous-$BUILD_DIST"
 
-createNewRelease   "$TRAVIS_REPO_SLUG" "continuous-$BUILD_DIST" "Latest release" \
+createNewRelease   "$TRAVIS_REPO_SLUG" "continuous-$BUILD_DIST" "Latest $BUILD_DIST release" \
   ../buildScripts/uploadGitHubReleaseMessage
 
 uploadAnAsset $upload_url "appImageName.txt"      "text/plain"
