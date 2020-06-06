@@ -29,7 +29,7 @@ to use these scripts to build `pdf2htmlEX`.
 
 ## TL;DR ...
 
-### Downloading precompiled versions {#Downloads}
+### Downloading precompiled versions
 
 For most users, you probably really want to simply download one of the 
 [precompiled versions of 
@@ -89,9 +89,9 @@ Unfortunately, the installed versions of both Poppler and FontForge in
 most Linux distributions, lag the official releases of both of these 
 projects. Even worse few distributions install the same versions.
 
-This means that it is nearly impossible for the `pdf2htmlEX` 'predict' 
-which version of Poppler or FontForge will be installed on a given user's 
-machine. 
+This means that it is nearly impossible for the `pdf2htmlEX` code to 
+'predict' which version of Poppler or FontForge will be installed on a 
+given user's machine. 
 
 ## Our solution
 
@@ -162,8 +162,7 @@ Typically, most users, will run one of the following "top-level" scripts:
 
    Following successful `buildInstallLocally`, `createImages` and 
    `runTests`, this will automate the upload of the various artefacts to 
-   the `pdf2htmlEX` releases page, LaunchPad ppa and docker hub 
-   repository. 
+   the `pdf2htmlEX` releases page, and docker hub repository. 
 
    **Note** that this step requires the user to enter passwords for each 
    of the respective services. *Most* users will not need (or be able) to 
@@ -241,11 +240,6 @@ Typically, most users, will run one of the following "top-level" scripts:
   `pdf2htmlEX/pdf2htmlEX/test` directory. See the 
   `pdf2htmlEX/pdf2htmlEx/test` directory's Readme file for details. 
 
-- **`uploadDebianArchive`**: Upload the `pdf2htmlEX` Debian archive to 
-  both the GitHub releases page, as well as the LaunchPad ppa.
-  
-  This script has not yet been implemented.
-  
 - **`uploadDockerImage`**: Upload the `pdf2htmlEX` Docker image to 
   Docker hub repository associated to the docker hub users specified in 
   the `DOCKER_USERNAME` environement variable.

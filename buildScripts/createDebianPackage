@@ -12,7 +12,7 @@ echo ""
 
 set -ev
 
-export DPKG_NAME="pdf2htmlEX-$PDF2HTMLEX_BRANCH-$BUILD_TIME-$MACHINE_ARCH-$BUILD_DIST.deb"
+export DPKG_NAME="pdf2htmlEX-$PDF2HTMLEX_BRANCH-$BUILD_TIME-$BUILD_DIST-$MACHINE_ARCH.deb"
 
 echo "export DPKG_NAME=\"$DPKG_NAME\"" >> buildScripts/reSourceVersionEnvs
 
