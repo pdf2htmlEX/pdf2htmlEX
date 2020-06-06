@@ -40,13 +40,18 @@ if [ -z "$PDF2HTMLEX_BRANCH" ]; then
   fi
 fi
 
-export MACHINE_ARCH="$(uname -m)"
+source /etc/lsb-release
+
+export BUILD_DIST=$DISTRIB_CODENAME
 
 export BUILD_TIME="$(date +%Y_%m_%d-%H_%M_%S)"
+
+export MACHINE_ARCH="$(uname -m)"
 
 echo "export POPPLER_VERSION=\"$POPPLER_VERSION\""     >  buildScripts/reSourceVersionEnvs
 echo "export FONTFORGE_VERSION=\"$FONTFORGE_VERSION\"" >> buildScripts/reSourceVersionEnvs
 echo "export PDF2HTMLEX_BRANCH=\"$PDF2HTMLEX_BRANCH\"" >> buildScripts/reSourceVersionEnvs
 echo "export MACHINE_ARCH=\"$MACHINE_ARCH\""           >> buildScripts/reSourceVersionEnvs
+echo "export BUILD_DIST=\"$BUILD_DIST\""               >> buildScripts/reSourceVersionEnvs
 echo "export BUILD_TIME=\"$BUILD_TIME\""               >> buildScripts/reSourceVersionEnvs
 echo "export PDF2HTMLEX_PREFIX=\"$PDF2HTMLEX_PREFIX\"" >> buildScripts/reSourceVersionEnvs

@@ -10,11 +10,9 @@ echo "CREATING pdf2htmlEX (binary) Debian package"
 echo "-------------------------------------------------------------------"
 echo ""
 
-source /etc/lsb-release
-
 set -ev
 
-export DPKG_NAME="pdf2htmlEX-$PDF2HTMLEX_BRANCH-$BUILD_TIME-$MACHINE_ARCH-$DISTRIB_CODENAME.deb"
+export DPKG_NAME="pdf2htmlEX-$PDF2HTMLEX_BRANCH-$BUILD_TIME-$MACHINE_ARCH-$BUILD_DIST.deb"
 
 echo "export DPKG_NAME=\"$DPKG_NAME\"" >> buildScripts/reSourceVersionEnvs
 
@@ -77,7 +75,7 @@ maintainerValue="$(git config --get user.name) <$(git config --get user.email)>"
 #
 echo "Package: pdf2htmlEX"                                      > $controlFile
 echo "Version: 0:0.$versionValue-0"                            >> $controlFile
-echo "Distribution: $DISTRIB_CODENAME"                         >> $controlFile
+echo "Distribution: $BUILD_DIST"                               >> $controlFile
 echo "Architecture: $architectureValue"                        >> $controlFile
 echo "Section: universe/web"                                   >> $controlFile
 echo "Priority: optional"                                      >> $controlFile
