@@ -71,9 +71,9 @@ echo $APPIMAGE_NAME > appImageName.txt
 echo $DOCKER_NAME   > dockerImageName.txt
 echo $DPKG_NAME     > debianArchiveName.txt
 
-deleteReleaseByTag "$TRAVIS_REPO_SLUG" "continuous"
+deleteReleaseByTag "$TRAVIS_REPO_SLUG" "continuous-$TRAVIS_DIST"
 
-createNewRelease   "$TRAVIS_REPO_SLUG" "continuous" "Latest release" \
+createNewRelease   "$TRAVIS_REPO_SLUG" "continuous-$TRAVIS_DIST" "Latest release" \
   ../buildScripts/uploadGitHubReleaseMessage
 
 uploadAnAsset $upload_url "appImageName.txt"      "text/plain"

@@ -17,10 +17,16 @@ branches:
 jobs:
   fast_finish: true
   include:
-    - stage: build-linux
-      os: linux
+    - os: linux
       dist: bionic
       env: DOCKER_FROM="ubuntu:18.04"
+      services:
+        - docker
+      script:
+      - ./buildScripts/travisLinuxDoItAll
+    - os: linux
+      dist: xenial
+      env: DOCKER_FROM="ubuntu:16.04"
       services:
         - docker
       script:

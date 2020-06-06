@@ -3,6 +3,7 @@
 # This bash script reports the more important TRAVIS environment variables
 
 echo "TravisCI env:"
+echo "             dist: [$TRAVIS_DIST]"
 echo "              tag: [$TRAVIS_TAG]"
 echo "           branch: [$TRAVIS_BRANCH]"
 echo "           commit: [$TRAVIS_COMMIT]"
@@ -26,4 +27,5 @@ echo "       build time: [$BUILD_TIME]"
 echo "      docker from: [$DOCKER_FROM]"
 echo "      docker name: [$DOCKER_NAME]"
 echo "    appImage name: [$APPIMAGE_NAME]"
+echo "        dpkg name: [$DPKG_NAME]"
 echo "uploadTool suffix: [$UPLOADTOOL_SUFFIX]"
