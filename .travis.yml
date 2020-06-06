@@ -19,17 +19,14 @@ jobs:
   include:
     - stage: build-linux
       os: linux
-#      env:
-#        global: DOCKER_FROM="ubuntu:18.04"
-#      services:
-#        - docker
       dist: bionic
+      env:
+        global: DOCKER_FROM="ubuntu:18.04"
+      services:
+        - docker
       script:
       - ./buildScripts/travisLinuxDoItAll
-#    - stage: test
-#      os: 
-#        - linux
-#      script: ./testScripts/runLocalTests
+
 #deploy:
 #  provider: releases
 #  api_key:
