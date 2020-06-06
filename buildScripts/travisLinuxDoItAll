@@ -7,7 +7,7 @@ set -ev
 export UNATTENDED="--assume-yes"
 export MAKE_PARALLEL="-j $(nproc)"
 
-export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+export PDF2HTMLEX_BRANCH=$TRAVIS_BRANCH
 
 export PDF2HTMLEX_PREFIX=/usr/local
 

@@ -20,8 +20,7 @@ jobs:
     - stage: build-linux
       os: linux
       dist: bionic
-      env:
-        global: DOCKER_FROM="ubuntu:18.04"
+      env: DOCKER_FROM="ubuntu:18.04"
       services:
         - docker
       script:
