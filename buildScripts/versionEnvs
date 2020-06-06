@@ -44,6 +44,8 @@ cat /etc/lsb-release
 
 source /etc/lsb-release
 
+echo "DISTRIB_CODENAME = $DISTRIB_CODENAME"
+
 export BUILD_DIST=$DISTRIB_CODENAME
 
 export BUILD_TIME="$(date +%Y_%m_%d-%H_%M_%S)"
