@@ -24,13 +24,6 @@ jobs:
         - docker
       script:
       - ./buildScripts/travisLinuxDoItAll
-    - os: linux
-      dist: xenial
-      env: DOCKER_FROM="ubuntu:16.04"
-      services:
-        - docker
-      script:
-      - ./buildScripts/travisLinuxDoItAll
 
 #deploy:
 #  provider: releases
