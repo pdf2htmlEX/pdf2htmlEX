@@ -59,6 +59,9 @@ if [ -f /.dockerenv ] ; then
   LINUX_DEPLOY_APP_IMAGE=squashfs-root/AppRun
 fi
 
+export VERBOSE=1
+export OUTPUT=$APPIMAGE_NAME
+
 ./$LINUX_DEPLOY_APP_IMAGE						\
   -e appDir/$PDF2HTMLEX_PREFIX/bin/pdf2htmlEX	\
   --create-desktop-file							\
