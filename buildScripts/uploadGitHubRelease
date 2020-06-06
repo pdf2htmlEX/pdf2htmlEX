@@ -60,6 +60,8 @@ fi
 
 cd imageBuild
 
+ls -la
+
 echo "machine api.github.com"       > $HOME/.netrc
 echo "  login    $GITHUB_USERNAME" >> $HOME/.netrc
 echo "  password $GITHUB_TOKEN"    >> $HOME/.netrc
