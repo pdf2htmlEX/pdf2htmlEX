@@ -61,9 +61,9 @@ if [ -x "$(which docker)" ]; then
 
   export DOCKER_NAME="$DOCKER_USERNAME/pdf2htmlex:$PDF2HTMLEX_BRANCH-$BUILD_TIME"
 
-  echo "export DOCKER_FROM=\"$DOCKER_FROM\""         >> buildScripts/reSourceVersionEnvs
-  echo "export DOCKER_USERNAME=\"$DOCKER_USERNAME\"" >> buildScripts/reSourceVersionEnvs
-  echo "export DOCKER_NAME=\"$DOCKER_NAME\""         >> buildScripts/reSourceVersionEnvs
+  echo "export DOCKER_FROM=\"$DOCKER_FROM\""         >> ../../buildScripts/reSourceVersionEnvs
+  echo "export DOCKER_USERNAME=\"$DOCKER_USERNAME\"" >> ../../buildScripts/reSourceVersionEnvs
+  echo "export DOCKER_NAME=\"$DOCKER_NAME\""         >> ../../buildScripts/reSourceVersionEnvs
 
   delete_blacklisted
 

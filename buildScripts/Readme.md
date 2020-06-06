@@ -17,6 +17,8 @@ to use these scripts to build `pdf2htmlEX`.
 - [TL;DR ...](#tldr-)
   - [Downloading precompiled versions](#downloading-precompiled-versions-downloads)
   - [Building yourself](#building-yourself)
+- [The problem](#the-problem)
+- [Our solution](#our-solution)
 - [The gory details ...](#the-gory-details-)
   - [Top-level scripts](#top-level-scripts)
   - [Individual steps](#individual-steps)
@@ -50,8 +52,8 @@ For most users, you probably really want to simply download one of the
   This will work on any [Debian](https://www.debian.org/) based and most 
   recent Windows 10 machines. 
 
-  Experienced users of Linux, may be able to repackage this `*.deb` for 
-  use with their favourite package management tool. 
+  Experienced users of Linux, may be able to repackage the `*.deb` we 
+  provide for use with their favourite package management tool. 
 
 ### Building yourself
 
@@ -72,6 +74,45 @@ installing `pdf2htmlEX` into /usr/local/bin.
 **NOTE:** at the moment this will **only** work on machines with a 
 [Debian](https://www.debian.org/) based distribution. such as 
 [Ubuntu](https://ubuntu.com/), [Linux Mint](https://linuxmint.com/), etc. 
+
+## The problem
+
+To provide its full functionality, the `pdf2htmlEX` sources make direct 
+use of source code and unexposed methods from both the Poppler and 
+FontForge projects. Unfortunately the source code in the Poppler and 
+FontForge projects that the `pdf2htmlEX` uses changes regularly.
+
+This means that the `pdf2htmlEX` souce code *must* be updated regularly to 
+match *specific releases* of both Poppler and FontForge. 
+
+Unfortunately, the installed versions of both Poppler and FontForge in 
+most Linux distributions, lag the official releases of both of these 
+projects. Even worse few distributions install the same versions.
+
+This means that it is nearly impossible for the `pdf2htmlEX` 'predict' 
+which version of Poppler or FontForge will be installed on a given user's 
+machine. 
+
+## Our solution
+
+While we *could* keep multiple versions of the `pdf2htmlEX` source code, 
+each version matched to a particular distribution's installed versions of 
+Poppler and FontForge, this would be a logistic and testing 'nightmare'. 
+
+Instead, when building `pdf2htmlEX`, we download specific versions of both 
+the Poppler and FontForge sources (usually the most recent), and then 
+compile *static* versions of the Poppler and FontForge libraries which are 
+then *statically* linked into the `pdf2htmlEX` binary. 
+
+This means that the `pdf2htmlEX` binary is completely independent of any 
+locally installed versions of either Poppler or FontForge.
+
+However, to get the matched versions of Poppler and FontForge and then 
+compile them statically, *our* build process becomes much more complex 
+than a "simple", `configure, make, make install` cycle. 
+
+Hence this directory has a large number of bash scripts each of which 
+automate one simple step in the overall our build process. 
 
 ## The gory details ...
 
