@@ -1,8 +1,10 @@
 title: pdf2htmlEX
-description: A PDF to HTML converter
-google_analytics: 
+description: "Publishing PDF Online"
+sub_description: "&nbsp;&nbsp;&nbsp;&nbsp; A PDF to HTML converter"
+google_analytics:  
 show_downloads: true
 theme: jekyll-theme-architect
+show_downloads: false
 
 gems:
   - jekyll-mentions

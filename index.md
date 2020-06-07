@@ -1,31 +1,68 @@
-# pdf2html**EX**
+---
+layout: default
+title: pdf2htmlEX
+sidebar: |
+  - [Introduction](#introduction)
+  - [Features](#features)
+  - [Get Started](#get-started)
+  - [Usage](#usage)
+  - [License](#license)
+  - [Credits](#credits)
 
+  - [Github](https://github.com/pdf2htmlEX/pdf2htmlEX)
+  - [Releases](https://github.com/pdf2htmlEX/pdf2htmlEX/releases)
+  - [Wiki](https://github.com/pdf2htmlEX/pdf2htmlEX/wiki)
+  - [Issues](https://github.com/pdf2htmlEX/pdf2htmlEX/issues)
+  
+  - [WINDOWS XP USERS](#windows-xp-users)
+  
+---
 A beautiful demo is worth a thousand words:
 
-[**Typography**](http://coolwanglu.github.com/pdf2htmlEX/demo/geneve.html) [Original](https://github.com/raphink/geneve_1564/raw/master/geneve_1564.pdf)
+* [**Typography**](/demo/geneve.html)
+  [PDF](https://github.com/raphink/geneve_1564/releases/download/2016-06-08_02/geneve_1564.pdf) 
+  (<a href="https://github.com/raphink/geneve_1564" target="_blank">Author</a>) 
+* [**Formulas**](/demo/cheat.html) 
+  [PDF](http://www.tug.org/texshowcase/cheat.pdf) 
+  (<a href="http://www.tug.org/texshowcase" target="_blank">Author</a>)
+* [**Magazine**](/demo/issue65_en.html) 
+  [PDF](http://dl.fullcirclemagazine.org/issue65_en.pdf) 
+  (<a href="http://fullcirclemagazine.org" target="_blank">Author</a>) 
+* [**Scientific Paper**](/demo/demo.html) 
+  [PDF](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.148.349&rep=rep1&type=pdf) 
+  (<a href="https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.148.349" target="_blank">Author</a>)
 
-[**Formulas**](http://coolwanglu.github.com/pdf2htmlEX/demo/cheat.html) [Original](http://www.tug.org/texshowcase/cheat.pdf)
+* [**pdf2htmlEX Tugboat**](doc/tb108wang.html)
+  [PDF](doc/tb108wang.pdf)
+  (<a href="https://github.com/coolwanglu" target="_blank">Author</a>)
 
-[**Scientific Paper**](http://coolwanglu.github.com/pdf2htmlEX/demo/demo.html) [Original](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.148.349&rep=rep1&type=pdf)
+## Introduction {#introduction}
 
-[**Chinese**](http://coolwanglu.github.com/pdf2htmlEX/demo/chn.html) [Original](http://files.cnblogs.com/phphuaibei/git%E6%90%AD%E5%BB%BA.pdf)
+pdf2htmlEX renders PDF files in HTML, utilizing modern Web technologies. 
+It aims to provide an accurate rendering, while being optimized for Web 
+display. Text, fonts and formats are natively preserved in HTML. 
+Mathematical formulas, figures and images are also supported. 
 
+pdf2htmlEX is also a publishing tool: almost 50 options make it flexible 
+for many different use cases: PDF preview, book/magazine publishing, 
+personal resume... 
 
-**WINDOWS XP USERS: Please make sure ClearType is turned on** 
+pdf2htmlEX is optimized for modern web browsers such as Mozilla Firefox & Google 
+Chrome. 
 
-(Control Panel -> Display -> Appearance -> Effects -> "Use the following method to smooth edges of screen fonts" -> ClearType)
+### Why HTML?
 
-## Introduction
+This is an era of Web. HTML, together with CSS and JavaScript, provides 
+the flexibility allowing you to embed documents with beautiful themes, 
+consistent bahivours and useful features. User experience will also be 
+significantly improved, documents will be plugin-free and interactive, 
+users can read while downloading. 
 
-pdf2htmlEX renders PDF files in HTML, utilizing modern Web technologies, aims to provide an accuracy rendering, while keeping optimized for Web display.
+## Features {#features}
 
-It is optimized for modern web browsers such as Mozilla Firefox & Google Chrome.
-
-This program is designed for scientific papers with complicate formulas and figures, so a precise rendering is also the #1 concern. But of course general PDF files are also supported.
-
-## Features
-
-* Single HTML file output 
+* Single HTML file output
+* *or* one HTML file per page if that is what you want...
+* Images
 * Precise rendering 
 * Text Selection
 * Font embedding & reencoding for Web
@@ -38,44 +75,25 @@ This program is designed for scientific papers with complicate formulas and figu
 * Type 3 fonts
 * Non-text object (Don't worry, they will be rendered as images)
 
-## Get started
+## Get started {#get-started}
 
-### Ubuntu 
+You can get pdf2htmlEX in a number of ways:
 
-There is a Ubuntu PPA set up at [here](https://launchpad.net/~coolwanglu/+archive/pdf2htmlex).
+* [**AppImage**]({{ site.github.releases_url }}) download, make executable, and "just run" (see 
+  <a href="https://appimage.org/" target="_blank">AppImage.org</a>) 
+* [**pdf2htmlEX/pdf2htmlEX**](https://hub.docker.com/orgs/pdf2htmlex/) on 
+  <a href="https://hub.docker.com/" target="_blank">Docker Hub</a> 
+* [**Debian Archive**]({{ site.github.releases_url }}) download, and apt install locally:
+  `sudo apt install ./<<DownloadedDebFile>>`
+* [**Compile yourself**]({{ site.github.repository_url}}//tree/master/buildScripts)
 
-### ArchLinux
-
-Special thanks to Arthur Titeica for the [AUR Package](https://aur.archlinux.org/packages.php?ID=62426).
-
-### Build from source
-
-#### Dependency
-
-* CMake, pkg-config
-* compilers support C++11, for example
- * GCC >= 4.4.6
- * I heard about successful build with Clang 
-* libpoppler with xpdf header >= 0.20.0 (compile with --enable-xpdf-headers)
- * Install libpng (and headers) BEFORE you compile libpoppler if you want background images generated
- * Install poppler-data if your want CJK support
-* fontforge (with header files)
-
-**Build On Windows**
-
-I've tested with CYGWIN without any problem, and I believe it also works on MinGW without many modifications.
-
-#### Compiling
-
-    cmake . && make && sudo make install
-
-## Usage
+## Usage {#usage}
 
     pdf2htmlEX /path/to/foobar.pdf
 
     pdf2htmlEX --help
 
-## LICENSE
+## LICENSE {#license}
 
 GPLv2 & GPLv3 Dual licensed
 
@@ -85,7 +103,7 @@ GPLv2 & GPLv3 Dual licensed
 
 **Font extraction, conversion or redistribution may be illegal, please check your local laws**
 
-## Credits
+## Credits {#credits}
 
 pdf2htmlEX is inspired by the following projects:
 
@@ -95,15 +113,25 @@ pdf2htmlEX is inspired by the following projects:
 * Crocodoc
 * Google Doc
 
+pdf2htmlEX uses the following projects:
+
+* Poppler
+* FontForge
+
+Finally, many thanks are due to 
+
+* Lu Wang ([coolwanglu](https://github.com/coolwanglu)) 
+
+for creating the [original project](https://github.com/coolwanglu/pdf2htmlEX)
+
 ## Contact
 
 Suggestions and questions are welcome. 
 
-Please read [FAQ](https://github.com/coolwanglu/pdf2htmlEX/wiki/FAQ) before sending an email to me. Or your message might be ignored.
+Please read [FAQ]({{ site.github.repository_url}}/wiki/FAQ) before sending an email.
 
-* Lu Wang <coolwanglu@gmail.com>
+## Windows XP users {#windows-xp-users}
 
-### Special Thanks
+Please make sure ClearType is turned on
 
-* Hongliang Tian <tatetian@gmail.com>
-
+(Control Panel -> Display -> Appearance -> Effects -> "Use the following method to smooth edges of screen fonts" -> ClearType)
