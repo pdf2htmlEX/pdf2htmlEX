@@ -16,7 +16,7 @@ set -ev
 
 sudo apt-get update
 sudo apt-get $UNATTENDED install \
-  aptitude                       \
+  wget                           \
   git                            \
   pkg-config                     \
   ruby                           \
@@ -30,6 +30,5 @@ sudo apt-get $UNATTENDED install \
   dpkg-dev                       \
   gettext                        \
   openjdk-8-jre-headless         \
-  jq                             \
-  tree
+  jq
 
