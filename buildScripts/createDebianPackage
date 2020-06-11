@@ -96,11 +96,11 @@ cd imageBuild
 #
 # Make sure directories can be traversed by nobody
 #
-find debianDir -type d -exec chmod 755 {} \;
+#find debianDir -type d -exec chmod 755 {} \;
 #
 # Make sure files can be read by nobody
 #
-find debianDir -type f -exec chmod 644 {} \;
+#find debianDir -type f -exec chmod 644 {} \;
 #
 # Make sure root:root owns all files
 #
