@@ -16,6 +16,7 @@ set -ev
 
 sudo apt-get update
 sudo apt-get $UNATTENDED install \
+  sudo                           \
   wget                           \
   git                            \
   pkg-config                     \

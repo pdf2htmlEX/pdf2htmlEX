@@ -94,6 +94,18 @@ touch $conffilesFile
 #
 cd imageBuild
 #
+# Make sure directories can be traversed by nobody
+#
+find debianDir -type d -exec chmod 755 {} \;
+#
+# Make sure files can be read by nobody
+#
+find debianDir -type f -exec chmod 644 {} \;
+#
+# Make sure root:root owns all files
+#
 sudo chown -R root:root debianDir
+#
+# Build the package
 #
 dpkg --build debianDir $DPKG_NAME

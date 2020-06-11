@@ -36,6 +36,14 @@ make install                                  \
 
 cd ../imageBuild
 
+# Make sure directories can be traversed by nobody
+#
+find appDir -type d -exec chmod 755 {} \;
+#
+# Make sure files can be read by nobody
+#
+find appDir -type f -exec chmod 644 {} \;
+
 # force libfontconfig into AppImage (linuxdeploy blacklists libfontconfig) 
 # (turned off since libfontconfig needs to be matched to the underlying 
 #  OS's collection of fonts and /etc/fonts configuration files) 
