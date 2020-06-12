@@ -7,12 +7,17 @@ set -ev
 #################
 # do the creation
 
-./buildScripts/reportEnvs          || { echo 'reportEnvs FAILED'          ; exit 1 ; }
+./buildScripts/reportEnvs
 
-./buildScripts/createAppImage      || { echo 'createAppImage FAILED'      ; exit 1 ; }
+./buildScripts/createAppImage
 
-./buildScripts/createDockerImage   || { echo 'createDockerImage FAILED'   ; exit 1 ; }
+./buildScripts/createDebianPackage
 
-./buildScripts/createDebianPackage || { echo 'createDebianPackage FAILED' ; exit 1 ; }
+./buildScripts/createDockerImageInside
+
+if [ -x "$(which docker)" ]; then
+  ./buildScripts/createDockerImageOutside
+fi
+
 
 
