@@ -13,8 +13,8 @@ class Common(object):
     """
     PDF2HTMLEX_PATH = "@PDF2HTMLEX_PATH@" # defined in CMakeLists.txt
     if not os.path.isfile(PDF2HTMLEX_PATH) or not os.access(PDF2HTMLEX_PATH, os.X_OK):
-        print >> sys.stderr, "Cannot locate pdf2htmlEX executable, expected at ", PDF2HTMLEX_PATH,
-        ". Make sure source was built before running this test."
+        print( sys.stderr, "Cannot locate pdf2htmlEX executable, expected at ", PDF2HTMLEX_PATH,
+        ". Make sure source was built before running this test." )
         exit(1)
 
     SRC_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
