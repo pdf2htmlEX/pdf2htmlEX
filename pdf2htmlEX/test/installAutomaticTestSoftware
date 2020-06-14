@@ -10,6 +10,7 @@ export DEBIAN_FRONTEND=noninteractive
 # Start by making sure all required apt packages exist
 #
 sudo apt -y install \
+  wget              \
   diffutils         \
   zip               \
   python3           \
