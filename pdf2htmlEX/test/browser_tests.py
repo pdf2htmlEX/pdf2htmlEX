@@ -37,13 +37,23 @@ class BrowserTests(Common):
         ref_htmlfolder = os.path.join(self.TEST_DATA_DIR, basefilename)
         ref_htmlfilename = os.path.join(ref_htmlfolder, htmlfilename)
         out_htmlfilename = os.path.join(self.OUTDIR, htmlfilename)
-
-        pdf2htmlEX_args = self.DEFAULT_PDF2HTMLEX_ARGS + args + [
+        pre_htmlfilename = os.path.join(self.PREDIR, htmlfilename)
+        
+        try:
+            # see if we have pre-compiled the html file...
+            # if so simply copy it into place
+            #
+            shutil.copy(pre_htmlfilename, out_htmlfilename)
+        except:
+            # we have not pre-compiled the html file
+            # so create it using pdf2htmlEX
+            #
+            pdf2htmlEX_args = self.DEFAULT_PDF2HTMLEX_ARGS + args + [
                 os.path.join(self.TEST_DATA_DIR, filename),
                 htmlfilename ]
-        result = self.run_pdf2htmlEX(pdf2htmlEX_args)
-
-        self.assertIn(htmlfilename, result['output_files'], 'HTML file is not generated')
+            result = self.run_pdf2htmlEX(pdf2htmlEX_args)
+            #
+            self.assertIn(htmlfilename, result['output_files'], 'HTML file is not generated')
 
         if self.GENERATING_MODE:
             # copy generated html files
