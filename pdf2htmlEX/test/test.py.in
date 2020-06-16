@@ -67,8 +67,7 @@ class Common(object):
         # in the path, we split the PATH on whitespace and then append our 
         # arguments. 
         #
-        args = Common.PDF2HTMLEX_PATH.split() +
-             [ '--data-dir', self.DATDIR,
+        args = Common.PDF2HTMLEX_PATH.split() + [ '--data-dir', self.DATDIR,
                '--dest-dir', self.TMPDIR
              ] + args
 
