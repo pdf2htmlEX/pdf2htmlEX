@@ -63,10 +63,14 @@ class Common(object):
         shutil.rmtree(self.TMPDIR, ignore_errors=False, onerror=None)
         os.mkdir(self.TMPDIR)
 
-        args = [Common.PDF2HTMLEX_PATH,
-               '--data-dir', self.DATDIR,
+        # To allow the user to specify additional command line arguments 
+        # in the path, we split the PATH on whitespace and then append our 
+        # arguments. 
+        #
+        args = Common.PDF2HTMLEX_PATH.split() +
+             [ '--data-dir', self.DATDIR,
                '--dest-dir', self.TMPDIR
-              ] + args
+             ] + args
 
         with open(os.devnull, 'w') as fnull:
             return_code = subprocess.call(list(map(str, args)), stderr=fnull)
