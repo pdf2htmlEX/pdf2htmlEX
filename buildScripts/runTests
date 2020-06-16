@@ -21,7 +21,7 @@ cd pdf2htmlEX/test
 #
 ./installAutomaticTestSoftware
 
-./runLocalTests
+./runLocalTestsBash
 
 ./runLocalBrowserTests
 
