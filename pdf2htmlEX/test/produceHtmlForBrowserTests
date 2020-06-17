@@ -35,6 +35,23 @@ function runPdf2htmlEX {
     $htmlFileName
 }
 
+# This is how we copy a file omitting lines between '#TEST_IGNORE_BEGIN' 
+# and '#TEST_IGNORE_END' (we pipe the file in via stdin and save it via 
+# stdout) 
+#
+function copy_TEST_IGNORE_file {
+  skipLine=echo
+  while IFS= read -r line ; do
+    if echo $line | grep -q "^#TEST_IGNORE_BEGIN" ; then
+      skipLine=true 
+    elif echo $line | grep -q "^#TEST_IGNORE_END"   ; then
+      skipLine=echo
+    else
+      $skipLine "$line"
+    fi
+  done
+}
+
 if test -z "$PDF2HTMLEX_PATH" ; then 
   echo "PANIC: we do not know where to find the pdf2htmlEX executable"
   exit 1
@@ -57,6 +74,14 @@ fi
 rm    -rf $PDF2HTMLEX_TMPDIR
 mkdir -p  $PDF2HTMLEX_TMPDIR
 #
+
+# setup the correct data files
+#
+cat $PDF2HTMLEX_TEST_DIR/../share/manifest | \
+ copy_TEST_IGNORE_file > $PDF2HTMLEX_DATDIR/manifest
+
+cp $PDF2HTMLEX_TEST_DIR/../share/base.min.css  $PDF2HTMLEX_DATDIR
+cp $PDF2HTMLEX_TEST_DIR/../test/fancy.min.css  $PDF2HTMLEX_DATDIR
 
 runPdf2htmlEX 'test_fail.pdf'
 

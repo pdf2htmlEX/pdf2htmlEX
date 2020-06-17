@@ -60,9 +60,13 @@ function hasExpectedFiles {
 function copy_TEST_IGNORE_file {
   skipLine=echo
   while IFS= read -r line ; do
-    if echo $line | grep -q "TEST_IGNORE_BEGIN" ; then skipLine=true ; fi
-    if echo $line | grep -q "TEST_IGNORE_END"   ; then skipLine=echo ; fi
-    $skipLine "$line"
+    if echo $line | grep -q "^#TEST_IGNORE_BEGIN" ; then
+      skipLine=true 
+    elif echo $line | grep -q "^#TEST_IGNORE_END"   ; then
+      skipLine=echo
+    else
+      $skipLine "$line"
+    fi
   done
 }
 
@@ -99,7 +103,7 @@ cat $PDF2HTMLEX_TEST_DIR/../share/manifest | \
  copy_TEST_IGNORE_file > $PDF2HTMLEX_DATDIR/manifest
 
 cp $PDF2HTMLEX_TEST_DIR/../share/base.min.css  $PDF2HTMLEX_DATDIR
-cp $PDF2HTMLEX_TEST_DIR/../share/fancy.min.css $PDF2HTMLEX_DATDIR
+cp $PDF2HTMLEX_TEST_DIR/../test/fancy.min.css  $PDF2HTMLEX_DATDIR
 
 # Do the tests
 #
