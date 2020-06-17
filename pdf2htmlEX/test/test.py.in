@@ -12,8 +12,10 @@ class Common(object):
     Variables and methods for common use in different tests.
     """
     PDF2HTMLEX_PATH = "@PDF2HTMLEX_PATH@" # defined in CMakeLists.txt
-    if not os.path.isfile(PDF2HTMLEX_PATH) or not os.access(PDF2HTMLEX_PATH, os.X_OK):
-        print( sys.stderr, "Cannot locate pdf2htmlEX executable, expected at ", PDF2HTMLEX_PATH,
+    PDF2HTMLEX_EXE  = PDF2HTMLEX_PATH.split()
+    PDF2HTMLEX_EXE  = PDF2HTMLEX_EXE[0]
+    if not os.path.isfile(PDF2HTMLEX_EXE) or not os.access(PDF2HTMLEX_EXE, os.X_OK):
+        print( sys.stderr, "Cannot locate pdf2htmlEX executable, expected at ", PDF2HTMLEX_EXE,
         ". Make sure source was built before running this test." )
         exit(1)
 
@@ -70,7 +72,6 @@ class Common(object):
         args = Common.PDF2HTMLEX_PATH.split() + [ '--data-dir', self.DATDIR,
                '--dest-dir', self.TMPDIR
              ] + args
-        print("run_pdf2htmlEX args: [", args, "]")
         
         with open(os.devnull, 'w') as fnull:
             return_code = subprocess.call(list(map(str, args)), stderr=fnull)
