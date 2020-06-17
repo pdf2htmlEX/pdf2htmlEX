@@ -69,6 +69,10 @@ if test -z "$PDF2HTMLEX_PREDIR" ; then
   export PDF2HTMLEX_PREDIR=/tmp/pdf2htmlEX/pre
 fi
 
+if test -z "$PDF2HTMLEX_TEST_DIR" ; then
+  export PDF2HTMLEX_TEST_DIR=.
+fi
+
 # clear out the TMPDIR
 #
 rm    -rf $PDF2HTMLEX_TMPDIR
