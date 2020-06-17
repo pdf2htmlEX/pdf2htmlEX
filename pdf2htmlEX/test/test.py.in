@@ -70,7 +70,8 @@ class Common(object):
         args = Common.PDF2HTMLEX_PATH.split() + [ '--data-dir', self.DATDIR,
                '--dest-dir', self.TMPDIR
              ] + args
-
+        print("run_pdf2htmlEX args: [", args, "]")
+        
         with open(os.devnull, 'w') as fnull:
             return_code = subprocess.call(list(map(str, args)), stderr=fnull)
 
