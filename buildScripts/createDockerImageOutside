@@ -53,7 +53,7 @@ delete_blacklisted
 cat > Dockerfile <<DOCKERFILE_HERE_DOC
 FROM $DOCKER_FROM
 COPY ./ /
-RUN ldconfig
+RUN /sbin/ldconfig
 ENTRYPOINT ["$PDF2HTMLEX_PREFIX/bin/pdf2htmlEX"]
 DOCKERFILE_HERE_DOC
 

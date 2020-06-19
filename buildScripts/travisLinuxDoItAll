@@ -5,11 +5,14 @@
 set -ev
 
 export UNATTENDED="--assume-yes"
+
 export MAKE_PARALLEL="-j $(nproc)"
 
 export PDF2HTMLEX_BRANCH=$TRAVIS_BRANCH
 
 export PDF2HTMLEX_PREFIX=/usr/local
+
+export PDF2HTMLEX_PATH=/usr/local/bin/pdf2htmlEX
 
 # Ensure all Apt packages are installed with no user interaction
 #
