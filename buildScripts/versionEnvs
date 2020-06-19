@@ -6,7 +6,7 @@
 # see: https://poppler.freedesktop.org/releases.html
 # current working: 0.83.0
 
-export PDF2HTMLEX_VERSION=v0.18.8-alpha
+export PDF2HTMLEX_VERSION=0.18.8.alpha
 
 export POPPLER_VERSION=poppler-0.89.0
 #export POPPLER_VERSION=poppler-0.88.0
@@ -48,6 +48,8 @@ source /etc/lsb-release
 
 export BUILD_DIST=$DISTRIB_CODENAME
 
+export BUILD_DATE="$(date +%Y%m%d)"
+
 export BUILD_TIME="$(date +%Y_%m_%d-%H_%M_%S)"
 
 export MACHINE_ARCH="$(uname -m)"
@@ -58,5 +60,6 @@ echo "export FONTFORGE_VERSION=\"$FONTFORGE_VERSION\""   >> buildScripts/reSourc
 echo "export PDF2HTMLEX_BRANCH=\"$PDF2HTMLEX_BRANCH\""   >> buildScripts/reSourceVersionEnvs
 echo "export MACHINE_ARCH=\"$MACHINE_ARCH\""             >> buildScripts/reSourceVersionEnvs
 echo "export BUILD_DIST=\"$BUILD_DIST\""                 >> buildScripts/reSourceVersionEnvs
+echo "export BUILD_DATE=\"$BUILD_DATE\""                 >> buildScripts/reSourceVersionEnvs
 echo "export BUILD_TIME=\"$BUILD_TIME\""                 >> buildScripts/reSourceVersionEnvs
 echo "export PDF2HTMLEX_PREFIX=\"$PDF2HTMLEX_PREFIX\""   >> buildScripts/reSourceVersionEnvs

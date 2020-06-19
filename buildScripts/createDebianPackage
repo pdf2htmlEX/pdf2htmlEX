@@ -67,7 +67,7 @@ find $DEBDIR -type f | xargs md5sum > $md5sumsFile
 
 # Accumulate the control file information
 #
-versionValue=$PDF2HTMLEX_VERSION-$PDF2HTMLEX_BRANCH-$BUILD_DIST-$BUILD_TIME
+versionValue=$PDF2HTMLEX_VERSION.$PDF2HTMLEX_BRANCH.$BUILD_DIST.$BUILD_DATE
 architectureValue=$(dpkg-architecture -q DEB_BUILD_ARCH_CPU)
 maintainerValue="$(git config --get user.name) <$(git config --get user.email)>"
 
