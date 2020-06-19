@@ -34,6 +34,7 @@ export DEBIAN_FRONTEND=noninteractive
 ./buildScripts/runTests
 ./buildScripts/createAppImage
 ./buildScripts/createDebianPackage
-./buildScripts/createDockerImage
+./buildScripts/createDockerImageInside
+./buildScripts/createDockerImageOutside
 ./buildScripts/uploadGitHubRelease
 ./buildScripts/uploadDockerImage
