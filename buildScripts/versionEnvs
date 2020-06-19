@@ -6,6 +6,8 @@
 # see: https://poppler.freedesktop.org/releases.html
 # current working: 0.83.0
 
+export PDF2HTMLEX_VERSION=v0.18.8-alpha
+
 export POPPLER_VERSION=poppler-0.89.0
 #export POPPLER_VERSION=poppler-0.88.0
 #export POPPLER_VERSION=poppler-0.87.0
