@@ -18,11 +18,13 @@ source buildScripts/dockerFunctions
 
 set -ev
 
-mkdir -p imageBuild/dockerDir
+cd imageBuild
 
-cd imageBuild/dockerDir
+mkdir -p dockerDir
 
-cp $PWORKSPACE/$DIST/$DPKG_NAME .
+cp $DPKG_NAME dockerDir
+
+cd dockerDir
 
 if [ -z "$DOCKER_FROM" ]; then
   echo ""
