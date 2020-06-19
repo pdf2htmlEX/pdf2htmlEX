@@ -94,9 +94,9 @@ class BrowserTests(Common):
         print("\nTesting at: [", basefilename, "]")
         
         if diff_bbox is None:
-            print("  passed")
+            print("  SUCCESS: ", basefilename)
         else:
-            print("  diff bounding box: ", diff_bbox, " should be None")
+            print("  FAILURE: ", basefilename, " diff bounding box: ", diff_bbox, " should be None")
             diff_size = (diff_bbox[2] - diff_bbox[0]) * (diff_bbox[3] - diff_bbox[1])
             img_size = ref_img.size[0] * ref_img.size[1]
             self.fail(('PNG files %s and %s differ by at most %d pixels, '+

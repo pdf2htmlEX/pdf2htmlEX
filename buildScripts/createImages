@@ -13,10 +13,8 @@ set -ev
 
 ./buildScripts/createDebianPackage
 
-./buildScripts/createDockerImageInside
-
 if [ -x "$(which docker)" ]; then
-  ./buildScripts/createDockerImageOutside
+  ./buildScripts/createDockerUbuntuImageFromDeb
 fi
 
 

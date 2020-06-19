@@ -50,7 +50,7 @@ set -ev
 
 #./buildScripts/createAppImage
 
-#./buildScripts/createDockerImage
+#./buildScripts/createDockerUbuntuImageFromDeb
 
 #./buildScripts/uploadGitHubRelease
 

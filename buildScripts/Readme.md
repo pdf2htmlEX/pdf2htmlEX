@@ -199,8 +199,8 @@ Typically, most users, will run one of the following "top-level" scripts:
   `pdf2htmlEX`, installs it and `poppler-data` into a Debian archive 
   (`*.deb`). 
 
-- **`createDockerImage`**: Using an already compile version of 
-  `pdf2htmlEX`, installs it and `poppler-data` into a Docker image. 
+- **`createDockerUbuntuImageFromDeb`**: Installs the Debian archive of 
+  `pdf2htmlEX` created by `createDebianPackage` into a Docker image. 
 
 - **`getBuildTools`**: Locally `apt` installs all development *tools* 
   required to build `pdf2htmlEX`. 
