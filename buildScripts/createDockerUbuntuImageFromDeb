@@ -1,0 +1,66 @@
+#!/bin/bash 
+
+# This bash script creates a docker image from an existing pdf2htmlEX
+#
+# This is the part which must be run *outside* of any docker container.
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "CREATING pdf2htmlEX Docker Image (from deb archive)"
+echo "-------------------------------------------------------------------"
+echo ""
+
+# Collect everything that will be needed...
+
+source buildScripts/reSourceVersionEnvs
+
+source buildScripts/dockerFunctions
+
+set -ev
+
+mkdir -p imageBuild/dockerDir
+
+cd imageBuild/dockerDir
+
+cp $PWORKSPACE/$DIST/$DPKG_NAME .
+
+if [ -z "$DOCKER_FROM" ]; then
+  echo ""
+  read -p "Enter the docker image for the 'from' base: " DOCKER_FROM
+  echo ""
+  if [ -z "$DOCKER_FROM" ]; then
+    echo "DOCKER_FROM not set... so we can not build the docker image"
+    exit 1
+  fi
+fi
+
+if [ -z "$DOCKER_USERNAME" ]; then
+  echo ""
+  read -p "Enter a docker username: " DOCKER_USERNAME
+  echo ""
+  if [ -z "$DOCKER_USERNAME" ]; then
+    echo "DOCKER_USERNAME not set... so we can not build the docker image"
+    exit 1
+  fi
+fi
+
+export DOCKER_NAME="$DOCKER_USERNAME/pdf2htmlex:$PDF2HTMLEX_BRANCH-$BUILD_TIME"
+
+echo "export DOCKER_FROM=\"$DOCKER_FROM\""         >> ../../buildScripts/reSourceVersionEnvs
+echo "export DOCKER_USERNAME=\"$DOCKER_USERNAME\"" >> ../../buildScripts/reSourceVersionEnvs
+echo "export DOCKER_NAME=\"$DOCKER_NAME\""         >> ../../buildScripts/reSourceVersionEnvs
+
+cat > Dockerfile <<DOCKERFILE_HERE_DOC
+FROM $DOCKER_FROM
+COPY ./$DPKG_NAME /root
+
+RUN   apt update && \
+  apt -y upgrade && \
+  apt -y --no-install-recommends install \
+  /root/$DPKG_NAME
+ENTRYPOINT ["$PDF2HTMLEX_PREFIX/bin/pdf2htmlEX"]
+DOCKERFILE_HERE_DOC
+
+cd ..
+
+docker build -t $DOCKER_NAME dockerDir
