@@ -20,6 +20,7 @@ sudo apk add        \
   cairo             \
   libpng-dev        \
   freetype-dev      \
+  gettext-dev       \
   fontconfig-dev    \
   libjpeg-turbo-dev \
   libxml2-dev
