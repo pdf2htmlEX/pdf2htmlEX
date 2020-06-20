@@ -23,8 +23,8 @@ export DEBIAN_FRONTEND=noninteractive
 
 ./buildScripts/versionEnvs
 ./buildScripts/reportEnvs
-./buildScripts/getBuildTools
-./buildScripts/getDevLibraries
+./buildScripts/getBuildToolsApt
+./buildScripts/getDevLibrariesApt
 ./buildScripts/getPoppler
 ./buildScripts/buildPoppler
 ./buildScripts/getFontforge
