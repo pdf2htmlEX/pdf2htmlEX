@@ -21,6 +21,7 @@ sudo apk add        \
   libpng-dev        \
   freetype-dev      \
   gettext-dev       \
+  glib-dev          \
   fontconfig-dev    \
   libjpeg-turbo-dev \
   libxml2-dev
