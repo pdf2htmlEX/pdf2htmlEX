@@ -60,6 +60,7 @@ RUN apk update &&    \
   apk add --no-cache \
     libstdc++        \
     libgcc           \
+    gnu-libiconv     \
     gettext          \
     glib             \
     freetype         \
