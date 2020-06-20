@@ -19,5 +19,6 @@ sudo apk add        \
   gettext           \
   cairo             \
   libpng-dev        \
+  freetype-dev      \
   libjpeg-turbo-dev \
   libxml2-dev
