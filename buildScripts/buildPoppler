@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-# This bash script builds the latest poppler
+# This shell script builds the latest poppler
 
 echo ""
 echo "-------------------------------------------------------------------"

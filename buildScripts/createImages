@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 
 set -ev
 
-# This bash script creates the pdf2htmlEX AppImage and Docker Images
+# This shell script creates the pdf2htmlEX AppImage and Docker Images
 
 #################
 # do the creation

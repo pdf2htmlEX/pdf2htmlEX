@@ -6,7 +6,8 @@
 
 echo ""
 echo "-------------------------------------------------------------------"
-echo "CREATING pdf2htmlEX Docker Image (from deb archive)"
+echo "CREATING pdf2htmlEX Docker Image (run outside any docker container)"
+echo " (based on Alpine linux $BUILD_DIST)
 echo "-------------------------------------------------------------------"
 echo ""
 
@@ -20,13 +21,9 @@ echo ""
 
 set -ev
 
-cd imageBuild
+mkdir -p imageBuild/dockerDir
 
-mkdir -p dockerDir
-
-cp $DPKG_NAME dockerDir
-
-cd dockerDir
+cd imageBuild/dockerDir
 
 if [ -z "$DOCKER_FROM" ]; then
   echo ""
@@ -54,14 +51,24 @@ echo "export DOCKER_FROM=\"$DOCKER_FROM\""         >> ../../buildScripts/reSourc
 echo "export DOCKER_USERNAME=\"$DOCKER_USERNAME\"" >> ../../buildScripts/reSourceVersionEnvs
 echo "export DOCKER_NAME=\"$DOCKER_NAME\""         >> ../../buildScripts/reSourceVersionEnvs
 
+delete_blacklisted
+
 cat > Dockerfile <<DOCKERFILE_HERE_DOC
 FROM $DOCKER_FROM
-COPY ./$DPKG_NAME /root
 
-RUN   apt update && \
-  apt -y upgrade && \
-  apt -y --no-install-recommends install \
-  /root/$DPKG_NAME
+COPY ./ /
+
+RUN apk update && \
+  apk add         \
+    gettext       \
+    glib          \
+    freetype      \
+    fontconfig    \
+    cairo         \
+    libpng        \
+    libjpeg-turbo \
+    libxml2
+
 ENTRYPOINT ["$PDF2HTMLEX_PREFIX/bin/pdf2htmlEX"]
 DOCKERFILE_HERE_DOC
 

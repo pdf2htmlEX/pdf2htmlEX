@@ -1,6 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 
-source ./buildScripts/reSourceVersionEnvs
+# source ./buildScripts/reSourceVersionEnvs
+. ./buildScripts/reSourceVersionEnvs
 
 echo ""
 echo "-------------------------------------------------------------------"
@@ -13,7 +14,7 @@ echo "export TEST_RESULTS_NAME=\"$TEST_RESULTS_NAME\"" >> buildScripts/reSourceV
 
 set -ev
 
-# This bash script runs the pdf2htmlEX tests
+# This shell script runs the pdf2htmlEX tests
 
 cd pdf2htmlEX/test
 
@@ -21,7 +22,7 @@ cd pdf2htmlEX/test
 #
 ./installAutomaticTestSoftware
 
-./runLocalTestsBash
+./runLocalTestsShell
 
 ./runLocalBrowserTests
 

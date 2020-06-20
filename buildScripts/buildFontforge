@@ -1,8 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 
-# This bash script build FontForge
+# This shell script build FontForge
 
-source buildScripts/reSourceVersionEnvs
+# source buildScripts/reSourceVersionEnvs
+. buildScripts/reSourceVersionEnvs
 
 echo ""
 echo "-------------------------------------------------------------------"

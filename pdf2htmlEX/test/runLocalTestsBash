@@ -1,7 +1,0 @@
-#!/bin/bash
-
-set -ev
-
-# This bash script runs the (simple non-browser) tests
-
-./testOutput

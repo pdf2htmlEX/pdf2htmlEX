@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-# This bash script exports environment variables for the latest software
+# This shell script exports environment variables for the latest software
 # versions
 
 # see: https://poppler.freedesktop.org/releases.html
@@ -42,11 +42,18 @@ if [ -z "$PDF2HTMLEX_BRANCH" ]; then
   fi
 fi
 
-cat /etc/lsb-release
-
-source /etc/lsb-release
-
-export BUILD_DIST=$DISTRIB_CODENAME
+if test -r /etc/lsb-release ; then
+  cat /etc/lsb-release
+  # source /etc/lsb-release
+  . /etc/lsb-release
+  export BUILD_DIST=$DISTRIB_CODENAME
+elif test -r /etc/alpine-release ; then
+  cat /etc/alpine-release
+  export BUILD_DIST=$(cat /etc/alpine-release)
+else
+  echo "FAILURE: could not determine release"
+  exit -1
+fi
 
 export BUILD_DATE="$(date +%Y%m%d)"
 

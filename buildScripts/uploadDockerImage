@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-# This bash script uploads the pdf2htmlEX docker image to docker hub
+# This shell script uploads the pdf2htmlEX docker image to docker hub
 #
 # We EXPECT the following environment variables to be set:
 #    DOCKER_USERNAME
@@ -9,7 +9,8 @@
 #    DOCKER_PASSWORD  (if not set you will be asked for your password)
 #
 
-source ./buildScripts/reSourceVersionEnvs
+# source ./buildScripts/reSourceVersionEnvs
+. ./buildScripts/reSourceVersionEnvs
 
 echo ""
 echo "-------------------------------------------------------------------"

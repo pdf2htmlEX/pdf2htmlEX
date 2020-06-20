@@ -1,8 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 
-# This bash script gets and unpacks the latest Poppler source code
+# This shell script gets and unpacks the latest Poppler source code
 
-source buildScripts/reSourceVersionEnvs
+# source buildScripts/reSourceVersionEnvs
+. buildScripts/reSourceVersionEnvs
 
 echo ""
 echo "-------------------------------------------------------------------"

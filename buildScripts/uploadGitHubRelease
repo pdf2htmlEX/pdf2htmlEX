@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-# This bash script uploads the pdf2htmlEX release artefacts
+# This shell script uploads the pdf2htmlEX release artefacts
 #
 # We EXPECT the following environment variables to be set:
 #    GITHUB_TOKEN
@@ -10,9 +10,11 @@
 #    DOCKER_PASSWORD  (if not set you will be asked for your password)
 #
 
-source ./buildScripts/reSourceVersionEnvs
-cp     ./buildScripts/reSourceVersionEnvs imageBuild/buildInfo.sh
-source ./buildScripts/uploadGitHubReleaseDSL
+# source ./buildScripts/reSourceVersionEnvs
+.  ./buildScripts/reSourceVersionEnvs
+cp ./buildScripts/reSourceVersionEnvs imageBuild/buildInfo.sh
+.  ./buildScripts/uploadGitHubReleaseDSL
+# source ./buildScripts/uploadGitHubReleaseDSL
 
 echo ""
 echo "-------------------------------------------------------------------"

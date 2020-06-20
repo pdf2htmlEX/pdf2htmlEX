@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-# This bash script runs the local browser tests
+# This shell script runs the local browser tests
 
 # We start by running a virtual frame buffer as display 99.0
 #

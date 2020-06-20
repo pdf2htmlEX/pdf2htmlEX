@@ -1,0 +1,37 @@
+#!/bin/sh 
+
+# This shell script creates a docker image from an existing pdf2htmlEX
+#
+# This is the part which can run *inside* a docker container.
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "CREATING pdf2htmlEX Docker Image (run inside a docker container)"
+echo " (based on Alpine linux $BUILD_DIST)
+echo "-------------------------------------------------------------------"
+echo ""
+
+# Collect everything that will be needed...
+
+# source buildScripts/reSourceVersionEnvs
+. buildScripts/reSourceVersionEnvs
+
+# source buildScripts/dockerFunctions
+. buildScripts/dockerFunctions
+
+set -ev
+
+mkdir -p imageBuild/dockerDir
+
+cd pdf2htmlEX/build
+
+sudo rm -rf install_manifest.txt
+
+make install DESTDIR=../../imageBuild/dockerDir
+
+cd ../../poppler-data
+
+make install                                  \
+  prefix=$PDF2HTMLEX_PREFIX                   \
+  datadir=$PDF2HTMLEX_PREFIX/share/pdf2htmlEX \
+  DESTDIR=../imageBuild/dockerDir

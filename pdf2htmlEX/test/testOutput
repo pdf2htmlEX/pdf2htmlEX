@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 
-# This bash script checks that pdf2htmlEX does not crash, and produces 
+# This shell script checks that pdf2htmlEX does not crash, and produces 
 # correct files. Do not check the content of the files.
 
-# We use a bash script to implement the python3 test_output.py so that we 
+# We use a shell script to implement the python3 test_output.py so that we 
 # do not need to install any extra packages to test this functionality. 
 
 # This is how we run pdf2htmlEX on a particular file, and arguments.

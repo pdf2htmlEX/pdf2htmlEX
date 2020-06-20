@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-# This bash script walks through the browser_tests directory running 
+# This shell script walks through the browser_tests directory running 
 # pdf2htmlEX on each *.pdf file. 
 
 # This is how we run pdf2htmlEX on a particular file, and arguments.

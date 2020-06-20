@@ -1,8 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 
-# This bash script reports the more important TRAVIS environment variables
+# This shell script reports the more important TRAVIS environment variables
 
-source ./buildScripts/reSourceVersionEnvs
+# source ./buildScripts/reSourceVersionEnvs
+. ./buildScripts/reSourceVersionEnvs
 
 echo "TravisCI env:"
 echo "             dist: [$TRAVIS_DIST]"

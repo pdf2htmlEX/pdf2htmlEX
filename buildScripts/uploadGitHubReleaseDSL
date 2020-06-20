@@ -1,8 +1,8 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-# This bash script is a collection of functions to interact with the GitHub
-# release and git/tag APIs. It essentially provides a bash based DSL for
-# uploading GitHub release artefacts.
+# This shell script is a collection of functions to interact with the GitHub
+# release and git/tag APIs. It essentially provides a shell script based DSL
+# for uploading GitHub release artefacts.
 
 # NOTE-1: These functions make use of your ".netrc" file to authenticate
 # with GitHub. In order to use these functions, make sure you have **both**
@@ -171,7 +171,7 @@ function uploadAnAsset {
   echo ""
 }
 
-# The above has been heavily modified into a collection of bash functions
+# The above has been heavily modified into a collection of shell functions
 # by Stephen Gaito working on the pdf2htmlEX project.
 #
 # It has been based upon the code in:

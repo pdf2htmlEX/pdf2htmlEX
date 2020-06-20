@@ -79,9 +79,18 @@ set(FONTFORGE_LIBRARIES ${FONTFORGE_LIBRARIES}
   ${CMAKE_SOURCE_DIR}/../fontforge/build/lib/libfontforge.a
 )
 
+# If we are using Alpine Linux then we need to add -lintl
+#
+if (EXISTS /usr/lib/libintl.so ) 
+  set(LIB_INTL_LIBRARIES -lintl )
+else ()
+  set(LIB_INTL_LIBRARIES "" )
+endif()
+
 set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS}
   ${POPPLER_LIBRARIES}
   ${FONTFORGE_LIBRARIES}
+  ${LIB_INTL_LIBRARIES}
   ${CAIRO_LIBRARIES}
   -ljpeg
   -lpng

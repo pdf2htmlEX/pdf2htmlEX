@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# This shell script automates getting the required build tools (apt install)
+
+# set the shell environment variable 'UNATTENDED' to '--assume-yes' for 
+# unattended use (for example in the .travis.yml script)
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "INSTALLING Build Tools (using APK / Alpine)"
+echo "-------------------------------------------------------------------"
+echo ""
+
+set -ev
+
+sudo apk update
+sudo apk add   \
+  sudo         \
+  wget         \
+  git          \
+  pkgconfig    \
+  ruby         \
+  cmake        \
+  make         \
+  gcc          \
+  g++          \
+  gettext      \
+  openjdk8     \
+  jq
+

@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-# This bash script builds everyting on an TravisCI Linux (Ubunutu) worker
+# This shell script builds everyting on an TravisCI Linux (Ubunutu) worker
 
 set -ev
 

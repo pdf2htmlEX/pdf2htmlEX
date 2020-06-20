@@ -8,16 +8,16 @@
 
 echo ""
 echo "-------------------------------------------------------------------"
-echo "INSTALLING development libraries (using APT)"
-echo "  (UNATTENDED: [$UNATTENDED])"
+echo "INSTALLING development libraries (using APK on Alpine)"
 echo "-------------------------------------------------------------------"
 echo ""
 
 set -ev
 
-sudo apt-get update
-sudo apt-get $UNATTENDED install \
-  libcairo-dev                   \
-  libpng-dev                     \
-  libjpeg-dev                    \
-  libxml2-dev                    \
+sudo apk update
+sudo apk add        \
+  gettext           \
+  cairo             \
+  libpng-dev        \
+  libjpeg-turbo-dev \
+  libxml2-dev

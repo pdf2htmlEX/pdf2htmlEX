@@ -19,7 +19,7 @@ and needs to be fixed. Rerun `runLocalBrowserTests` and use the
 
 ## Running tests
 
-There are three bash scripts which automate the running of a given 
+There are three shell scripts which automate the running of a given 
 collection of tests: 
 
 1. **runLocalTests** runs a simple collection of tests which do not 

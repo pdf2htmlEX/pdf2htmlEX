@@ -1,8 +1,9 @@
-#!/bin/bash 
+#!/bin/sh 
 
-# This bash script creates a (binary) Debian Package Archive for pdf2htmlEX
+# This shell script creates a (binary) Debian Package Archive for pdf2htmlEX
 
-source ./buildScripts/reSourceVersionEnvs
+# source ./buildScripts/reSourceVersionEnvs
+. ./buildScripts/reSourceVersionEnvs
 
 echo ""
 echo "-------------------------------------------------------------------"

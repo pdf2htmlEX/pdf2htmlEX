@@ -4,7 +4,7 @@ Because of its intimate use of *specific* versions of both Poppler and
 FontForge, cleanly building `pdf2htmlEX` is rather more complex than 
 normal. 
 
-The (bash) scripts in this directory help automate this mutli-stage 
+The (shell) scripts in this directory help automate this mutli-stage 
 process. 
 
 For all but the most experienced programmers, we *strongly* encourage you 
@@ -111,12 +111,12 @@ However, to get the matched versions of Poppler and FontForge and then
 compile them statically, *our* build process becomes much more complex 
 than a "simple", `configure, make, make install` cycle. 
 
-Hence this directory has a large number of bash scripts each of which 
+Hence this directory has a large number of shell scripts each of which 
 automate one simple step in the overall our build process. 
 
 ## The gory details ...
 
-The bash scripts in this directory automate the download, build, install, 
+The shell scripts in this directory automate the download, build, install, 
 test and upload steps required to provide a complete build/test/release 
 cycle of `pdf2htmlEX`. 
 
@@ -263,7 +263,7 @@ Typically, most users, will run one of the following "top-level" scripts:
   for a standard build of `pdf2htmlEX`. Changes in this script effect 
   *all* of the other build scripts. 
 
-- **`reSourceVersionEnvs`**: This bash script is automatically generated 
+- **`reSourceVersionEnvs`**: This shell script is automatically generated 
   by the build scripts as they are run. It records the values of all 
   important environment variables required by the buildScripts. It is 
   typcically `source`d by each script before it preforms any actions. 
@@ -272,24 +272,24 @@ Typically, most users, will run one of the following "top-level" scripts:
   console. This script is used by the top-level scripts to ensure the 
   current environment variables are listed before each build. 
 
-- **`uploadGitHubReleaseDSL`**: A collection of bash functions used by the 
+- **`uploadGitHubReleaseDSL`**: A collection of shell functions used by the 
   `uploadGitHubRelease` script to automate the upload of release artefacts.
 
 - **`uploadGitHubReleaseMessage`**: The contents of this *text* file is 
   used by the `uploadGitHubRelease` script as the contents of the release 
   message, as visible to the user, for the 'continuous' release section. 
 
-- **`dockerFunctions`**: A collection of bash functions used by the 
+- **`dockerFunctions`**: A collection of shell functions used by the 
   `uploadDockerImage` script to automate the upload of the Docker images 
   to Docker Hub. 
 
-- **`listFilesByChangeTime`**: A simple bash script which lists the files 
+- **`listFilesByChangeTime`**: A simple shell script which lists the files 
   in the buildScripts directory by most recently changed files first. 
 
 - **`Readme.md`**: This read me file.
 
 ## Yet more details?
 
-The various bash script files are meant to be fairly readable. They 
+The various shell script files are meant to be fairly readable. They 
 contain additional comments about what each step is meant to be doing. 
 
