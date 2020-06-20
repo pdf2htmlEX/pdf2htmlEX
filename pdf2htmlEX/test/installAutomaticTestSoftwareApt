@@ -20,7 +20,8 @@ sudo apt -y install \
 
 # Now get the geckodriver for firefox (as required by selenium)
 #
-pushd /tmp
+oldPWD=$(pwd)
+cd /tmp
 #
 wget https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz
 #
@@ -28,7 +29,7 @@ tar xvf geckodriver-v0.26.0-linux64.tar.gz
 #
 sudo mv geckodriver /usr/local/bin
 #
-popd
+cd $oldPWD
 
 # Now make sure all python packages exist (install into the local user's 
 # PyPI archive) 
