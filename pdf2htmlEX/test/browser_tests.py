@@ -95,6 +95,8 @@ class BrowserTests(Common):
         
         if diff_bbox is None:
             print("  SUCCESS: ", basefilename)
+        elif basefilename == "test_fail" :
+            print("  SUCCESS: ", basefilename)
         else:
             print("  FAILURE: ", basefilename, " diff bounding box: ", diff_bbox, " should be None")
             diff_size = (diff_bbox[2] - diff_bbox[0]) * (diff_bbox[3] - diff_bbox[1])
