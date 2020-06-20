@@ -32,9 +32,9 @@ set -ev
 
 ./buildScripts/reportEnvs
 
-./buildScripts/getBuildTools
+./buildScripts/getBuildToolsApt
 
-./buildScripts/getDevLibraries
+./buildScripts/getDevLibrariesApt
 
 ./buildScripts/getPoppler
 
