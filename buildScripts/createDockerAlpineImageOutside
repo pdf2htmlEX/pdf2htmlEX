@@ -7,7 +7,7 @@
 echo ""
 echo "-------------------------------------------------------------------"
 echo "CREATING pdf2htmlEX Docker Image (run outside any docker container)"
-echo " (based on Alpine linux $BUILD_DIST)
+echo " (based on Alpine linux $BUILD_DIST)"
 echo "-------------------------------------------------------------------"
 echo ""
 
