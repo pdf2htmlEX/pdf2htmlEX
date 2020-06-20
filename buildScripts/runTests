@@ -20,7 +20,7 @@ cd pdf2htmlEX/test
 
 # The following is only needed for the local browser tests
 #
-./installAutomaticTestSoftware
+./installAutomaticTestSoftwareApt
 
 ./runLocalTestsShell
 
