@@ -51,22 +51,22 @@ echo "export DOCKER_FROM=\"$DOCKER_FROM\""         >> ../../buildScripts/reSourc
 echo "export DOCKER_USERNAME=\"$DOCKER_USERNAME\"" >> ../../buildScripts/reSourceVersionEnvs
 echo "export DOCKER_NAME=\"$DOCKER_NAME\""         >> ../../buildScripts/reSourceVersionEnvs
 
-delete_blacklisted
-
 cat > Dockerfile <<DOCKERFILE_HERE_DOC
 FROM $DOCKER_FROM
 
 COPY ./ /
 
-RUN apk update && \
-  apk add         \
-    gettext       \
-    glib          \
-    freetype      \
-    fontconfig    \
-    cairo         \
-    libpng        \
-    libjpeg-turbo \
+RUN apk update &&    \
+  apk add --no-cache \
+    libstdc++        \
+    libgcc           \
+    gettext          \
+    glib             \
+    freetype         \
+    fontconfig       \
+    cairo            \
+    libpng           \
+    libjpeg-turbo    \
     libxml2
 
 ENTRYPOINT ["$PDF2HTMLEX_PREFIX/bin/pdf2htmlEX"]
