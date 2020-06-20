@@ -17,7 +17,7 @@ set -ev
 sudo apk update
 sudo apk add        \
   gettext           \
-  cairo             \
+  cairo-dev         \
   libpng-dev        \
   freetype-dev      \
   gettext-dev       \
