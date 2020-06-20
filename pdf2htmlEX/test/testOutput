@@ -8,7 +8,7 @@
 
 # This is how we run pdf2htmlEX on a particular file, and arguments.
 #
-function runPdf2htmlEX {
+runPdf2htmlEX() {
   # collect the arguments
   #
   export LAST_TEST_NAME="$*"
@@ -36,7 +36,7 @@ function runPdf2htmlEX {
 
 # This is how we test for expected output files
 # 
-function hasExpectedFiles {
+hasExpectedFiles() {
   filesFound="true"
   for anExpectedFile in $1 ; do
     if ! test -r $PDF2HTMLEX_TMPDIR/$anExpectedFile ; then
@@ -57,7 +57,7 @@ function hasExpectedFiles {
 # and '#TEST_IGNORE_END' (we pipe the file in via stdin and save it via 
 # stdout) 
 #
-function copy_TEST_IGNORE_file {
+copy_TEST_IGNORE_file() {
   skipLine=echo
   while IFS= read -r line ; do
     if echo $line | grep -q "^#TEST_IGNORE_BEGIN" ; then
