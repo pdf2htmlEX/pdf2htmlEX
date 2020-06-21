@@ -47,8 +47,10 @@ if test -r /etc/lsb-release ; then
   # source /etc/lsb-release
   . /etc/lsb-release
   export BUILD_DIST=$DISTRIB_CODENAME
+  export BUILD_OS=$DISTRIB_ID
 elif test -r /etc/alpine-release ; then
   cat /etc/alpine-release
+  export BUILD_OS=alpine
   export BUILD_DIST=$(cat /etc/alpine-release)
 else
   echo "FAILURE: could not determine release"
@@ -61,11 +63,15 @@ export BUILD_TIME="$(date +%Y_%m_%d-%H_%M_%S)"
 
 export MACHINE_ARCH="$(uname -m)"
 
-echo "export PDF2HTMLEX_VERSION=\"$PDF2HTMLEX_VERSION\"" >  buildScripts/reSourceVersionEnvs
-echo "export POPPLER_VERSION=\"$POPPLER_VERSION\""       >>  buildScripts/reSourceVersionEnvs
+export PDF2HTMLEX_NAME=$PDF2HTMLEX_VERSION-$PDF2HTMLEX_BRANCH-$BUILD_DATE-$BUILD_OS-$BUILD_DIST-$MACHINE_ARCH
+
+echo "export PDF2HTMLEX_NAME=\"$PDF2HTMLEX_NAME\""       >  buildScripts/reSourceVersionEnvs
+echo "export PDF2HTMLEX_VERSION=\"$PDF2HTMLEX_VERSION\"" >> buildScripts/reSourceVersionEnvs
+echo "export POPPLER_VERSION=\"$POPPLER_VERSION\""       >> buildScripts/reSourceVersionEnvs
 echo "export FONTFORGE_VERSION=\"$FONTFORGE_VERSION\""   >> buildScripts/reSourceVersionEnvs
 echo "export PDF2HTMLEX_BRANCH=\"$PDF2HTMLEX_BRANCH\""   >> buildScripts/reSourceVersionEnvs
 echo "export MACHINE_ARCH=\"$MACHINE_ARCH\""             >> buildScripts/reSourceVersionEnvs
+echo "export BUILD_OS=\"$BUILD_OS\""                     >> buildScripts/reSourceVersionEnvs
 echo "export BUILD_DIST=\"$BUILD_DIST\""                 >> buildScripts/reSourceVersionEnvs
 echo "export BUILD_DATE=\"$BUILD_DATE\""                 >> buildScripts/reSourceVersionEnvs
 echo "export BUILD_TIME=\"$BUILD_TIME\""                 >> buildScripts/reSourceVersionEnvs

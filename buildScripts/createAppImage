@@ -16,7 +16,7 @@ set -ev
 # For appimage output plugin
 #
 #export VERSION="$PDF2HTMLEX_BRANCH-$BUILD_TIME"
-export APPIMAGE_NAME="pdf2htmlEX-$PDF2HTMLEX_BRANCH-$BUILD_TIME-$BUILD_DIST-$MACHINE_ARCH.AppImage"
+export APPIMAGE_NAME="pdf2htmlEX-$PDF2HTMLEX_NAME.AppImage"
 
 echo "export APPIMAGE_NAME=\"$APPIMAGE_NAME\"" >> buildScripts/reSourceVersionEnvs
 

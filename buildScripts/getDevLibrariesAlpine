@@ -17,6 +17,7 @@ set -ev
 sudo apk update
 sudo apk add        \
   gettext           \
+  gnu-libiconv-dev  \
   cairo-dev         \
   libpng-dev        \
   freetype-dev      \

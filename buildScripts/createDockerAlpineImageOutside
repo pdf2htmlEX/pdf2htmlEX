@@ -45,7 +45,7 @@ if [ -z "$DOCKER_USERNAME" ]; then
   fi
 fi
 
-export DOCKER_NAME="$DOCKER_USERNAME/pdf2htmlex:$PDF2HTMLEX_BRANCH-$BUILD_TIME"
+export DOCKER_NAME="$DOCKER_USERNAME/pdf2htmlex:$PDF2HTMLEX_NAME"
 
 echo "export DOCKER_FROM=\"$DOCKER_FROM\""         >> ../../buildScripts/reSourceVersionEnvs
 echo "export DOCKER_USERNAME=\"$DOCKER_USERNAME\"" >> ../../buildScripts/reSourceVersionEnvs
