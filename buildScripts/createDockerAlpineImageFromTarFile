@@ -53,9 +53,10 @@ echo "export DOCKER_NAME=\"$DOCKER_NAME\""         >> ../../buildScripts/reSourc
 cat > Dockerfile <<DOCKERFILE_HERE_DOC
 FROM $DOCKER_FROM
 
-COPY ./$ALPINE_NAME.* /root
+COPY ./$ALPINE_NAME.* /root && \
+  chmod a+x /root/$APLINE_NAME.install
 
-RUN /bin/sh -c /root/$ALPINE_NAME.install
+RUN /root/$ALPINE_NAME.install
 
 ENTRYPOINT ["$PDF2HTMLEX_PREFIX/bin/pdf2htmlEX"]
 DOCKERFILE_HERE_DOC

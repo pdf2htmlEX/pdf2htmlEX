@@ -39,7 +39,7 @@ make install                                  \
 
 cd ../imageBuild
 
-tar czvf $ALPINE_TARFILE_NAME.tar.gz alpineTarDir
+tar czvf $ALPINE_NAME.tar.gz alpineTarDir
 
 cat <<ALPINE_INSTALL > $ALPINE_NAME.install
 #!/bin/sh
@@ -77,3 +77,4 @@ tar xvf $ALPINE_NAME.tar.gz --strip-comonents=1
 
 ALPINE_INSTALL
 
+chmod a+x $ALPINE_NAME.tar.gz
