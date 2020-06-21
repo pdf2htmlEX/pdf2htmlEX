@@ -15,9 +15,6 @@ echo ""
 # source buildScripts/reSourceVersionEnvs
 . buildScripts/reSourceVersionEnvs
 
-# source buildScripts/dockerFunctions
-. buildScripts/dockerFunctions
-
 set -ev
 
 cd imageBuild
@@ -56,12 +53,14 @@ echo "export DOCKER_NAME=\"$DOCKER_NAME\""         >> ../../buildScripts/reSourc
 
 cat > Dockerfile <<DOCKERFILE_HERE_DOC
 FROM $DOCKER_FROM
+
 COPY ./$DPKG_NAME /root
 
 RUN   apt update && \
   apt -y upgrade && \
   apt -y --no-install-recommends install \
   /root/$DPKG_NAME
+
 ENTRYPOINT ["$PDF2HTMLEX_PREFIX/bin/pdf2htmlEX"]
 DOCKERFILE_HERE_DOC
 

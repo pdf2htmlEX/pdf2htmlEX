@@ -43,4 +43,7 @@ class test_local_browser(BrowserTests, unittest.TestCase):
              self.browser.save_screenshot(png_file)
 
 if __name__ == '__main__':
-     unittest.main()
+     # turn warnings OFF to prevent 'ResourceWarning: unclosed <socket.socket'
+     # see: https://stackoverflow.com/a/21500796
+     #
+     unittest.main(warnings='ignore')

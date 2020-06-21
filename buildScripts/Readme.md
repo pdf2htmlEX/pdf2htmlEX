@@ -35,16 +35,6 @@ For most users, you probably really want to simply download one of the
 [precompiled versions of 
 `pdf2htmlEX`](https://github.com/pdf2htmlEX/pdf2htmlEX/releases): 
 
-- [AppImage](https://appimage.org/) : Download, make executable, and 
-  run... 
-
-  This will work on most Linuxes, and most recent Windows 10.
-
-- [Docker](https://www.docker.com/) Image from the [`pdf2htmlEX` Docker 
-  hub](https://hub.docker.com/orgs/pdf2htmlex/repositories). 
-
-  This will work on any machine with Docker installed.
-
 - [Debian archive](https://en.wikipedia.org/wiki/Dpkg) : Download, 
   [apt](https://en.wikipedia.org/wiki/APT_(software)) install locally, 
   and run... 
@@ -55,15 +45,33 @@ For most users, you probably really want to simply download one of the
   Experienced users of Linux, may be able to repackage the `*.deb` we 
   provide for use with their favourite package management tool. 
 
+- [AppImage](https://appimage.org/) : Download, make executable, and 
+  run... 
+
+  This will work on most Linuxes, and most recent Windows 10.
+  
+  (It will not currently work on MacOS or Alpine based machines).
+
+- [Docker](https://www.docker.com/) Image from the [`pdf2htmlEX` Docker 
+  hub](https://hub.docker.com/orgs/pdf2htmlex/repositories). 
+
+  This will work on any machine with Docker installed.
+
+  (Note: that *advanced* use of `pdf2htmlEX` requires careful attention to 
+  the configuration of various tools, such as fontconfig, iconv and your 
+  locally available fonts use by the poppler and fontforge libraries. The 
+  docker images created by the pdf2htmlEX team might not be as well 
+  configured for *your needs* as a docker created and configured by you) 
+
 ### Building yourself
 
-To build `pdf2htmlEX` on your own machine, inside the root directory of 
-a fresh clone of the 
+To build `pdf2htmlEX` on a Debian/Apt related machine, inside the root 
+directory of a fresh clone of the 
 [pdf2htmlEX/pdf2htmlEX](https://github.com/pdf2htmlEX/pdf2htmlEX) 
 repository, type: 
 
 ```
-    ./buildScripts/buildInstallLocally
+    ./buildScripts/buildInstallLocallyApt
 ```
 
 This will automatically install all required development tools and 
@@ -74,6 +82,10 @@ installing `pdf2htmlEX` into /usr/local/bin.
 **NOTE:** at the moment this will **only** work on machines with a 
 [Debian](https://www.debian.org/) based distribution. such as 
 [Ubuntu](https://ubuntu.com/), [Linux Mint](https://linuxmint.com/), etc. 
+
+**NOTE:** there is currently an *experimental* build script, 
+`./buildScripts/buildInstallLocallyAlpine`, for builds in Alpine 
+environments. 
 
 ## The problem
 
@@ -126,7 +138,7 @@ Each script can be used individually to re-run a particular step if needed.
 
 Typically, most users, will run one of the following "top-level" scripts: 
 
-1. **`buildInstallLocally`**
+1. **`buildInstallLocallyApt`** (**`buildInstallLocallyAlpine`**)
 
    This will automate:
 
@@ -138,10 +150,16 @@ Typically, most users, will run one of the following "top-level" scripts:
 
      3. compile and install `pdf2htmlEX`.
 
-2. **`createImages`**
+   The `*Apt` script will build on any machine which uses the 
+   `apt`/`apt-get` command. 
 
-   Following a successful `buildInstallLocally`, this will create the 
-   following images: 
+   The `*Alpine` script will build on any machine which uses the 
+   `apk` command (Alpine). 
+
+2. **`createImagesApt`** (**`createImagesAlpine`**)
+
+   Following a successful `buildInstallLocallyApt`, the `createImagesApt` 
+   shell script will create the following images: 
 
      1. AppImage
 
@@ -149,10 +167,18 @@ Typically, most users, will run one of the following "top-level" scripts:
 
      3. Debian archive
 
+   Following a successful `buildInstallLocallyAlpine`, the 
+   `createImagesAlpine` shell script will create the following images: 
+
+     1. Alpine tar file
+
+     2. Docker image
+
 3. **`runTests`**
 
-   Following a successful `buildInstallLocally`, this will run the various 
-   'local' tests reporting errors as they occur.
+   Following a successful `buildInstallLocallyApt` (or 
+   `buildInstallLocallyAlpine` ), the `runTests` shell script will run the 
+   various 'local' tests reporting errors as they occur. 
 
    When run in [Travis-ci](https://travis-ci.org/), failing browser tests 
    will *not* fail the overall Travis build, but will instead upload the 
@@ -192,6 +218,10 @@ Typically, most users, will run one of the following "top-level" scripts:
   ensures that any versions of Poppler already installed by the user, are 
   not broken by the user's installation of `pdf2htmlEX`. 
 
+- **`createAlpineTarFile`**: Using an already compiled version of `pdf2htmlEX`, 
+  installs it and `popper-data` into a tar file suitable for use in any 
+  Alpine environment. 
+
 - **`createAppImage`**: Using an already compiled version of `pdf2htmlEX`, 
   installs it and `popper-data` into an AppImage.
 
@@ -199,14 +229,27 @@ Typically, most users, will run one of the following "top-level" scripts:
   `pdf2htmlEX`, installs it and `poppler-data` into a Debian archive 
   (`*.deb`). 
 
+- **`createDockerAlpineImageFromTarFile`**: Installs the Alpine tar file 
+  archive of `pdf2htmlEX` created by `createAlpineTarFile` into an Alpine 
+  Docker image. 
+
 - **`createDockerUbuntuImageFromDeb`**: Installs the Debian archive of 
   `pdf2htmlEX` created by `createDebianPackage` into a Docker image. 
 
-- **`getBuildTools`**: Locally `apt` installs all development *tools* 
+- **`getBuildToolsAlpine`**: Locally `apk` installs all development 
+  *tools* required to build `pdf2htmlEX`. 
+
+- **`getBuildToolsApt`**: Locally `apt` installs all development *tools* 
   required to build `pdf2htmlEX`. 
 
-- **`getDevLibraries`**: Locally `apt` installs all development 
+- **`getDevLibrariesAlpine`**: Locally `apk` installs all development 
   *libraries* required to build `pdf2htmlEX`.
+
+- **`getDevLibrariesApt`**: Locally `apt` installs all development 
+  *libraries* required to build `pdf2htmlEX`.
+
+  This script provides a definitive list of all libraries required to run 
+  `pdf2htmlEX`. 
 
   This script provides a definitive list of all libraries required to run 
   `pdf2htmlEX`. 
@@ -236,7 +279,7 @@ Typically, most users, will run one of the following "top-level" scripts:
   The `PDF2HTMLEX_PREFIX` variable is specified in the `versionEnvs` 
   script. 
 
-- **`rutTests`**: Runs the tests located in the 
+- **`runTests`**: Runs the tests located in the 
   `pdf2htmlEX/pdf2htmlEX/test` directory. See the 
   `pdf2htmlEX/pdf2htmlEx/test` directory's Readme file for details. 
 
@@ -278,10 +321,6 @@ Typically, most users, will run one of the following "top-level" scripts:
 - **`uploadGitHubReleaseMessage`**: The contents of this *text* file is 
   used by the `uploadGitHubRelease` script as the contents of the release 
   message, as visible to the user, for the 'continuous' release section. 
-
-- **`dockerFunctions`**: A collection of shell functions used by the 
-  `uploadDockerImage` script to automate the upload of the Docker images 
-  to Docker Hub. 
 
 - **`listFilesByChangeTime`**: A simple shell script which lists the files 
   in the buildScripts directory by most recently changed files first. 

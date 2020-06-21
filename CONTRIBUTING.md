@@ -23,7 +23,7 @@ A few channels are available to reach the developers, please find the most prope
 
 ### The Issue Tracker
 
-The [Issue Tracker](https://github.com/coolwanglu/pdf2htmlEX/issues)
+The [Issue Tracker](https://github.com/pdf2htmlEX/pdf2htmlEX/issues)
 is the best way for 
 [bug reports](#bug-reports),
 [features requests](#feature-requests) 
@@ -54,7 +54,7 @@ However do not report issues or submit patches there, since it's terrible to kee
 
 pdf2htmlEX is mostly written and maintained by 王璐 (Lu Wang).
 His email and twitter account can be found in 
-[README.md](https://github.com/coolwanglu/pdf2htmlEX/blob/master/README.md). 
+[README.md](https://github.com/pdf2htmlEX/pdf2htmlEX/blob/master/README.md). 
 
 Please post only messages that do not fit into the above channels, otherwise
 note that he no longer replies with _Please post your question to the mailing list_ or _Please file an issue at GitHub_, consider your message already replied.
@@ -73,7 +73,7 @@ follow the following steps to get it resolved as fast as possible:
 
 First of all, did you realize that your question might have been already answered in one of the following places?
 
-- [pdf2htmlEX Wiki](https://github.com/coolwanglu/pdf2htmlEX/wiki)
+- [pdf2htmlEX Wiki](https://github.com/pdf2htmlEX/pdf2htmlEX/wiki)
 - The manpage (run `man pdf2htmlEX`)
 - Old posts in the [mailing list](#the-mailing-list) or the [issue tracker](#the-issue-tracker)
 - [Google](http://www.google.com/)
@@ -93,7 +93,7 @@ Bugs should always be reported to [the Issue Tracker](#the-issue-tracker).
 Before you report any bug:
 - Use the latest git version of pdf2htmlEX, since the issue may have been already fixed.
 - Search for previous issues (open or closed), to make sure that the issue has not been reported before.
-- If pdf2htmlEX crashed, take a look at [this article](https://github.com/coolwanglu/pdf2htmlEX/wiki/Troubleshooting-Crashes).
+- If pdf2htmlEX crashed, take a look at [this article](https://github.com/pdf2htmlEX/pdf2htmlEX/wiki/Troubleshooting-Crashes).
 
 A good bug report shouldn't leave others needing to chase you up for more information.
 The developers may be very familiar with the code base of pdf2htmlEX,
@@ -110,7 +110,7 @@ If you are not sure, please try to answer the following questions:
 - What steps will reproduce the issue? &mdash; please try to remove unnecessary steps
 - What's the result and what did you expect? &mdash; e.g. you can post screenshots
 - What error messages did you see?
-- What's the affected PDF file and which pages are causing the issue? Create a pull request on [this repo](https://github.com/coolwanglu/pdf2htmlEX-testcase).
+- What's the affected PDF file and which pages are causing the issue? Create a pull request on [this repo](https://github.com/pdf2htmlEX/pdf2htmlEX-testcase).
 
 Especially for issues regarding building pdf2htmlEX:
 - Which compiler are you using?

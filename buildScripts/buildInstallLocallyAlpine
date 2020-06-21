@@ -47,11 +47,3 @@ set -ev
 ./buildScripts/buildPdf2htmlEX
 
 ./buildScripts/installPdf2htmlEX
-
-#./buildScripts/createAppImage
-
-#./buildScripts/createDockerUbuntuImageFromDeb
-
-#./buildScripts/uploadGitHubRelease
-
-#./buildScripts/uploadDockerImage

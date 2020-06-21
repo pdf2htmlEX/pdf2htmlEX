@@ -16,14 +16,13 @@ echo ""
 # source buildScripts/reSourceVersionEnvs
 . buildScripts/reSourceVersionEnvs
 
-# source buildScripts/dockerFunctions
-. buildScripts/dockerFunctions
-
 set -ev
 
 mkdir -p imageBuild/dockerDir
 
 cd imageBuild/dockerDir
+
+cp ../$ALPINE_NAME.* .
 
 if [ -z "$DOCKER_FROM" ]; then
   echo ""
@@ -54,21 +53,9 @@ echo "export DOCKER_NAME=\"$DOCKER_NAME\""         >> ../../buildScripts/reSourc
 cat > Dockerfile <<DOCKERFILE_HERE_DOC
 FROM $DOCKER_FROM
 
-COPY ./ /
+COPY ./$ALPINE_NAME.* /root
 
-RUN apk update &&    \
-  apk add --no-cache \
-    libstdc++        \
-    libgcc           \
-    gnu-libiconv     \
-    gettext          \
-    glib             \
-    freetype         \
-    fontconfig       \
-    cairo            \
-    libpng           \
-    libjpeg-turbo    \
-    libxml2
+RUN /bin/sh -c /root/$ALPINE_NAME.install
 
 ENTRYPOINT ["$PDF2HTMLEX_PREFIX/bin/pdf2htmlEX"]
 DOCKERFILE_HERE_DOC
