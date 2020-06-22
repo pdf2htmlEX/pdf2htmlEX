@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# This shell script automates getting the development libraries required to 
+# build poppler and fontforge
+
+# set the shell environment variable 'UNATTENDED' to '--assume-yes' for
+# unattended use (for example in the .travis.yml script)
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "INSTALLING development libraries (using APT)"
+echo "  (UNATTENDED: [$UNATTENDED])"
+echo "-------------------------------------------------------------------"
+echo ""
+
+set -ev
+
+sudo apt-get update
+sudo apt-get $UNATTENDED install \
+  libcairo-dev                   \
+  libpng-dev                     \
+  libjpeg-dev                    \
+  libxml2-dev                    \

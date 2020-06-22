@@ -1,0 +1,132 @@
+# pdf2htmlEX manifest 
+# Copyright (C) 2012,2013 Lu Wang <coolwanglu@gmail.com>
+#
+# Syntax
+# The first char of each line is the command
+# Empty lines are ignored
+#
+# # - comment
+# @ - embed or link to a file from data dir, depending on the values of --embed-*** options
+# $ - special use for pdf2htmlEX
+#
+# Special
+# If a line contains """ only, all text until next """ will be included
+# #TEST_IGNORE_BEGIN & #TEST_IGNORE_END are used for unittest
+
+#############
+# Declaration - Do not modify
+"""
+<!DOCTYPE html>
+<!-- Created by pdf2htmlEX (https://github.com/pdf2htmlEX/pdf2htmlEX) -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta name="generator" content="pdf2htmlEX"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+"""
+
+#############
+# Styles 
+# base CSS styles - Do not modify
+@base.min.css
+
+# fancy CSS styles - Optional
+@fancy.min.css
+
+# PDF specific CSS styles - Do not modify
+$css
+
+
+#############
+# UI stuffs, optional
+
+# compatibility.min.js, extracted from PDF.js
+# To support old browsers like IE9
+#TEST_IGNORE_BEGIN
+@compatibility.min.js
+#TEST_IGNORE_END
+
+# entry point of pdf2htmlEX.Viewer
+# You can override default configuration by passing an object to the constructor of Viewer
+# Refer to DEFAULT_CONFIG in viewer.js for possible keys
+# E.g.
+# pdf2htmlEX.defaultViewer = new pdf2htmlEX.Viewer({
+#   'key_handler' : false 
+# });
+#TEST_IGNORE_BEGIN
+@pdf2htmlEX.min.js
+"""
+<script>
+try{
+  pdf2htmlEX.defaultViewer = new pdf2htmlEX.Viewer({});
+}catch(e){}
+</script>
+"""
+#TEST_IGNORE_END
+
+
+#############
+# Do not modify
+"""
+<title></title>
+</head>
+<body>
+"""
+
+#############
+# The sidebar
+# By default this is hidden, pdf2htmlEX.js will add the 'opened' class if it is not empty
+# You can add a class 'opened' here if you want it always opened or you don't use pdf2htmlEX.js
+# e.g. 
+# <div id="sidebar" class="opened">
+
+#TEST_IGNORE_BEGIN
+"""
+<div id="sidebar">
+"""
+# container of outlines
+"""
+<div id="outline">
+"""
+$outline
+"""
+</div>
+</div>
+"""
+#TEST_IGNORE_END
+
+#############
+# The container of PDF pages
+# check base.css for an example and requirements of its CSS styles
+"""
+<div id="page-container">
+"""
+$pages
+"""
+</div>
+"""
+
+#############
+# The loading indicator
+# shown when loading a page via ajax
+# The default appearance should be invisible
+# The 'active' class will be added when it is used
+
+#TEST_IGNORE_BEGIN
+"""
+<div class="loading-indicator">
+"""
+@pdf2htmlEX-64x64.png
+"""
+</div>
+"""
+#TEST_IGNORE_END
+
+#############
+# Do not modify
+"""
+</body>
+</html>
+"""
+
+# MANIFEST END

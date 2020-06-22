@@ -1,0 +1,178 @@
+#!/usr/bin/env python
+
+"""
+Dirty script for building package for PPA
+by WangLu
+2011.01.13
+
+modified for pdf2htmlEX
+2012.08.28
+
+modified for general git repo
+2013.05.30
+"""
+
+# CONSIDER PORTING to either BASH or PERL (as used by dpkg-buldpackage)
+# CONSIDER BINARY ONLY PACKAGE based on appDir or docerDir
+#
+# See: https://blog.serverdensity.com/how-to-create-a-debian-deb-package/
+# See: http://www.sj-vs.net/creating-a-simple-debian-deb-package-based-on-a-directory-structure/
+# See: https://unix.stackexchange.com/questions/30303/how-to-create-a-deb-file-manually
+# See: https://askubuntu.com/questions/1130558/how-to-build-deb-package-for-ubuntu-18-04
+# See: https://blog.knoldus.com/create-a-debian-package-using-dpkg-deb-tool/
+# See: http://www.tldp.org/HOWTO/html_single/Debian-Binary-Package-Building-HOWTO/
+# See: https://coderwall.com/p/urkybq/how-to-create-debian-package-from-source
+#
+# NOTES:
+# 1. Should use something to force update of changelog
+# 2. How best to compute dpkg version
+# 3. Distribute only binary package (no source package -- link to main github repo)
+# 4. Use ppa: https://launchpad.net/~pdf2htmlex/+archive/ubuntu/pdf2htmlex
+# 5. Rename poppler-data destination to poppler-pdf2htmlEX 
+# 6. Ensure source code location of poppler-data has been updated
+
+import os
+import sys
+import re
+import time
+
+package='pdf2htmlex'
+ppa_name='ppa:pdf2htmlex/pdf2htmlex'
+supported_distributions=('disco',)
+dist_pattern=re.compile('|'.join(['\\) '+i for i in supported_distributions]))
+archive_cmd='cd pdf2htmlEX/build && (rm CMakeCache.txt || true) && cmake .. && make dist'
+archive_suffix='.tar.bz2'
+
+#if os.path.exists('imageBuild/debianDir'):
+#    sys.stdout.write('Build area already exists, delete to continue?(y/n)')
+#    sys.stdout.flush()
+#    ans = raw_input().lower()
+#    while ans not in ['y', 'n']:
+#        sys.stdout.write('I don\'t understand, enter \'y\' or \'n\':')
+#        ans = raw_input().lower()
+#
+#    if ans == 'n':
+#        print 'Skipped.'
+#        sys.exit(0)
+#
+if os.system('rm -rf imageBuild/debianDir') != 0:
+    print 'Failed to clean up old build directory'
+    sys.exit(-1)
+
+print 'Generating version...'
+try:
+    version = re.findall(
+        r'set\(PDF2HTMLEX_VERSION\s*"([^"]*)"\)',
+        open('pdf2htmlEX/CMakeLists.txt').read()
+    )[0]
+except:
+    print 'Cannot get package name and version number'
+    sys.exit(-1)
+
+try:
+    rev = open('.git/refs/heads/master').read()[:5]
+except:
+    print 'Cannot get revision number'
+    sys.exit(-1)
+
+projectdir=os.getcwd()
+today_timestr = time.strftime('%Y%m%d')
+deb_version = version+'-1~git'+today_timestr+'r'+rev
+full_deb_version = deb_version+'-0ubuntu1'
+
+print 'Version: %s' % (version,)
+print 'Full Version: %s' % (full_deb_version,)
+
+#check if we need to update debian/changelog
+with open('debian/changelog') as f:
+    if re.findall(r'\(([^)]+)\)', f.readline())[0] == full_deb_version:
+        print
+        print 'No need to update debian/changelog, skipping'
+    else:
+        print
+        print 'Writing debian/changelog'
+        if os.system('dch -v "%s"' % (full_deb_version,)) != 0:
+            print 'Failed when updating debian/changelog'
+            sys.exit(-1)
+
+# changelog may have been updated, reopen it
+with open('debian/changelog') as f:
+    #check dist mark of changelog
+    changelog = f.read()
+    m = dist_pattern.search(changelog)
+    if m is None or m.pos >= changelog.find('\n'):
+        print 'Cannot locate the dist name in the first line of changelog'
+        sys.exit(-1)
+
+print
+print 'Preparing build ...'
+# handling files
+if os.system(archive_cmd) != 0:
+    print 'Failed in creating tarball'
+    sys.exit(-1)
+
+orig_tar_filename = package+'-'+version+archive_suffix
+os.mkdir('imageBuild/debianDir')
+if os.system('test -e pdf2htmlEX/build/%s && cp pdf2htmlEX/build/%s imageBuild/debianDir/' % (orig_tar_filename, orig_tar_filename)) != 0:
+    print 'Cannot copy tarball file to build area'
+    sys.exit(-1)
+
+deb_orig_tar_filename = package+'_'+deb_version+'.orig'+archive_suffix
+try:
+    os.chdir('imageBuild/debianDir')
+except:
+    print 'Cannot find imageBuild/debianDir'
+    sys.exit(-1)
+
+# remove old dir
+os.system('rm -rf %s' % (package+'-'+version,))
+
+if os.system('mv %s %s && tar -xvf %s' % (orig_tar_filename, deb_orig_tar_filename, deb_orig_tar_filename)) != 0:
+    print 'Cannot extract tarball'
+    sys.exit(-1)
+
+try:
+    os.chdir(package+'-'+version)
+except:
+    print 'Cannot enter project dir'
+    sys.exit(-1)
+
+os.system('cp -r %s/debian .' % (projectdir,))
+
+for cur_dist in supported_distributions:
+    print
+    print 'Building for ' + cur_dist + ' ...'
+    # substitute distribution name
+    with open('debian/changelog', 'w') as f:
+        f.write(dist_pattern.sub('~%s1) %s' % (cur_dist, cur_dist), changelog, 1))
+
+# No PPA Orginization set up, only building dpkg
+#    # building for ppa
+#    if os.system('debuild -S -sa') != 0:
+#        print 'Failed in debuild'
+#        sys.exit(-1)
+#
+#    print
+#    sys.stdout.write('Everything seems to be good so far, upload?(y/n)')
+#    sys.stdout.flush()
+#    ans = raw_input().lower()
+#    while ans not in ['y', 'n']:
+#        sys.stdout.write('I don\'t understand, enter \'y\' or \'n\':')
+#        ans = raw_input().lower()
+#
+#    if ans == 'n':
+#        print 'Skipped.'
+#        sys.exit(0)
+#
+#    print 'Uploading'
+#    if os.system('dput %s ../%s' % (ppa_name, package+'_'+full_deb_version+'~'+cur_dist+'1_source.changes')) != 0:
+#        print 'Failed in uploading by dput'
+#        sys.exit(-1)
+
+    # building for dpkg
+    if os.system('dpkg-buildpackage -b --no-sign') != 0:
+        print 'Failed in dpkg-buildpackage'
+        sys.exit(-1)
+
+print 'Build area not cleaned.'
+print 'All done. Cool!'

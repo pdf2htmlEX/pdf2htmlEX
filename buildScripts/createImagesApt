@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -ev
+
+# This shell script creates the pdf2htmlEX AppImage and Docker Images
+
+#################
+# do the creation
+
+./buildScripts/reportEnvs
+
+./buildScripts/createAppImage
+
+./buildScripts/createDebianPackage
+
+if [ -x "$(which docker)" ]; then
+  ./buildScripts/createDockerUbuntuImageFromDeb
+fi
+
+
+

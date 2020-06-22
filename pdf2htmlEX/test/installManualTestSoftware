@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# This shell script installs all local software required to run the 
+# pdf2htmlEX tests 
+
+export DEBIAN_FRONTEND=noninteractive
+
+# Start by making sure all required apt packages exist
+#
+sudo apt -y install                 \
+  graphicsmagick-imagemagick-compat \
+  okular
+

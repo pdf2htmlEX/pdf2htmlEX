@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# source ./buildScripts/reSourceVersionEnvs
+. ./buildScripts/reSourceVersionEnvs
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "RUNNING pdf2htmlEX tests"
+echo "-------------------------------------------------------------------"
+echo ""
+
+export TEST_RESULTS_NAME="pdf2htmlEX-$PDF2HTMLEX_BRANCH-$BUILD_TIME-$BUILD_DIST-$MACHINE_ARCH-testResults.zip"
+echo "export TEST_RESULTS_NAME=\"$TEST_RESULTS_NAME\"" >> buildScripts/reSourceVersionEnvs
+
+set -ev
+
+# This shell script runs the pdf2htmlEX tests
+
+cd pdf2htmlEX/test
+
+# The following is only needed for the local browser tests
+#
+./installAutomaticTestSoftwareApt
+
+./runLocalTestsShell
+
+./runLocalBrowserTests
+
+cd ../..
+
+mkdir -p imageBuild
+
+zip -r imageBuild/$TEST_RESULTS_NAME /tmp/pdf2htmlEX/html /tmp/pdf2htmlEX/png

@@ -1,0 +1,32 @@
+#!/bin/sh
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "INSTALLING pdf2htmlEX locally"
+echo "  (UNATTENDED: [$UNATTENDED])"
+echo "-------------------------------------------------------------------"
+echo ""
+
+
+if [ -z "$UNATTENDED" ] ; then
+
+  echo "This installation assumes you have 'sudo' privileges"
+  echo ""
+  echo "Type ctrl-c now if DO NOT want to continue"
+  read -p "Type anything else to continue: "
+
+fi
+
+set -ev
+
+cd pdf2htmlEX/build
+
+sudo make install
+
+## NEED to install poppler-data!!!
+#
+cd ../../poppler-data
+
+sudo make install                             \
+  prefix=$PDF2HTMLEX_PREFIX                   \
+  datadir=$PDF2HTMLEX_PREFIX/share/pdf2htmlEX

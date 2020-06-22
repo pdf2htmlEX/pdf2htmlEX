@@ -1,0 +1,112 @@
+#!/bin/sh 
+
+# This shell script creates a (binary) Debian Package Archive for pdf2htmlEX
+
+# source ./buildScripts/reSourceVersionEnvs
+. ./buildScripts/reSourceVersionEnvs
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "CREATING pdf2htmlEX (binary) Debian package"
+echo "-------------------------------------------------------------------"
+echo ""
+
+set -ev
+
+export DPKG_NAME="pdf2htmlEX-$PDF2HTMLEX_NAME.deb"
+
+echo "export DPKG_NAME=\"$DPKG_NAME\"" >> buildScripts/reSourceVersionEnvs
+
+# Adapted from: https://blog.serverdensity.com/how-to-create-a-debian-deb-package/
+# and: http://www.sj-vs.net/creating-a-simple-debian-deb-package-based-on-a-directory-structure/
+
+DEBDIR=imageBuild/debianDir
+DOCDIR=$DEBDIR/usr/local/share/doc/pdf2htmlEX
+
+sudo rm -rf $DEBDIR
+mkdir -p $DOCDIR
+
+# Install pdf2htmlEX
+#
+cd pdf2htmlEX/build
+#
+make install DESTDIR=../../$DEBDIR
+
+# Install a copy of poppler-data for pdf2htmlEX's exclusive use
+#
+cd ../../poppler-data
+#
+make install                                  \
+  prefix=$PDF2HTMLEX_PREFIX                   \
+  datadir=$PDF2HTMLEX_PREFIX/share/pdf2htmlEX \
+  DESTDIR=../$DEBDIR
+
+cd ..
+
+# Create a 'useful' changelog
+#
+git log --format="%cd %h %d %n    %s%n" --date=short > $DOCDIR/gitLog
+
+# Ensure the license and readme details are embedded in the debian archive 
+#
+cp LICENSE       $DOCDIR
+cp LICENSE_GPLv3 $DOCDIR
+cp README.md     $DOCDIR
+
+########################################
+# setup the DEBIAN package files
+
+controlFile=$DEBDIR/DEBIAN/control
+conffilesFile=$DEBDIR/DEBIAN/conffiles
+md5sumsFile=$DEBDIR/DEBIAN/md5sums
+
+mkdir -p $DEBDIR/DEBIAN
+
+# Create the md5sums file
+#
+find $DEBDIR -type f | xargs md5sum > $md5sumsFile
+
+# Accumulate the control file information
+#
+versionValue=$PDF2HTMLEX_VERSION.$PDF2HTMLEX_BRANCH.$BUILD_DIST.$BUILD_DATE
+architectureValue=$(dpkg-architecture -q DEB_BUILD_ARCH_CPU)
+maintainerValue="$(git config --get user.name) <$(git config --get user.email)>"
+
+# Now create the control file
+#
+echo "Package: pdf2htmlEX"                                      > $controlFile
+echo "Version: 0:0.$versionValue-0"                            >> $controlFile
+echo "Distribution: $BUILD_DIST"                               >> $controlFile
+echo "Architecture: $architectureValue"                        >> $controlFile
+echo "Section: universe/web"                                   >> $controlFile
+echo "Priority: optional"                                      >> $controlFile
+echo "Essential: no"                                           >> $controlFile
+echo "Depends:  libglib2.0-0, libfreetype6, libfontconfig1, libcairo2, libpng16-16, libjpeg-turbo8, libxml2" >> $controlFile
+echo "Maintainer: $maintainerValue"                            >> $controlFile
+echo "Homepage: http://github.com/pdf2htmlEX/pdf2htmlEX"       >> $controlFile
+echo "Description: Converts PDF to HTML without losing format" >> $controlFile
+echo "  pdf2htmlEX converts PDF to HTML while retaining text, format & style as much as possible" >> $controlFile
+
+# Create the (empty) conffiles
+#
+touch $conffilesFile
+
+# Finally create the debian archive
+#
+cd imageBuild
+#
+# Make sure directories can be traversed by nobody
+#
+#find debianDir -type d -exec chmod 755 {} \;
+#
+# Make sure files can be read by nobody
+#
+#find debianDir -type f -exec chmod 644 {} \;
+#
+# Make sure root:root owns all files
+#
+sudo chown -R root:root debianDir
+#
+# Build the package
+#
+dpkg --build debianDir $DPKG_NAME

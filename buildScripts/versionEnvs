@@ -1,0 +1,78 @@
+#!/bin/sh
+
+# This shell script exports environment variables for the latest software
+# versions
+
+# see: https://poppler.freedesktop.org/releases.html
+# current working: 0.83.0
+
+export PDF2HTMLEX_VERSION=0.18.8.alpha
+
+export POPPLER_VERSION=poppler-0.89.0
+#export POPPLER_VERSION=poppler-0.88.0
+#export POPPLER_VERSION=poppler-0.87.0
+#export POPPLER_VERSION=poppler-0.86.1
+#export POPPLER_VERSION=poppler-0.86.0
+#export POPPLER_VERSION=poppler-0.85.0
+#export POPPLER_VERSION=poppler-0.84.0
+#export POPPLER_VERSION=poppler-0.83.0
+#export POPPLER_VERSION=poppler-0.82.0
+#export POPPLER_VERSION=poppler-0.81.0
+
+# see: https://github.com/fontforge/fontforge/releases
+# current working: 20190801
+
+export FONTFORGE_VERSION=20200314
+#export FONTFORGE_VERSION=20190801
+#export FONTFORGE_VERSION=20190413
+#export FONTFORGE_VERSION=20190413
+#export FONTFORGE_VERSION=20190317
+#export FONTFORGE_VERSION=20170731
+
+if [ -z "$PDF2HTMLEX_BRANCH" ]; then
+  export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+  if [ -z "$PDF2HTMLEX_BRANCH" ]; then
+    echo ""
+    read -p "Enter the pdf2htmlEX branch or version: " PDF2HTMLEX_BRANCH
+    echo ""
+    if [ -z "$PDF2HTMLEX_BRANCH" ]; then 
+      echo "PDF2HTMLEX_BRANCH not set... so we can not build anything."
+      exit 1
+    fi
+  fi
+fi
+
+if test -r /etc/lsb-release ; then
+  cat /etc/lsb-release
+  # source /etc/lsb-release
+  . /etc/lsb-release
+  export BUILD_DIST=$DISTRIB_CODENAME
+  export BUILD_OS=$DISTRIB_ID
+elif test -r /etc/alpine-release ; then
+  cat /etc/alpine-release
+  export BUILD_OS=alpine
+  export BUILD_DIST=$(cat /etc/alpine-release)
+else
+  echo "FAILURE: could not determine release"
+  exit -1
+fi
+
+export BUILD_DATE="$(date +%Y%m%d)"
+
+export BUILD_TIME="$(date +%Y_%m_%d-%H_%M_%S)"
+
+export MACHINE_ARCH="$(uname -m)"
+
+export PDF2HTMLEX_NAME=$PDF2HTMLEX_VERSION-$PDF2HTMLEX_BRANCH-$BUILD_DATE-$BUILD_OS-$BUILD_DIST-$MACHINE_ARCH
+
+echo "export PDF2HTMLEX_NAME=\"$PDF2HTMLEX_NAME\""       >  buildScripts/reSourceVersionEnvs
+echo "export PDF2HTMLEX_VERSION=\"$PDF2HTMLEX_VERSION\"" >> buildScripts/reSourceVersionEnvs
+echo "export POPPLER_VERSION=\"$POPPLER_VERSION\""       >> buildScripts/reSourceVersionEnvs
+echo "export FONTFORGE_VERSION=\"$FONTFORGE_VERSION\""   >> buildScripts/reSourceVersionEnvs
+echo "export PDF2HTMLEX_BRANCH=\"$PDF2HTMLEX_BRANCH\""   >> buildScripts/reSourceVersionEnvs
+echo "export MACHINE_ARCH=\"$MACHINE_ARCH\""             >> buildScripts/reSourceVersionEnvs
+echo "export BUILD_OS=\"$BUILD_OS\""                     >> buildScripts/reSourceVersionEnvs
+echo "export BUILD_DIST=\"$BUILD_DIST\""                 >> buildScripts/reSourceVersionEnvs
+echo "export BUILD_DATE=\"$BUILD_DATE\""                 >> buildScripts/reSourceVersionEnvs
+echo "export BUILD_TIME=\"$BUILD_TIME\""                 >> buildScripts/reSourceVersionEnvs
+echo "export PDF2HTMLEX_PREFIX=\"$PDF2HTMLEX_PREFIX\""   >> buildScripts/reSourceVersionEnvs

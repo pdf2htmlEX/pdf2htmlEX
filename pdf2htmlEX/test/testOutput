@@ -1,0 +1,206 @@
+#!/bin/sh
+
+# This shell script checks that pdf2htmlEX does not crash, and produces 
+# correct files. Do not check the content of the files.
+
+# We use a shell script to implement the python3 test_output.py so that we 
+# do not need to install any extra packages to test this functionality. 
+
+# This is how we run pdf2htmlEX on a particular file, and arguments.
+#
+runPdf2htmlEX() {
+  # collect the arguments
+  #
+  export LAST_TEST_NAME="$*"
+  #
+  pdfFileName=$1
+  #
+  shift
+  arguments=$*
+  
+  # clear out the TMPDIR
+  #
+  rm    -rf $PDF2HTMLEX_TMPDIR
+  mkdir -p  $PDF2HTMLEX_TMPDIR
+  #
+  # now run pdf2htmlEX to produce the output files
+  #
+  echo "test: [$LAST_TEST_NAME]"
+  echo "---"
+  $PDF2HTMLEX_PATH                                \
+    --data-dir $PDF2HTMLEX_DATDIR                 \
+    --dest-dir $PDF2HTMLEX_TMPDIR                 \
+    $PDF2HTMLEX_TEST_DIR/test_output/$pdfFileName \
+    $arguments
+}
+
+# This is how we test for expected output files
+# 
+hasExpectedFiles() {
+  filesFound="true"
+  for anExpectedFile in $1 ; do
+    if ! test -r $PDF2HTMLEX_TMPDIR/$anExpectedFile ; then
+      echo "NOT FOUND [$PDF2HTMLEX_TMPDIR/$anExpectedFile]"
+      filesFound="false"
+    fi
+  done
+  if test $filesFound = "true" ; then
+    echo "SUCCESS: $LAST_TEST_NAME" >> testOutputResults
+  else
+    echo "FAILURE: $LAST_TEST_NAME" >> testOutputResults
+  fi
+  echo "---"
+  echo ""
+}
+
+# This is how we copy a file omitting lines between '#TEST_IGNORE_BEGIN' 
+# and '#TEST_IGNORE_END' (we pipe the file in via stdin and save it via 
+# stdout) 
+#
+copy_TEST_IGNORE_file() {
+  skipLine=echo
+  while IFS= read -r line ; do
+    if echo $line | grep -q "^#TEST_IGNORE_BEGIN" ; then
+      skipLine=true 
+    elif echo $line | grep -q "^#TEST_IGNORE_END"   ; then
+      skipLine=echo
+    else
+      $skipLine "$line"
+    fi
+  done
+}
+
+if test -z "$PDF2HTMLEX_PATH" ; then 
+  echo "PANIC: we do not know where to find the pdf2htmlEX executable"
+  exit 1
+fi
+
+if test -z "$PDF2HTMLEX_DATDIR" ; then
+  export PDF2HTMLEX_DATDIR=/tmp/pdf2htmlex/dat
+fi
+
+mkdir -p $PDF2HTMLEX_DATDIR
+
+if test -z "$PDF2HTMLEX_TMPDIR" ; then
+  export PDF2HTMLEX_TMPDIR=/tmp/pdf2htmlex/tmp
+fi
+
+mkdir -p $PDF2HTMLEX_TMPDIR
+
+if test -z "$PDF2HTMLEX_TEST_DIR" ; then
+  export PDF2HTMLEX_TEST_DIR=.
+fi
+
+mkdir -p $PDF2HTMLEX_TEST_DIR
+
+# Make sure any previous testOutputResults are cleared
+#
+rm -f testOutputResults
+
+# setup the correct data files
+#
+cat $PDF2HTMLEX_TEST_DIR/../share/manifest | \
+ copy_TEST_IGNORE_file > $PDF2HTMLEX_DATDIR/manifest
+
+cp $PDF2HTMLEX_TEST_DIR/../share/base.min.css  $PDF2HTMLEX_DATDIR
+cp $PDF2HTMLEX_TEST_DIR/../test/fancy.min.css  $PDF2HTMLEX_DATDIR
+
+# Do the tests
+#
+echo ""
+echo "-------------------------------------------------------"
+echo "running testOutput tests (simple non-browser tests)"
+echo "-------------------------------------------------------"
+echo ""
+
+export LAST_TEST_NAME="unknown"
+#
+runPdf2htmlEX '1-page.pdf' --version
+
+runPdf2htmlEX '1-page.pdf'
+hasExpectedFiles '1-page.html'
+
+runPdf2htmlEX '2-pages.pdf'
+hasExpectedFiles '2-pages.html'
+
+runPdf2htmlEX '1-page.pdf'  'foo.html'
+hasExpectedFiles 'foo.html'
+
+runPdf2htmlEX '2-pages.pdf' 'foo.html'
+hasExpectedFiles 'foo.html'
+
+runPdf2htmlEX '1-page.pdf'  '--split-pages=1'
+hasExpectedFiles '1-page.html 1-page1.page'
+
+runPdf2htmlEX '3-pages.pdf' '--split-pages=1'
+hasExpectedFiles '3-pages.html 3-pages1.page 3-pages2.page 3-pages3.page'
+
+runPdf2htmlEX '1-page.pdf'  '--split-pages=1 --page-filename=foo.xyz'
+hasExpectedFiles '1-page.html foo1.xyz'
+
+runPdf2htmlEX '3-pages.pdf' '--split-pages=1 --page-filename=foo.xyz'
+hasExpectedFiles '3-pages.html foo1.xyz  foo2.xyz foo3.xyz'
+
+runPdf2htmlEX '3-pages.pdf' '--split-pages=1 --page-filename=fo%do.xyz'
+hasExpectedFiles '3-pages.html fo1o.xyz  fo2o.xyz fo3o.xyz'
+
+runPdf2htmlEX '3-pages.pdf' '--split-pages=1 --page-filename=fo%03do.xyz'
+hasExpectedFiles '3-pages.html fo001o.xyz fo002o.xyz fo003o.xyz'
+
+runPdf2htmlEX '3-pages.pdf' '--split-pages=1 --page-filename=f%do%do.xyz'
+hasExpectedFiles '3-pages.html f1o%do.xyz f2o%do.xyz f3o%do.xyz'
+
+runPdf2htmlEX '3-pages.pdf' '--split-pages=1 --page-filename=f%soo.xyz'
+hasExpectedFiles '3-pages.html f%soo1.xyz f%soo2.xyz f%soo3.xyz'
+
+runPdf2htmlEX '3-pages.pdf' '--split-pages=1 --page-filename=f%poo.xyz'
+hasExpectedFiles '3-pages.html f%poo1.xyz f%poo2.xyz f%poo3.xyz'
+
+runPdf2htmlEX '3-pages.pdf' '--split-pages=1 --page-filename=f%noo.xyz'
+hasExpectedFiles '3-pages.html f%noo1.xyz f%noo2.xyz f%noo3.xyz'
+
+runPdf2htmlEX '3-pages.pdf' '--split-pages=1 --page-filename=f%%oo.xyz'
+hasExpectedFiles '3-pages.html f%%oo1.xyz f%%oo2.xyz f%%oo3.xyz'
+
+runPdf2htmlEX '3-pages.pdf' '--split-pages=1 --page-filename=f%%o%do.xyz'
+hasExpectedFiles '3-pages.html f%%o1o.xyz f%%o2o.xyz f%%o3o.xyz'
+
+runPdf2htmlEX '3-pages.pdf' '--split-pages=1 --page-filename=fo%do%%.xyz'
+hasExpectedFiles '3-pages.html fo1o%%.xyz fo2o%%.xyz fo3o%%.xyz'
+
+runPdf2htmlEX '3-pages.pdf' '--split-pages=1 --page-filename=f%02%doo.xyz'
+hasExpectedFiles '3-pages.html f%021oo.xyz f%022oo.xyz f%023oo.xyz'
+
+runPdf2htmlEX '1-page.pdf'  '--split-pages=1 --page-filename=foo'
+hasExpectedFiles '1-page.html foo1'
+
+runPdf2htmlEX '2-pages.pdf' 'foo%d.html'
+hasExpectedFiles 'foo%d.html'
+
+runPdf2htmlEX '2-pages.pdf' 'foo%p.html'
+hasExpectedFiles 'foo%p.html'
+
+runPdf2htmlEX '2-pages.pdf' 'foo%n.html'
+hasExpectedFiles 'foo%n.html'
+
+runPdf2htmlEX '2-pages.pdf' 'foo%%.html'
+hasExpectedFiles 'foo%%.html'
+
+runPdf2htmlEX 'issue501'    '--split-pages=1 --embed-css=0'
+hasExpectedFiles ''
+
+# Let the user know what the testOutputResults were
+#
+echo ""
+echo "-------------------------------------------------------"
+echo "testOutput results:"
+echo "-------------------------------------------------------"
+cat testOutputResults
+echo "-------------------------------------------------------"
+echo ""
+
+# fail the script IF we find the work 'FAILURE' in the testOutputResults
+#
+if grep FAILURE testOutputResults ; then 
+  exit 1
+fi

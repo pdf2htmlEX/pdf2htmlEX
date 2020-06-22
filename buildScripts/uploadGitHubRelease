@@ -1,0 +1,92 @@
+#!/bin/sh
+
+# This shell script uploads the pdf2htmlEX release artefacts
+#
+# We EXPECT the following environment variables to be set:
+#    GITHUB_TOKEN
+#    DOCKER_USERNAME
+#
+# You can OPTIONALLY set the following environment variables:
+#    DOCKER_PASSWORD  (if not set you will be asked for your password)
+#
+
+# source ./buildScripts/reSourceVersionEnvs
+.  ./buildScripts/reSourceVersionEnvs
+cp ./buildScripts/reSourceVersionEnvs imageBuild/buildInfo.sh
+.  ./buildScripts/uploadGitHubReleaseDSL
+# source ./buildScripts/uploadGitHubReleaseDSL
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "UPLOADING pdf2htmlEX AppImage and Docker Images"
+echo "-------------------------------------------------------------------"
+echo ""
+
+
+##################################
+# upload github release artefacts
+#
+
+# begin by gathering the required environment variables
+#
+
+if [ -z "$GITHUB_USERNAME" ]; then
+  echo ""
+  read -p "Enter the GitHub upload username: " GITHUB_USERNAME
+  echo ""
+  if [ -z "$GITHUB_USERNAME" ]; then 
+    echo "GITHUB_USERNAME not set... so we can not upload release artefacts."
+    exit 1
+  fi
+fi
+
+if [ -z "$GITHUB_TOKEN" ]; then
+  echo ""
+  read -p "Enter the GitHub upload token/password: " GITHUB_TOKEN
+  echo ""
+  if [ -z "$GITHUB_TOKEN" ]; then
+    echo "GITHUB_TOKEN not set... so we can not upload release artefacts."
+    exit 1
+  fi
+fi
+
+if [ -z "$TRAVIS_REPO_SLUG" ]; then
+  echo ""
+  read -p "Enter the GitHub repository (user/proj): " TRAVIS_REPO_SLUG
+  echo ""
+  if [ -z "$TRAVIS_REPO_SLUG" ]; then
+    echo "TRAVIS_REPO_SLUG (Github repository) not set... so we can not upload release artefacts."
+    exit 1
+  fi
+fi
+
+cd imageBuild
+
+ls -la
+
+echo "machine api.github.com"       > $HOME/.netrc
+echo "  login    $GITHUB_USERNAME" >> $HOME/.netrc
+echo "  password $GITHUB_TOKEN"    >> $HOME/.netrc
+echo "machine uploads.github.com"  >> $HOME/.netrc
+echo "  login    $GITHUB_USERNAME" >> $HOME/.netrc
+echo "  password $GITHUB_TOKEN"    >> $HOME/.netrc
+
+echo $APPIMAGE_NAME     > appImageName.txt
+echo $DOCKER_NAME       > dockerImageName.txt
+echo $DPKG_NAME         > debianArchiveName.txt
+echo $TEST_RESULTS_NAME > testResultsName.txt
+
+deleteReleaseByTag "$TRAVIS_REPO_SLUG" "continuous-$BUILD_DIST"
+
+createNewRelease   "$TRAVIS_REPO_SLUG" "continuous-$BUILD_DIST" "Latest $BUILD_DIST release" \
+  ../buildScripts/uploadGitHubReleaseMessage
+
+uploadAnAsset $upload_url "appImageName.txt"      "text/plain"
+uploadAnAsset $upload_url "testResultsName.txt"   "text/plain"
+uploadAnAsset $upload_url "buildInfo.sh"          "text/plain"
+uploadAnAsset $upload_url "dockerImageName.txt"   "text/plain"
+uploadAnAsset $upload_url "debianArchiveName.txt" "text/plain"
+uploadAnAsset $upload_url $APPIMAGE_NAME          "application/zip"
+uploadAnAsset $upload_url $TEST_RESULTS_NAME      "application/zip"
+uploadAnAsset $upload_url $DPKG_NAME              "application/x-debian-package"
+

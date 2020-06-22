@@ -1,0 +1,81 @@
+#!/bin/sh 
+
+# This shell script creates an AppImage for pdf2htmlEX
+
+# source ./buildScripts/reSourceVersionEnvs
+. ./buildScripts/reSourceVersionEnvs
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "CREATING pdf2htmlEX AppImage"
+echo "-------------------------------------------------------------------"
+echo ""
+
+set -ev
+
+# For appimage output plugin
+#
+#export VERSION="$PDF2HTMLEX_BRANCH-$BUILD_TIME"
+export APPIMAGE_NAME="pdf2htmlEX-$PDF2HTMLEX_NAME.AppImage"
+
+echo "export APPIMAGE_NAME=\"$APPIMAGE_NAME\"" >> buildScripts/reSourceVersionEnvs
+
+mkdir -p imageBuild/appDir/usr/lib/
+
+cd pdf2htmlEX/build
+
+sudo rm -rf install_manifest.txt
+
+make install DESTDIR=../../imageBuild/appDir
+
+cd ../../poppler-data
+
+make install                                  \
+  prefix=$PDF2HTMLEX_PREFIX                   \
+  datadir=$PDF2HTMLEX_PREFIX/share/pdf2htmlEX \
+  DESTDIR=../imageBuild/appDir
+
+cd ../imageBuild
+
+# Make sure directories can be traversed by nobody
+#
+#find appDir -type d -exec chmod 755 {} \;
+#
+# Make sure files can be read by nobody
+#
+#find appDir -type f -exec chmod 644 {} \;
+
+# force libfontconfig into AppImage (linuxdeploy blacklists libfontconfig) 
+# (turned off since libfontconfig needs to be matched to the underlying 
+#  OS's collection of fonts and /etc/fonts configuration files) 
+#
+#cp /usr/lib/x86_64-linux-gnu/libfontconfig.so.1 appDir/usr/lib/
+
+LINUX_DEPLOY_APP_IMAGE=linuxdeploy-$MACHINE_ARCH.AppImage
+
+wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/$LINUX_DEPLOY_APP_IMAGE
+
+chmod a+x $LINUX_DEPLOY_APP_IMAGE
+
+if [ -f /.dockerenv ] ; then
+  # WE ARE INSIDE A DOCKER CONTAINER...
+  #
+  # We explicilty extract the appimage to a squashfs to allow it to be used 
+  # inside Docker containers
+  #
+  ./$LINUX_DEPLOY_APP_IMAGE --appimage-extract
+  #
+  LINUX_DEPLOY_APP_IMAGE=squashfs-root/AppRun
+fi
+
+export VERBOSE=1
+export OUTPUT=$APPIMAGE_NAME
+
+./$LINUX_DEPLOY_APP_IMAGE						\
+  -e appDir/$PDF2HTMLEX_PREFIX/bin/pdf2htmlEX	\
+  --create-desktop-file							\
+  -i ../pdf2htmlEX/logo/pdf2htmlEX.svg			\
+  --appdir=appDir								\
+  --output appimage
+
+

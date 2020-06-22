@@ -1,88 +1,28 @@
 language: cpp
 
-sudo: true
+# NOTE: Since we do not have direct access to either MacOS or Windows 
+# machines on which to develop WE DO NOT support building on MacOS or 
+# Windows. 
 
-os:
-  - linux
-#  - osx
-
-dist: bionic
-
-env:
-  global:
-    - POPPLER_SOURCE="https://gitlab.freedesktop.org/poppler/poppler.git"
-  matrix:
-    - PDF2HTMLEX_RELEASE="v0.18.7-poppler-0.81.0" POPPLER_RELEASE="poppler-0.81.0"
-    - PDF2HTMLEX_RELEASE="v0.18.0-poppler-0.74.0-ubuntu-19.04" POPPLER_RELEASE="poppler-0.74.0"
-    - PDF2HTMLEX_RELEASE="v0.16.0-poppler-0.62.0-ubuntu-18.04" POPPLER_RELEASE="poppler-0.62.0"
+# For Windows, it is known that the more recent Windows 10 versions are 
+# able to use either the debian archive OR AppImage (as Windows 10 now 
+# allows FUSE). 
 
 compiler: gcc
 
-addons:
-  apt:
-    update: true
-    packages:
-      - build-essential
-      - autoconf
-      - git
-      - pkg-config
-      - cmake
-      - make
-      - gcc
-      - g++
-      # - ca-certificates
-      # - libfreetype6-dev
-      # Poppler-specific packages
-      - libfontforge-dev
-      - libfontconfig-dev
-      - libjpeg-dev
-      - libpng-dev
-      - libnss3-dev
-      # pdf2htmlEX-specific packages
-      - default-jre
-      - libcairo-dev
-      - libspiro-dev
-      - libpango1.0-dev
-      - poppler-data
-#  homebrew:
-#    packages:
-#      - autoconf
-#      - pkg-config
-#      - git
-#      - cmake
-#      - freetype
-#      # Poppler-specific packages
-#      - fontconfig
-#      - jpeg
-#      - nss
-#      # libuninameslist-specific packages
-#      - automake
-#      - libtool
-#      # fontforge-specific packages
-#      - python
-#      - glib
-#      - xml2
-#      - libspiro
-#      - gettext
-#      # pdf2htmlEX-specific packages
-#      - cairo
-#      - pango
-#  sauce_connect: true
+branches:
+  except:  # do not build tags that we create using the upload.sh script
+    - /^(?i:continuous.*)$/
 
-matrix:
+jobs:
   fast_finish: true
-#  allow_failures:
-#    - os: osx # Until the build passes, then re-enable.
-
-before_install:
-  - ./.travisScripts/copyScriptsToBin
-  - $HOME/bin/buildPoppler.sh
-  - $HOME/bin/installPoppler.sh
-  #- $HOME/setupTests.sh
-
-script:
-  - git checkout ${PDF2HTMLEX_RELEASE}
-  - git branch
-  - $HOME/bin/dobuild
-  - $HOME/bin/doinstall --noWait
-  - /usr/local/bin/pdf2htmlEX -v
+  include:
+    - os: linux
+      dist: bionic
+      env: DOCKER_FROM="ubuntu:18.04"
+      services:
+        - docker
+      addons:
+        firefox: latest
+      script:
+      - ./buildScripts/travisLinuxDoItAll

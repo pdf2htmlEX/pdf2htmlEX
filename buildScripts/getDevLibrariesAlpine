@@ -1,0 +1,28 @@
+#!/bin/sh
+
+# This shell script automates getting the development libraries required to 
+# build poppler and fontforge
+
+# set the shell environment variable 'UNATTENDED' to '--assume-yes' for
+# unattended use (for example in the .travis.yml script)
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "INSTALLING development libraries (using APK on Alpine)"
+echo "-------------------------------------------------------------------"
+echo ""
+
+set -ev
+
+sudo apk update
+sudo apk add        \
+  gettext           \
+  gnu-libiconv-dev  \
+  cairo-dev         \
+  libpng-dev        \
+  freetype-dev      \
+  gettext-dev       \
+  glib-dev          \
+  fontconfig-dev    \
+  libjpeg-turbo-dev \
+  libxml2-dev

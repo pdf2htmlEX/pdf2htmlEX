@@ -1,0 +1,35 @@
+This is the most recent release of the pdf2htmlEX project.
+
+We release three types of binary objects:
+
+1. The file *.AppImage on this release page is an AppImage
+
+   You can download the AppImage, make it executable and then 'just run 
+   it'. 
+
+   See: https://appimage.org/ for details
+
+2. The file *.deb is a Debian Archive
+
+   You can download the Debian Archive and install it locally using: 
+   
+       sudo apt install <<releativePathToDebFile>>
+
+   While the Debian archive is built on a specific Ubuntu release, it can 
+   usually be used on any more recent Ubuntu releases. 
+
+3. You can alternatively get pdf2htmlEX Docker images from Docker Hub in 
+   either of the repositories: 
+
+       pdf2htmlEX/pdf2htmlEX (offical release)
+
+   or 
+
+       stephengaito/pdf2htmlEX (development releases)
+
+We also release a zip archive of the browser test results in the 
+*-testResults.zip file. 
+
+Finally, the various *.txt and *buildInfo.sh files have well known 
+(unchanging) names which can be used by automatic scripts to identifiy the 
+current full names of the corresponding binary artifacts. 

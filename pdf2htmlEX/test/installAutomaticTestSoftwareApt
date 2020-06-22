@@ -1,0 +1,39 @@
+#!/bin/sh
+
+set -ev 
+
+# This shell script installs all local software required to run the 
+# pdf2htmlEX tests 
+
+export DEBIAN_FRONTEND=noninteractive
+
+# Start by making sure all required apt packages exist
+#
+sudo apt -y install \
+  wget              \
+  diffutils         \
+  zip               \
+  python3           \
+  python3-pip       \
+  xvfb              \
+  firefox
+
+# Now get the geckodriver for firefox (as required by selenium)
+#
+oldPWD=$(pwd)
+cd /tmp
+#
+wget https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz
+#
+tar xvf geckodriver-v0.26.0-linux64.tar.gz
+#
+sudo mv geckodriver /usr/local/bin
+#
+cd $oldPWD
+
+# Now make sure all python packages exist (install into the local user's 
+# PyPI archive) 
+#
+pip3 install \
+  selenium  \
+  Pillow

@@ -1,0 +1,55 @@
+#!/bin/sh
+
+# This shell script runs the local browser tests
+
+# We start by running a virtual frame buffer as display 99.0
+#
+/sbin/start-stop-daemon             \
+  --start                           \
+  --pidfile /tmp/custom_xvfb_99.pid \
+  --make-pidfile                    \
+  --background                      \
+  --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1920x16
+#
+echo ""
+echo "check that Xvfb is running:"
+echo "-----------------------------------------------------------"
+ps -ef | grep -v grep | grep Xvfb
+echo "-----------------------------------------------------------"
+echo ""
+
+# Now we tell the test drivers about this display
+# (Note: you MUST not specify the host!)
+#
+export DISPLAY=:99.0
+#
+echo "xwindows (xvfb) display: $DISPLAY"
+
+# Now we actually run the python3 based tests
+#
+echo ""
+echo "running local browser tests:"
+echo "-----------------------------------------------------------"
+python3 test_local_browser.py
+export returnCode=$?
+echo "-----------------------------------------------------------"
+echo ""
+
+# Now we shutdown the virtual frame buffer
+#
+/sbin/start-stop-daemon             \
+  --stop                            \
+  --pidfile /tmp/custom_xvfb_99.pid \
+  --retry 5
+#
+echo "check that Xvfb is no longer running:"
+echo "-----------------------------------------------------------"
+ps -ef | grep -v grep | grep Xvfb
+echo "-----------------------------------------------------------"
+echo ""
+
+if [ -z "$TRAVIS_DIST"] ; then
+  exit $returnCode
+fi
+
+exit 0

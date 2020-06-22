@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# This shell script automates getting the required build tools (apt install)
+
+# set the shell environment variable 'UNATTENDED' to '--assume-yes' for 
+# unattended use (for example in the .travis.yml script)
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "INSTALLING Build Tools (using APT)"
+echo "  (UNATTENDED: [$UNATTENDED])"
+echo "-------------------------------------------------------------------"
+echo ""
+
+set -ev
+
+sudo apt-get update
+sudo apt-get $UNATTENDED install \
+  sudo                           \
+  wget                           \
+  git                            \
+  pkg-config                     \
+  ruby                           \
+  autoconf                       \
+  libtool                        \
+  cmake                          \
+  make                           \
+  gcc                            \
+  g++                            \
+  dpkg                           \
+  dpkg-dev                       \
+  gettext                        \
+  openjdk-8-jre-headless         \
+  jq
+

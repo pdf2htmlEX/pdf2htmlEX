@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# This shell script builds pdf2htmlEX
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "BUILDING pdf2htmlEX (using gcc)"
+echo "-------------------------------------------------------------------"
+
+echo ""
+
+set -ev
+
+cd pdf2htmlEX
+rm -rf build
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PDF2HTMLEX_PREFIX ..
+make $MAKE_PARALLEL

@@ -1,0 +1,80 @@
+#!/bin/sh 
+
+# This shell script creates a docker image from an existing pdf2htmlEX
+#
+# This is the part which can run *inside* a docker container.
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "CREATING pdf2htmlEX Docker Image (run inside a docker container)"
+echo " (based on Alpine linux $BUILD_DIST)"
+echo "-------------------------------------------------------------------"
+echo ""
+
+# Collect everything that will be needed...
+
+# source buildScripts/reSourceVersionEnvs
+. buildScripts/reSourceVersionEnvs
+
+export ALPINE_NAME="pdf2htmlEX-$PDF2HTMLEX_NAME"
+
+echo "export ALPINE_NAME=\"$ALPINE_NAME\"" >> buildScripts/reSourceVersionEnvs
+
+set -ev
+
+mkdir -p imageBuild/alpineTarDir
+
+cd pdf2htmlEX/build
+
+sudo rm -rf install_manifest.txt
+
+make install DESTDIR=../../imageBuild/alpineTarDir
+
+cd ../../poppler-data
+
+make install                                  \
+  prefix=$PDF2HTMLEX_PREFIX                   \
+  datadir=$PDF2HTMLEX_PREFIX/share/pdf2htmlEX \
+  DESTDIR=../imageBuild/alpineTarDir
+
+cd ../imageBuild
+
+tar czvf $ALPINE_NAME.tar.gz alpineTarDir
+
+cat <<ALPINE_INSTALL > $ALPINE_NAME.install
+#!/bin/sh
+
+# This (alpine) shell script installs a locally existing tar.gz file of 
+# the pdf2htmlEX binaries compiled on Alpine $DIST. 
+#
+# You MUST have root/sudo privileges to run this file.
+#
+
+# We start by installing all of the (known) required runtime dependencies 
+#
+apk update
+#
+apk add --no-cache \
+  tar              \
+  libstdc++        \
+  libgcc           \
+  gnu-libiconv     \
+  gettext          \
+  glib             \
+  freetype         \
+  fontconfig       \
+  cairo            \
+  libpng           \
+  libjpeg-turbo    \
+  libxml2
+
+# Now we install the (Alpine $DIST) compiled pdf2htmlEX binaries and 
+# configuration files. 
+#
+cd /
+#
+tar xvf $ALPINE_NAME.tar.gz --strip-comonents=1
+
+ALPINE_INSTALL
+
+chmod a+x $ALPINE_NAME.tar.gz

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -ev
+
+# This shell script runs the (simple non-browser) tests
+
+./testOutput

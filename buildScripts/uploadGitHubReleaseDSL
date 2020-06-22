@@ -1,0 +1,208 @@
+#!/usr/bin/env sh
+
+# This shell script is a collection of functions to interact with the GitHub
+# release and git/tag APIs. It essentially provides a shell script based DSL
+# for uploading GitHub release artefacts.
+
+# NOTE-1: These functions make use of your ".netrc" file to authenticate
+# with GitHub. In order to use these functions, make sure you have **both**
+# "api.github.com" and "upload.github.com" in this file. For example:
+#
+#    machine api.github.com
+#      login foca
+#      password <an access token>
+#    machine uploads.github.com
+#      login foca
+#      password <an access token>
+#
+# You can generate the required access token at
+#    https://github.com/settings/tokens
+# Make sure this access token has access to the "repo" scope.
+#
+# NOTE-2: These functions require the "jq" library to parse the JSON
+# returned by the GitHub APIs.
+
+#############################
+function deleteReleaseByTag {
+
+  [ -n "$1" ] || (echo "deleteReleaseByTag: missing repository"; exit 1);
+  [ -n "$2" ] || (echo "deleteReleaseByTag: missing releaseTag"; exit 1);
+
+  REPO=$1
+  releaseTag=$2
+
+  echo ""
+  echo "deleting the release tagged $releaseTag"
+  echo "  from the repository $REPO"
+  echo ""
+
+  echo "looking for an existing '$releaseTag' release in the repo $REPO"
+
+  response=$(
+    curl --fail \
+         --netrc \
+         --silent \
+         --location \
+         --request "GET" \
+         "https://api.github.com/repos/${REPO}/releases"
+  )
+
+  releaseID=$(echo $response |				\
+    jq --arg releaseTag $releaseTag			\
+      '.[] | select(.tag_name == $releaseTag) | .id')
+
+  echo ""
+  echo "releaseID(s): $releaseID"
+  echo ""
+
+  if [ -n "$releaseID" ] ; then
+
+    for aReleaseID in $releaseID 
+    do
+      echo "deleting an existing '$releaseTag'($aReleaseID) release in the repo $REPO"
+      response=$(
+        curl --fail \
+             --netrc \
+             --silent \
+             --location \
+             --request "DELETE" \
+             "https://api.github.com/repos/${REPO}/releases/$aReleaseID"
+      )
+    done
+    echo ""
+  fi
+
+  echo "looking for an existing '$releaseTag' git/tag in the repo $REPO"
+
+  response=$(
+    curl --fail \
+         --netrc \
+         --silent \
+         --location \
+         --request "GET" \
+         "https://api.github.com/repos/${REPO}/git/matching-refs/tags/$releaseTag"
+  )
+
+  tagURL=$(echo $response | jq '.[].url')
+  tagURL="${tagURL%\"}"
+  tagURL="${tagURL#\"}"
+
+  if [ -n "$tagURL" ]; then
+    echo "deleting an existing '$releaseTag' git/tag in the repo $REPO"
+    response=$(
+      curl --fail \
+           --netrc \
+           --silent \
+           --location \
+           --request "DELETE" \
+           $tagURL
+    )
+  fi
+}
+
+###########################
+function createNewRelease {
+# returns: upload_url (envVar)
+
+  [ -n "$1" ] || (echo "createNewRelease: missing repository"; exit 1);
+  [ -n "$2" ] || (echo "createNewRelease: missing releaseTag"; exit 1);
+  [ -n "$3" ] || (echo "createNewRelease: missing release name"; exit 1);
+  [ -n "$4" ] || (echo "createNewRelease: missing release description filename"; exit 1);
+
+  REPO=$1
+  TAG=$2
+  NAME=$3
+  BODY=$(cat $4)
+
+  echo ""
+  echo "Creating a new release in the repository $REPO"
+  echo "  with tag $TAG"
+  echo "  and name $NAME"
+  echo "  using the message in the file $4"
+  echo "--------------------------------------------------------------"
+  echo $BODY
+  echo "--------------------------------------------------------------"
+
+  payload=$(
+    jq --null-input \
+       --arg tag "$TAG" \
+       --arg name "$NAME" \
+       --arg body "$BODY" \
+       '{ tag_name: $tag, name: $name, body: $body, draft: false, prerelease: true }'
+  )
+
+  response=$(
+    curl --fail \
+         --netrc \
+         --silent \
+         --location \
+         --data "$payload" \
+         "https://api.github.com/repos/${REPO}/releases"
+  )
+
+  upload_url="$(echo "$response" |			\
+    jq -r .upload_url | sed -e "s/{?name,label}//")"
+
+  echo ""
+  echo "upload_url:"
+  echo $upload_url
+}
+
+########################
+function uploadAnAsset {
+
+  [ -n "$1" ] || (echo "uploadAnAsset: missing upload url"; exit 1);
+  [ -n "$2" ] || (echo "uploadAnAsset: missing file name"; exit 1);
+  [ -n "$3" ] || (echo "uploadAnAsset: missing file type"; exit 1);
+
+  upload_url=$1
+  file=$2
+  fileType=$3
+
+  echo ""
+  echo "uploading the asset $file"
+  echo "  of type $fileType"
+
+  curl --netrc \
+       --silent \
+       --header "Content-Type:$fileType" \
+       --data-binary "@$file" \
+       "$upload_url?name=$(basename "$file")"
+  echo ""
+}
+
+# The above has been heavily modified into a collection of shell functions
+# by Stephen Gaito working on the pdf2htmlEX project.
+#
+# It has been based upon the code in:
+#   https://gist.github.com/foca/38d82e93e32610f5241709f8d5720156
+# on 2019-11-28
+#
+# The relevant GitHub API can be found at:
+#   https://developer.github.com/v3/git/refs/
+#   https://developer.github.com/v3/repos/releases/
+#
+# The original code has been used under the following (MIT-like) license:
+
+# Copyright (c) 2016 Nicolas Sanguinetti <hi@nicolassanguinetti.info>
+# 
+# Permission is hereby granted, free of charge, to any person
+# obtaining a copy of this software and associated documentation
+# files (the "Software"), to deal in the Software without
+# restriction, including without limitation the rights to use,
+# copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following
+# conditions:
+# 
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+# OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+# HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+# WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
