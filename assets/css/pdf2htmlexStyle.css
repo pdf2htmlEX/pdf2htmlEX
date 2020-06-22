@@ -1,0 +1,34 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+/* Layers on top of jekyll-theme-architecture/assets/css/style.css */
+
+/* Added by Wang Lu */
+#socialbuttons { font-size:1px; }
+
+#socialbuttons iframe { vertical-align:middle; }
+
+#socialbuttons > div { margin:3px;height:20px; vertical-align:middle; }
+
+.logo{
+    width:1em;
+    height:1em;
+    position:relative;
+    top:.3em;
+    margin:.1em;
+}
+
+/* Added by Stephen Gaito */
+
+header h3 {
+	width: 540px;
+	margin-top: 0;
+	margin-bottom: 0;
+	font-size: 26px;
+	font-weight: normal;
+	line-height: 1.3;
+	color: #9ddcff;
+	letter-spacing: 0;
+}
