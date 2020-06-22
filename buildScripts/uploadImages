@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-# This bash script uploads already existing pdf2htmlEX AppImage and Docker 
+# This shell script uploads already existing pdf2htmlEX AppImage and Docker 
 # Images
 
 ################

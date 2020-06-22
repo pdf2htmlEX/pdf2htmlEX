@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-# This bash script installs all local software required to run the 
+# This shell script installs all local software required to run the 
 # pdf2htmlEX tests 
 
 export DEBIAN_FRONTEND=noninteractive

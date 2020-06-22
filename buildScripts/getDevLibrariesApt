@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 
-# This bash script automates getting the development libraries required to 
+# This shell script automates getting the development libraries required to 
 # build poppler and fontforge
 
-# set the bash environment variable 'UNATTENDED' to '--assume-yes' for
+# set the shell environment variable 'UNATTENDED' to '--assume-yes' for
 # unattended use (for example in the .travis.yml script)
 
 echo ""

@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-# This bash script builds the complete pdf2htmlEX application LOCALLY
+# This shell script builds the complete pdf2htmlEX application LOCALLY
 # (It does not create the AppImage or Docker images)
 
 # Adjust the following two environment variables to suit your needs
@@ -32,9 +32,9 @@ set -ev
 
 ./buildScripts/reportEnvs
 
-./buildScripts/getBuildTools
+./buildScripts/getBuildToolsAlpine
 
-./buildScripts/getDevLibraries
+./buildScripts/getDevLibrariesAlpine
 
 ./buildScripts/getPoppler
 
@@ -47,11 +47,3 @@ set -ev
 ./buildScripts/buildPdf2htmlEX
 
 ./buildScripts/installPdf2htmlEX
-
-#./buildScripts/createAppImage
-
-#./buildScripts/createDockerImage
-
-#./buildScripts/uploadGitHubRelease
-
-#./buildScripts/uploadDockerImage

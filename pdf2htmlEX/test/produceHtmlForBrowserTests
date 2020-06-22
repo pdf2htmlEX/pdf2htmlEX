@@ -1,0 +1,111 @@
+#!/bin/sh
+
+# This shell script walks through the browser_tests directory running 
+# pdf2htmlEX on each *.pdf file. 
+
+# This is how we run pdf2htmlEX on a particular file, and arguments.
+#
+runPdf2htmlEX() {
+  pdfFileName=$1
+  htmlFileName=$(echo $pdfFileName | cut -d'.' -f1).html
+  arguments=$2
+  #
+  echo ""
+  echo "---"
+  echo " pdfFileName: [$pdfFileName]"
+  echo "htmlFileName: [$htmlFileName]"
+  echo "   arguments: [$arguments]"
+  #  
+  # now run pdf2htmlEX to produce the output files
+  #
+  echo $PDF2HTMLEX_PATH           \
+    --data-dir=$PDF2HTMLEX_DATDIR \
+    --dest-dir $PDF2HTMLEX_TMPDIR \
+    --fit-width=800 --last-page=1 \
+    $arguments                    \
+    browser_tests/$pdfFileName    \
+    $htmlFileName
+  #
+  $PDF2HTMLEX_PATH                \
+    --data-dir=$PDF2HTMLEX_DATDIR \
+    --dest-dir $PDF2HTMLEX_TMPDIR \
+    --fit-width=800 --last-page=1 \
+    $arguments                    \
+    browser_tests/$pdfFileName    \
+    $htmlFileName
+}
+
+# This is how we copy a file omitting lines between '#TEST_IGNORE_BEGIN' 
+# and '#TEST_IGNORE_END' (we pipe the file in via stdin and save it via 
+# stdout) 
+#
+copy_TEST_IGNORE_file() {
+  skipLine=echo
+  while IFS= read -r line ; do
+    if echo $line | grep -q "^#TEST_IGNORE_BEGIN" ; then
+      skipLine=true 
+    elif echo $line | grep -q "^#TEST_IGNORE_END"   ; then
+      skipLine=echo
+    else
+      $skipLine "$line"
+    fi
+  done
+}
+
+if test -z "$PDF2HTMLEX_PATH" ; then 
+  echo "PANIC: we do not know where to find the pdf2htmlEX executable"
+  exit 1
+fi
+
+if test -z "$PDF2HTMLEX_DATDIR" ; then
+  export PDF2HTMLEX_DATDIR=/tmp/pdf2htmlEX/dat
+fi
+
+if test -z "$PDF2HTMLEX_TMPDIR" ; then
+  export PDF2HTMLEX_TMPDIR=/tmp/pdf2htmlEX/tmp
+fi
+
+if test -z "$PDF2HTMLEX_PREDIR" ; then
+  export PDF2HTMLEX_PREDIR=/tmp/pdf2htmlEX/pre
+fi
+
+if test -z "$PDF2HTMLEX_TEST_DIR" ; then
+  export PDF2HTMLEX_TEST_DIR=.
+fi
+
+# clear out the TMPDIR
+#
+rm    -rf $PDF2HTMLEX_TMPDIR
+mkdir -p  $PDF2HTMLEX_TMPDIR
+#
+
+# setup the correct data files
+#
+cat $PDF2HTMLEX_TEST_DIR/../share/manifest | \
+ copy_TEST_IGNORE_file > $PDF2HTMLEX_DATDIR/manifest
+
+cp $PDF2HTMLEX_TEST_DIR/../share/base.min.css  $PDF2HTMLEX_DATDIR
+cp $PDF2HTMLEX_TEST_DIR/../test/fancy.min.css  $PDF2HTMLEX_DATDIR
+
+runPdf2htmlEX 'test_fail.pdf'
+
+runPdf2htmlEX 'basic_text.pdf'
+
+runPdf2htmlEX 'geneve_1564.pdf'
+
+runPdf2htmlEX 'text_visibility.pdf' '--correct-text-visibility=1'
+
+runPdf2htmlEX 'with_form.pdf' '--process-form=1'
+
+runPdf2htmlEX 'invalid_unicode_issue477.pdf'
+
+runPdf2htmlEX 'svg_background_with_page_rotation_issue402.pdf' '--bg-format=svg'
+
+runPdf2htmlEX 'fontfile3_opentype.pdf'
+
+# clear out the PREDIR
+#
+rm    -rf $PDF2HTMLEX_PREDIR
+mkdir -p  $PDF2HTMLEX_PREDIR
+#
+cp $PDF2HTMLEX_TMPDIR/* $PDF2HTMLEX_PREDIR

@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-# This bash script builds pdf2htmlEX
+# This shell script builds pdf2htmlEX
 
 echo ""
 echo "-------------------------------------------------------------------"
@@ -12,6 +12,7 @@ echo ""
 set -ev
 
 cd pdf2htmlEX
+rm -rf build
 mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PDF2HTMLEX_PREFIX ..

@@ -37,19 +37,43 @@ class BrowserTests(Common):
         ref_htmlfolder = os.path.join(self.TEST_DATA_DIR, basefilename)
         ref_htmlfilename = os.path.join(ref_htmlfolder, htmlfilename)
         out_htmlfilename = os.path.join(self.OUTDIR, htmlfilename)
-
-        pdf2htmlEX_args = self.DEFAULT_PDF2HTMLEX_ARGS + args + [
+        pre_htmlfilename = os.path.join(self.PREDIR, htmlfilename)
+        
+        try:
+            # see if we have pre-compiled the html file...
+            # if so simply copy it into place
+            #
+            shutil.copy(pre_htmlfilename, out_htmlfilename)
+        except:
+            # we have not pre-compiled the html file
+            # so create it using pdf2htmlEX
+            #
+            pdf2htmlEX_args = self.DEFAULT_PDF2HTMLEX_ARGS + args + [
                 os.path.join(self.TEST_DATA_DIR, filename),
                 htmlfilename ]
-        result = self.run_pdf2htmlEX(pdf2htmlEX_args)
-
-        self.assertIn(htmlfilename, result['output_files'], 'HTML file is not generated')
+            result = self.run_pdf2htmlEX(pdf2htmlEX_args)
+            #
+            self.assertIn(htmlfilename, result['output_files'], 'HTML file is not generated')
 
         if self.GENERATING_MODE:
             # copy generated html files
             shutil.rmtree(ref_htmlfolder, True)
             shutil.copytree(self.OUTDIR, ref_htmlfolder)
             return
+
+        # keep a record of the HTML files (and any differences) 
+        # for later reporting of test results
+        #
+        try:
+            os.makedirs(self.HTMDIR, 0o755, True)
+            outHtmlFile = os.path.join(self.HTMDIR, basefilename+'.out.html')
+            refHtmlFile = os.path.join(self.HTMDIR, basefilename+'.ref.html')
+            difHtmlFile = os.path.join(self.HTMDIR, basefilename+'.diff.html')
+            shutil.copy(out_htmlfilename, outHtmlFile)
+            shutil.copy(ref_htmlfilename, refHtmlFile)
+            os.system("diff "+outHtmlFile+" "+refHtmlFile+" > "+difHtmlFile+" 2>&1")
+        except:
+            pass
 
         pngfilename_out = os.path.join(self.PNGDIR, basefilename + '.out.png')
         self.generate_image(out_htmlfilename, pngfilename_out)
@@ -70,9 +94,11 @@ class BrowserTests(Common):
         print("\nTesting at: [", basefilename, "]")
         
         if diff_bbox is None:
-            print("  passed")
+            print("  SUCCESS: ", basefilename)
+        elif basefilename == "test_fail" :
+            print("  SUCCESS: ", basefilename)
         else:
-            print("  diff bounding box: ", diff_bbox, " should be None")
+            print("  FAILURE: ", basefilename, " diff bounding box: ", diff_bbox, " should be None")
             diff_size = (diff_bbox[2] - diff_bbox[0]) * (diff_bbox[3] - diff_bbox[1])
             img_size = ref_img.size[0] * ref_img.size[1]
             self.fail(('PNG files %s and %s differ by at most %d pixels, '+

@@ -1,8 +1,9 @@
-#!/bin/bash 
+#!/bin/sh 
 
-# This bash script creates an AppImage for pdf2htmlEX
+# This shell script creates an AppImage for pdf2htmlEX
 
-source ./buildScripts/reSourceVersionEnvs
+# source ./buildScripts/reSourceVersionEnvs
+. ./buildScripts/reSourceVersionEnvs
 
 echo ""
 echo "-------------------------------------------------------------------"
@@ -14,8 +15,8 @@ set -ev
 
 # For appimage output plugin
 #
-export VERSION="$PDF2HTMLEX_BRANCH-$BUILD_TIME"
-export APPIMAGE_NAME="pdf2htmlEX-$PDF2HTMLEX_BRANCH-$BUILD_TIME-$MACHINE_ARCH.AppImage"
+#export VERSION="$PDF2HTMLEX_BRANCH-$BUILD_TIME"
+export APPIMAGE_NAME="pdf2htmlEX-$PDF2HTMLEX_NAME.AppImage"
 
 echo "export APPIMAGE_NAME=\"$APPIMAGE_NAME\"" >> buildScripts/reSourceVersionEnvs
 
@@ -35,6 +36,14 @@ make install                                  \
   DESTDIR=../imageBuild/appDir
 
 cd ../imageBuild
+
+# Make sure directories can be traversed by nobody
+#
+#find appDir -type d -exec chmod 755 {} \;
+#
+# Make sure files can be read by nobody
+#
+#find appDir -type f -exec chmod 644 {} \;
 
 # force libfontconfig into AppImage (linuxdeploy blacklists libfontconfig) 
 # (turned off since libfontconfig needs to be matched to the underlying 
@@ -58,6 +67,9 @@ if [ -f /.dockerenv ] ; then
   #
   LINUX_DEPLOY_APP_IMAGE=squashfs-root/AppRun
 fi
+
+export VERBOSE=1
+export OUTPUT=$APPIMAGE_NAME
 
 ./$LINUX_DEPLOY_APP_IMAGE						\
   -e appDir/$PDF2HTMLEX_PREFIX/bin/pdf2htmlEX	\

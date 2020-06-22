@@ -1,8 +1,12 @@
-#!/bin/bash
+#!/bin/sh
 
-# This bash script reports the more important TRAVIS environment variables
+# This shell script reports the more important TRAVIS environment variables
+
+# source ./buildScripts/reSourceVersionEnvs
+. ./buildScripts/reSourceVersionEnvs
 
 echo "TravisCI env:"
+echo "             dist: [$TRAVIS_DIST]"
 echo "              tag: [$TRAVIS_TAG]"
 echo "           branch: [$TRAVIS_BRANCH]"
 echo "           commit: [$TRAVIS_COMMIT]"
@@ -13,17 +17,20 @@ echo "Build env:"
 echo "           prefix: [$PDF2HTMLEX_PREFIX]"
 echo "       unattended: [$UNATTENDED]"
 echo "    make parallel: [$MAKE_PARALLEL]"
-source ./buildScripts/reSourceVersionEnvs
+echo "     distribution: [$BUILD_DIST]"
 
 echo "pdf2htmlEX env:"
+echo "          version: [$PDF2HTMLEX_VERSION]"
 echo "          poppler: [$POPPLER_VERSION]"
 echo "        fontforge: [$FONTFORGE_VERSION]"
 echo "       pdf2htmlEX: [$PDF2HTMLEX_BRANCH]"
 echo "     machine arch: [$MACHINE_ARCH]"
 
 echo "release env:"
+echo "       build date: [$BUILD_DATE]"
 echo "       build time: [$BUILD_TIME]"
 echo "      docker from: [$DOCKER_FROM]"
 echo "      docker name: [$DOCKER_NAME]"
 echo "    appImage name: [$APPIMAGE_NAME]"
+echo "        dpkg name: [$DPKG_NAME]"
 echo "uploadTool suffix: [$UPLOADTOOL_SUFFIX]"
