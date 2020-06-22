@@ -54,7 +54,7 @@ cat > Dockerfile <<DOCKERFILE_HERE_DOC
 FROM $DOCKER_FROM
 
 COPY ./$ALPINE_NAME.* /root && \
-  chmod a+x /root/$APLINE_NAME.install
+  chmod a+x /root/$ALPINE_NAME.install
 
 RUN /root/$ALPINE_NAME.install
 
