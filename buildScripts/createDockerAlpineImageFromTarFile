@@ -53,7 +53,7 @@ echo "export DOCKER_NAME=\"$DOCKER_NAME\""         >> ../../buildScripts/reSourc
 cat > Dockerfile <<DOCKERFILE_HERE_DOC
 FROM $DOCKER_FROM
 
-COPY ./$ALPINE_NAME.* /root
+COPY ./$ALPINE_NAME.* /root/
 
 RUN chmod a+x /root/$ALPINE_NAME.install && \
   /root/$ALPINE_NAME.install
