@@ -77,4 +77,4 @@ tar xvf $ALPINE_NAME.tar.gz --strip-comonents=1
 
 ALPINE_INSTALL
 
-chmod a+x $ALPINE_NAME.tar.gz
+chmod a+r $ALPINE_NAME.tar.gz
