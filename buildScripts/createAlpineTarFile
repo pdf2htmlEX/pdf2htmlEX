@@ -41,6 +41,8 @@ cd ../imageBuild/alpineTarDir
 
 tar czvf ../$ALPINE_NAME.tar.gz --owner=root --group=root *
 
+cd ..
+
 cat <<ALPINE_INSTALL > $ALPINE_NAME.install
 #!/bin/sh
 
