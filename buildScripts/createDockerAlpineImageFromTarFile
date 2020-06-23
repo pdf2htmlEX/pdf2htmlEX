@@ -55,8 +55,10 @@ FROM $DOCKER_FROM
 
 COPY ./$ALPINE_NAME.* /root/
 
-RUN chmod a+x /root/$ALPINE_NAME.install && \
-  /root/$ALPINE_NAME.install
+WORKDIR /root
+
+RUN chmod a+x $ALPINE_NAME.install && \
+  ./$ALPINE_NAME.install
 
 ENTRYPOINT ["$PDF2HTMLEX_PREFIX/bin/pdf2htmlEX"]
 DOCKERFILE_HERE_DOC
