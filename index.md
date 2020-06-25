@@ -31,6 +31,9 @@ A beautiful demo is worth a thousand words:
 * [**Scientific Paper**](/demo/demo.html) 
   [PDF](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.148.349&rep=rep1&type=pdf) 
   (<a href="https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.148.349" target="_blank">Author</a>)
+* [**Chinese**](/demo/LauZiDaoDeJingProjectGutenberg7337ByChingYiChen.html) 
+  [PDF](/demo/LauZiDaoDeJingProjectGutenberg7337ByChingYiChen.pdf) 
+  (<a href="https://www.gutenberg.org/ebooks/7337" target="_blank">Author</a>)
 
 * [**pdf2htmlEX Tugboat**](doc/tb108wang.html)
   [PDF](doc/tb108wang.pdf)
@@ -79,19 +82,21 @@ users can read while downloading.
 
 You can get pdf2htmlEX in a number of ways:
 
-* [**AppImage**]({{ site.github.releases_url }}) download, make executable, and "just run" (see 
+* [**AppImage**]({{ site.github.wiki_url }}/Download-AppImage) download, make executable, and "just run" (see 
   <a href="https://appimage.org/" target="_blank">AppImage.org</a>) 
-* [**pdf2htmlEX/pdf2htmlEX**](https://hub.docker.com/orgs/pdf2htmlex/) on 
+* [**pdf2htmlEX/pdf2htmlEX**]({{ site.github.wiki_url}}/Download-Docker-Image) on 
   <a href="https://hub.docker.com/" target="_blank">Docker Hub</a> 
-* [**Debian Archive**]({{ site.github.releases_url }}) download, and apt install locally:
+* [**Debian Archive**]({{ site.github.wiki_url }}/Download-Debian-Archive) download, and apt install locally:
   `sudo apt install ./<<DownloadedDebFile>>`
-* [**Compile yourself**]({{ site.github.repository_url}}//tree/master/buildScripts)
+* [**Compile yourself**]({{ site.github.wiki_url}}/Building)
 
 ## Usage {#usage}
 
     pdf2htmlEX /path/to/foobar.pdf
 
     pdf2htmlEX --help
+
+See: [Quick Start]({{ site.github.wiki_url}}/Quick-Start)
 
 ## LICENSE {#license}
 
