@@ -37,9 +37,11 @@ make install                                  \
   datadir=$PDF2HTMLEX_PREFIX/share/pdf2htmlEX \
   DESTDIR=../imageBuild/alpineTarDir
 
-cd ../imageBuild
+cd ../imageBuild/alpineTarDir
 
-tar czvf $ALPINE_NAME.tar.gz alpineTarDir
+tar czvf ../$ALPINE_NAME.tar.gz --owner=root --group=root *
+
+cd ..
 
 cat <<ALPINE_INSTALL > $ALPINE_NAME.install
 #!/bin/sh
@@ -71,10 +73,8 @@ apk add --no-cache \
 # Now we install the (Alpine $DIST) compiled pdf2htmlEX binaries and 
 # configuration files. 
 #
-cd /
-#
-tar xvf $ALPINE_NAME.tar.gz --strip-comonents=1
+tar xvf $ALPINE_NAME.tar.gz -C /
 
 ALPINE_INSTALL
 
-chmod a+x $ALPINE_NAME.tar.gz
+chmod a+r $ALPINE_NAME.tar.gz

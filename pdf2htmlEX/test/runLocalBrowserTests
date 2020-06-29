@@ -18,6 +18,9 @@ ps -ef | grep -v grep | grep Xvfb
 echo "-----------------------------------------------------------"
 echo ""
 
+# add an explicit delay to allow Xvfb to stablize
+sleep 2
+
 # Now we tell the test drivers about this display
 # (Note: you MUST not specify the host!)
 #
@@ -34,6 +37,9 @@ python3 test_local_browser.py
 export returnCode=$?
 echo "-----------------------------------------------------------"
 echo ""
+
+# add an explicit delay to allow Xvfb to stablize
+sleep 2
 
 # Now we shutdown the virtual frame buffer
 #

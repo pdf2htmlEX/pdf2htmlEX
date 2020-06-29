@@ -46,4 +46,4 @@ if __name__ == '__main__':
      # turn warnings OFF to prevent 'ResourceWarning: unclosed <socket.socket'
      # see: https://stackoverflow.com/a/21500796
      #
-     unittest.main(warnings='ignore')
+     unittest.main()
