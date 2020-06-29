@@ -2,9 +2,13 @@
 
 # This shell script builds pdf2htmlEX
 
+# source ./buildScripts/reSourceVersionEnvs
+. ./buildScripts/reSourceVersionEnvs
+
 echo ""
 echo "-------------------------------------------------------------------"
 echo "BUILDING pdf2htmlEX (using gcc)"
+echo "  PDF2HTMLEX_VERSION = [$PDF2HTMLEX_VERSION]"
 echo "-------------------------------------------------------------------"
 
 echo ""
