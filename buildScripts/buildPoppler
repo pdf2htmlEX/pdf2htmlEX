@@ -40,7 +40,7 @@ cmake                                       \
   -DWITH_JPEG=ON                            \
   -DWITH_PNG=ON                             \
   -DWITH_TIFF=OFF                           \
-  -DWITH_NSS=OFF                            \
+  -DWITH_NSS3=OFF                           \
   -DWITH_Cairo=ON                           \
   ..
 
