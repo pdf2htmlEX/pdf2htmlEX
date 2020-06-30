@@ -1001,6 +1001,10 @@ void HTMLRenderer::install_external_font(GfxFont * font, FontInfo & info)
 
 void HTMLRenderer::export_remote_font(const FontInfo & info, const string & format, GfxFont * font)
 {
+    string css_turn_off_ligatures = "";
+    if (param.turn_off_ligatures) {
+    	css_turn_off_ligatures = "font-variant-ligatures:none;font-feature-settings: \"liga\" 0, \"clig\" 0, \"dlig\" 0, \"hlig\" 0, \"calt\" 0;";
+    }
     string css_font_format;
     if(format == "ttf")
     {
@@ -1062,6 +1066,7 @@ void HTMLRenderer::export_remote_font(const FontInfo & info, const string & form
              << "font-style:normal;"
              << "font-weight:normal;"
              << "visibility:visible;"
+             << css_turn_off_ligatures 
              << "}" 
              << endl;
 }

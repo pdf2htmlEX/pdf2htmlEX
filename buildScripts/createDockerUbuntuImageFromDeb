@@ -59,7 +59,12 @@ COPY ./$DPKG_NAME /root
 RUN   apt update && \
   apt -y upgrade && \
   apt -y --no-install-recommends install \
-  /root/$DPKG_NAME
+    /root/$DPKG_NAME
+
+# make the /pdf directory the default working directory for any run of 
+# pdf2htmlEX 
+#
+WORKDIR /pdf
 
 ENTRYPOINT ["$PDF2HTMLEX_PREFIX/bin/pdf2htmlEX"]
 DOCKERFILE_HERE_DOC
