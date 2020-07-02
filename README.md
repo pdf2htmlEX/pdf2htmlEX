@@ -69,6 +69,8 @@ pdf2htmlEX is made possible thanks to the following projects:
 * [poppler](http://poppler.freedesktop.org/)
 * [Fontforge](http://fontforge.org/)
 
+[![Testing Powered By SauceLabs](https://saucelabs.github.io/images/opensauce/powered-by-saucelabs-badge-gray.png?sanitize=true "Testing Powered By SauceLabs")](https://saucelabs.com)
+
 pdf2htmlEX is inspired by the following projects:
 
 * pdftohtml from poppler 
