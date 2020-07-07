@@ -18,7 +18,7 @@ We release three types of binary objects:
    While the Debian archive is built on a specific Ubuntu release, it can 
    usually be used on any more recent Ubuntu releases. 
 
-3. You can alternatively get pdf2htmlEX Docker images from Docker Hub in 
+3. You can alternatively get pdf2htmlEX Container images from Docker Hub in 
    either of the repositories: 
 
        pdf2htmlEX/pdf2htmlEX (offical release)

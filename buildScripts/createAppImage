@@ -57,11 +57,11 @@ wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/$LI
 
 chmod a+x $LINUX_DEPLOY_APP_IMAGE
 
-if [ -f /.dockerenv ] ; then
-  # WE ARE INSIDE A DOCKER CONTAINER...
+if [ ! -w /dev/fuse ] ; then
+  # We are in an environment in which FUSE is not useable...
   #
   # We explicilty extract the appimage to a squashfs to allow it to be used 
-  # inside Docker containers
+  # even if FUSE is not available.
   #
   ./$LINUX_DEPLOY_APP_IMAGE --appimage-extract
   #

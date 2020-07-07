@@ -52,16 +52,18 @@ For most users, you probably really want to simply download one of the
   
   (It will not currently work on MacOS or Alpine based machines).
 
-- [Docker](https://www.docker.com/) Image from the [`pdf2htmlEX` Docker 
+- [OCI](https://opencontainers.org/) Image from the [`pdf2htmlEX` Docker 
   hub](https://hub.docker.com/orgs/pdf2htmlex/repositories). 
 
-  This will work on any machine with Docker installed.
+  This will work on any machine with an OCI Container system (such as 
+  Docker, Podman, CRI-O, Kubernetes) installed. 
 
   (Note: that *advanced* use of `pdf2htmlEX` requires careful attention to 
   the configuration of various tools, such as fontconfig, iconv and your 
   locally available fonts use by the poppler and fontforge libraries. The 
-  docker images created by the pdf2htmlEX team might not be as well 
-  configured for *your needs* as a docker created and configured by you) 
+  OCI container images created by the pdf2htmlEX team might not be as well 
+  configured for *your needs* as an OCI container created and configured 
+  by you) 
 
 ### Building yourself
 
@@ -163,7 +165,7 @@ Typically, most users, will run one of the following "top-level" scripts:
 
      1. AppImage
 
-     2. Docker image
+     2. OCI Container image
 
      3. Debian archive
 
@@ -172,7 +174,7 @@ Typically, most users, will run one of the following "top-level" scripts:
 
      1. Alpine tar file
 
-     2. Docker image
+     2. OCI Container image
 
 3. **`runTests`**
 
@@ -229,12 +231,12 @@ Typically, most users, will run one of the following "top-level" scripts:
   `pdf2htmlEX`, installs it and `poppler-data` into a Debian archive 
   (`*.deb`). 
 
-- **`createDockerAlpineImageFromTarFile`**: Installs the Alpine tar file 
+- **`createContainerAlpineImageFromTarFile`**: Installs the Alpine tar file 
   archive of `pdf2htmlEX` created by `createAlpineTarFile` into an Alpine 
-  Docker image. 
+  Container. 
 
-- **`createDockerUbuntuImageFromDeb`**: Installs the Debian archive of 
-  `pdf2htmlEX` created by `createDebianPackage` into a Docker image. 
+- **`createContainerUbuntuImageFromDeb`**: Installs the Debian archive of 
+  `pdf2htmlEX` created by `createDebianPackage` into a Container. 
 
 - **`getBuildToolsAlpine`**: Locally `apk` installs all development 
   *tools* required to build `pdf2htmlEX`. 
@@ -283,13 +285,13 @@ Typically, most users, will run one of the following "top-level" scripts:
   `pdf2htmlEX/pdf2htmlEX/test` directory. See the 
   `pdf2htmlEX/pdf2htmlEx/test` directory's Readme file for details. 
 
-- **`uploadDockerImage`**: Upload the `pdf2htmlEX` Docker image to 
+- **`uploadContainerImage`**: Upload the `pdf2htmlEX` Container image to 
   Docker hub repository associated to the docker hub users specified in 
-  the `DOCKER_USERNAME` environement variable.
+  the `DOCKER_HUB_USERNAME` environement variable.
 
-  Unless the `DOCKER_USERNAME` and `DOCKER_PASSWORD` environment variables 
-  are pre-defined, this script will prompt the user for the respective 
-  values. 
+  Unless the `DOCKER_HUB_USERNAME` and `DOCKER_HUB_PASSWORD` environment 
+  variables are pre-defined, this script will prompt the user for the 
+  respective values. 
 
 - **`uploadGitHubRelease`**: Upload the `pdf2htmlEX` artefacts (AppImage, 
   Debian archive, test results, etc) to the *continuous* section of the 

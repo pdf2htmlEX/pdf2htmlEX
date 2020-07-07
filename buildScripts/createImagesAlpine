@@ -2,7 +2,7 @@
 
 set -ev
 
-# This shell script creates the pdf2htmlEX AppImage and Docker Images
+# This shell script creates the pdf2htmlEX AppImage and Container Images
 
 #################
 # do the creation
@@ -11,9 +11,6 @@ set -ev
 
 ./buildScripts/createAlpineTarFile
 
-if [ -x "$(which docker)" ]; then
-  ./buildScripts/createDockerAlpineImageFromTarFile
+if [ -x "$(which docker)" -o -x "$(which podman)" ]; then
+  ./buildScripts/createContainerAlpineImageFromTarFile
 fi
-
-
-

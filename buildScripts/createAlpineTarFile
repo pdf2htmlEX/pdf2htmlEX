@@ -1,12 +1,13 @@
 #!/bin/sh 
 
-# This shell script creates a docker image from an existing pdf2htmlEX
+# This shell script creates a tar file which can use used to create an OCI 
+# container from an existing pdf2htmlEX.
 #
-# This is the part which can run *inside* a docker container.
+# This is the part which can run *inside* an OCI container.
 
 echo ""
 echo "-------------------------------------------------------------------"
-echo "CREATING pdf2htmlEX Docker Image (run inside a docker container)"
+echo "CREATING pdf2htmlEX Container Image (run inside an OCI container)"
 echo " (based on Alpine linux $BUILD_DIST)"
 echo "-------------------------------------------------------------------"
 echo ""
