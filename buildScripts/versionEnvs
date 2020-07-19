@@ -52,6 +52,14 @@ elif test -r /etc/alpine-release ; then
   cat /etc/alpine-release
   export BUILD_OS=alpine
   export BUILD_DIST=$(cat /etc/alpine-release)
+elif test -r /etc/os-release ; then
+  cat /etc/os-release
+  export BUILD_OS=$(grep '^ID=' /etc/os-release | cut -d'=' -f2)
+  export BUILD_DIST=$(grep '^VERSION_ID=' /etc/os-release | cut -d'=' -f2)
+elif test -r /usr/lib/os-release ; then
+  cat /usr/lib/os-release
+  export BUILD_OS=$(grep '^ID=' /usr/lib/os-release | cut -d'=' -f2)
+  export BUILD_DIST=$(grep '^VERSION_ID=' /usr/lib/os-release | cut -d'=' -f2)
 else
   echo "FAILURE: could not determine release"
   exit -1
