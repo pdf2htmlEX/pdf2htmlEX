@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# This shell script builds the complete pdf2htmlEX application LOCALLY
+# (It does not create the AppImage or Container images)
+
+# Adjust the following two environment variables to suit your needs
+#
+export UNATTENDED="-y --setopt=install_weak_deps=False"
+export MAKE_PARALLEL="-j $(nproc)"
+
+# choose one of the following...
+#
+# export PDF2HTMLEX_BRANCH="<<YourTagHereWithNoSpaces>>"
+export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+
+# The following environment variable determines where the poppler,
+# poppler-data, fontforge and pdf2htmlEX packages are installed.
+# CHANGE IT TO SUIT YOUR NEEDS:
+#
+export PDF2HTMLEX_PREFIX=/usr/local
+
+# Ensure all Apt packages are installed with no user interaction
+#
+export DEBIAN_FRONTEND=noninteractive
+
+set -ev
+
+################
+# do the build
+
+./buildScripts/versionEnvs
+
+./buildScripts/reportEnvs
+
+./buildScripts/getBuildToolsDnf
+
+./buildScripts/getDevLibrariesDnf
+
+./buildScripts/getPoppler
+
+./buildScripts/buildPoppler
+
+./buildScripts/getFontforge
+
+./buildScripts/buildFontforge
+
+./buildScripts/buildPdf2htmlEX
+
+./buildScripts/installPdf2htmlEX

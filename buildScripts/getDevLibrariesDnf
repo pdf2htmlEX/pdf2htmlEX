@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# This shell script automates getting the development libraries required to 
+# build poppler and fontforge
+
+# set the shell environment variable 'UNATTENDED' to 
+# '--setopt=install_weak_deps=False' for unattended use (for example in 
+# the .travis.yml script) 
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "INSTALLING development libraries (using DNF)"
+echo "  (UNATTENDED: [$UNATTENDED])"
+echo "-------------------------------------------------------------------"
+echo ""
+
+set -ev
+
+sudo dnf $UNATTENDED install \
+  cairo-devel                \
+  libpng-devel               \
+  libjpeg-turbo-devel        \
+  libxml2-devel

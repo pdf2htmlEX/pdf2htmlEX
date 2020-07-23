@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# This shell script automates getting the required build tools (dnf install)
+
+# set the shell environment variable 'UNATTENDED' to 
+# '--setopt=install_weak_deps=False' for unattended use (for example in 
+# the .travis.yml script) 
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "INSTALLING Build Tools (using DNF)"
+echo "  (UNATTENDED: [$UNATTENDED])"
+echo "-------------------------------------------------------------------"
+echo ""
+
+set -ev
+
+sudo dnf $UNATTENDED install  \
+  sudo                        \
+  wget                        \
+  git                         \
+  pkg-config                  \
+  ruby                        \
+  autoconf                    \
+  libtool                     \
+  cmake                       \
+  make                        \
+  gcc                         \
+  g++                         \
+  dpkg                        \
+  dpkg-dev                    \
+  gettext                     \
+  java-1.8.0-openjdk-headless \
+  jq
+
