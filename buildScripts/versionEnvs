@@ -4,7 +4,7 @@
 # versions
 
 # see: https://poppler.freedesktop.org/releases.html
-# current working: 0.83.0
+# current working: 0.89.0
 
 export PDF2HTMLEX_VERSION=0.18.8.rc1
 
@@ -28,6 +28,21 @@ export FONTFORGE_VERSION=20200314
 #export FONTFORGE_VERSION=20190413
 #export FONTFORGE_VERSION=20190317
 #export FONTFORGE_VERSION=20170731
+
+##################################################################
+# Specify a working version of linuxDeploy to build the appImage
+#
+# see: https://github.com/linuxdeploy/linuxdeploy/issues/142#issuecomment-669910999
+#
+# The following is the most up to date version of linuxdeploy:
+#
+#export LINUX_DEPLOY_URL=https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous
+#
+# The following is a recent known to work version of linuxdeploy from 2020/Aug/05
+#
+export LINUX_DEPLOY_URL=https://artifacts.assassinate-you.net/artifactory/list/linuxdeploy/travis-456
+
+###################################################################
 
 if [ -z "$PDF2HTMLEX_BRANCH" ]; then
   export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
@@ -82,3 +97,4 @@ echo "export BUILD_DIST=\"$BUILD_DIST\""                 >> buildScripts/reSourc
 echo "export BUILD_DATE=\"$BUILD_DATE\""                 >> buildScripts/reSourceVersionEnvs
 echo "export BUILD_TIME=\"$BUILD_TIME\""                 >> buildScripts/reSourceVersionEnvs
 echo "export PDF2HTMLEX_PREFIX=\"$PDF2HTMLEX_PREFIX\""   >> buildScripts/reSourceVersionEnvs
+echo "export LINUX_DEPLOY_URL=\"$LINUX_DEPLOY_URL\""     >> buildScripts/reSourceVersionEnvs

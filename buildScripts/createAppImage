@@ -53,7 +53,7 @@ cd ../imageBuild
 
 LINUX_DEPLOY_APP_IMAGE=linuxdeploy-$MACHINE_ARCH.AppImage
 
-wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/$LINUX_DEPLOY_APP_IMAGE
+wget $LINUX_DEPLOY_URL/$LINUX_DEPLOY_APP_IMAGE
 
 chmod a+x $LINUX_DEPLOY_APP_IMAGE
 
