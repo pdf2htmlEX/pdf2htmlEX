@@ -1,0 +1,77 @@
+#!/bin/sh 
+
+# This shell script creates a container image from an existing pdf2htmlEX
+#
+# This is the part which must be run *outside* of any OCI container.
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "CREATING pdf2htmlEX Container Image (run outside any OCI container)"
+echo " (based on Alpine linux $BUILD_DIST)"
+echo "-------------------------------------------------------------------"
+echo ""
+
+# Collect everything that will be needed...
+
+# source buildScripts/reSourceVersionEnvs
+. buildScripts/reSourceVersionEnvs
+
+set -ev
+
+mkdir -p imageBuild/containerDir
+
+cd imageBuild/containerDir
+
+cp ../$ALPINE_NAME.* .
+
+if [ -z "$CONTAINER_FROM" ]; then
+  echo ""
+  read -p "Enter the container image for the 'from' base: " CONTAINER_FROM
+  echo ""
+  if [ -z "$CONTAINER_FROM" ]; then
+    echo "CONTAINER_FROM not set... so we can not build the container image"
+    exit 1
+  fi
+fi
+
+if [ -z "$DOCKER_HUB_USERNAME" ]; then
+  echo ""
+  read -p "Enter a docker hub username: " DOCKER_HUB_USERNAME
+  echo ""
+  if [ -z "$DOCKER_HUB_USERNAME" ]; then
+    echo "DOCKER_HUB_USERNAME not set... so we can not build the container image"
+    exit 1
+  fi
+fi
+
+if [ -x "$(which podman)" ]; then
+  alias docker=podman
+fi
+
+export CONTAINER_NAME="$DOCKER_HUB_USERNAME/pdf2htmlex:$PDF2HTMLEX_NAME"
+
+echo "export CONTAINER_FROM=\"$CONTAINER_FROM\""           >> ../../buildScripts/reSourceVersionEnvs
+echo "export DOCKER_HUB_USERNAME=\"$DOCKER_HUB_USERNAME\"" >> ../../buildScripts/reSourceVersionEnvs
+echo "export CONTAINER_NAME=\"$CONTAINER_NAME\""           >> ../../buildScripts/reSourceVersionEnvs
+
+cat > Dockerfile <<DOCKERFILE_HERE_DOC
+FROM $CONTAINER_FROM
+
+COPY ./$ALPINE_NAME.* /root/
+
+WORKDIR /root
+
+RUN chmod a+x $ALPINE_NAME.install && \
+  ./$ALPINE_NAME.install
+  
+# make the /pdf directory the default working directory for any run of 
+# pdf2htmlEX 
+#
+WORKDIR /pdf
+
+ENTRYPOINT ["$PDF2HTMLEX_PREFIX/bin/pdf2htmlEX"]
+DOCKERFILE_HERE_DOC
+
+cd ..
+
+docker build -t $CONTAINER_NAME containerDir

@@ -4,9 +4,9 @@
 # versions
 
 # see: https://poppler.freedesktop.org/releases.html
-# current working: 0.83.0
+# current working: 0.89.0
 
-export PDF2HTMLEX_VERSION=0.18.8.rc1
+export PDF2HTMLEX_VERSION=0.18.8.rc2
 
 export POPPLER_VERSION=poppler-0.89.0
 #export POPPLER_VERSION=poppler-0.88.0
@@ -29,6 +29,21 @@ export FONTFORGE_VERSION=20200314
 #export FONTFORGE_VERSION=20190317
 #export FONTFORGE_VERSION=20170731
 
+##################################################################
+# Specify a working version of linuxDeploy to build the appImage
+#
+# see: https://github.com/linuxdeploy/linuxdeploy/issues/142#issuecomment-669910999
+#
+# The following is the most up to date version of linuxdeploy:
+#
+#export LINUX_DEPLOY_URL=https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous
+#
+# The following is a recent known to work version of linuxdeploy from 2020/Aug/05
+#
+export LINUX_DEPLOY_URL=https://artifacts.assassinate-you.net/artifactory/list/linuxdeploy/travis-456
+
+###################################################################
+
 if [ -z "$PDF2HTMLEX_BRANCH" ]; then
   export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
   if [ -z "$PDF2HTMLEX_BRANCH" ]; then
@@ -42,16 +57,22 @@ if [ -z "$PDF2HTMLEX_BRANCH" ]; then
   fi
 fi
 
-if test -r /etc/lsb-release ; then
-  cat /etc/lsb-release
-  # source /etc/lsb-release
-  . /etc/lsb-release
-  export BUILD_DIST=$DISTRIB_CODENAME
-  export BUILD_OS=$DISTRIB_ID
-elif test -r /etc/alpine-release ; then
-  cat /etc/alpine-release
-  export BUILD_OS=alpine
-  export BUILD_DIST=$(cat /etc/alpine-release)
+# Following @ViliusSutkus89's suggestion in
+#   PR https://github.com/pdf2htmlEX/pdf2htmlEX/pull/77
+# We have replaced the use of lsb-release/alpine-release
+# with the freedesktop.org's os-release based system to
+# obtain the distribution release information....
+#
+# See: https://www.freedesktop.org/software/systemd/man/os-release.html
+#
+if test -r /etc/os-release ; then
+  cat /etc/os-release
+  export BUILD_OS=$(grep '^ID=' /etc/os-release | cut -d'=' -f2)
+  export BUILD_DIST=$(grep '^VERSION_ID=' /etc/os-release | cut -d'=' -f2)
+elif test -r /usr/lib/os-release ; then
+  cat /usr/lib/os-release
+  export BUILD_OS=$(grep '^ID=' /usr/lib/os-release | cut -d'=' -f2)
+  export BUILD_DIST=$(grep '^VERSION_ID=' /usr/lib/os-release | cut -d'=' -f2)
 else
   echo "FAILURE: could not determine release"
   exit -1
@@ -76,3 +97,4 @@ echo "export BUILD_DIST=\"$BUILD_DIST\""                 >> buildScripts/reSourc
 echo "export BUILD_DATE=\"$BUILD_DATE\""                 >> buildScripts/reSourceVersionEnvs
 echo "export BUILD_TIME=\"$BUILD_TIME\""                 >> buildScripts/reSourceVersionEnvs
 echo "export PDF2HTMLEX_PREFIX=\"$PDF2HTMLEX_PREFIX\""   >> buildScripts/reSourceVersionEnvs
+echo "export LINUX_DEPLOY_URL=\"$LINUX_DEPLOY_URL\""     >> buildScripts/reSourceVersionEnvs

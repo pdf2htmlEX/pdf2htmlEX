@@ -5,7 +5,7 @@
 
 # Adjust the following two environment variables to suit your needs
 #
-export UNATTENDED="--assume-yes"
+export UNATTENDED="-y --setopt=install_weak_deps=False"
 export MAKE_PARALLEL="-j $(nproc)"
 
 # choose one of the following...
@@ -32,9 +32,9 @@ set -ev
 
 ./buildScripts/reportEnvs
 
-./buildScripts/getBuildToolsAlpine
+./buildScripts/getBuildToolsDnf
 
-./buildScripts/getDevLibrariesAlpine
+./buildScripts/getDevLibrariesDnf
 
 ./buildScripts/getPoppler
 

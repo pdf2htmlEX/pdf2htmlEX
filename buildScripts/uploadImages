@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# This shell script uploads already existing pdf2htmlEX AppImage and Docker 
+# This shell script uploads already existing pdf2htmlEX AppImage and Container
 # Images
 
 ################
@@ -8,10 +8,10 @@
 
 set -ev
 
-./buildScripts/reportEnvs          || { echo 'reportEnvs FAILED'        ; exit 1 ; }
+./buildScripts/reportEnvs           || { echo 'reportEnvs FAILED'           ; exit 1 ; }
 
-./buildScripts/uploadGitHubRelease || { echo 'uploadGitHubRelease FAILED' ; exit 1 ; }
+./buildScripts/uploadGitHubRelease  || { echo 'uploadGitHubRelease FAILED'  ; exit 1 ; }
 
-./buildScripts/uploadDockerImage   || { echo 'uploadDockerImage   FAILED' ; exit 1 ; }
+./buildScripts/uploadContainerImage || { echo 'uploadContainerImage FAILED' ; exit 1 ; }
 
 

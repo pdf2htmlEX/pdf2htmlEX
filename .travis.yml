@@ -19,7 +19,7 @@ jobs:
   include:
     - os: linux
       dist: bionic
-      env: DOCKER_FROM="ubuntu:18.04"
+      env: CONTAINER_FROM="ubuntu:18.04"
       services:
         - docker
       addons:

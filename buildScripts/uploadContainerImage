@@ -1,0 +1,53 @@
+#!/bin/sh
+
+# This shell script uploads the pdf2htmlEX container image to docker hub
+#
+# We EXPECT the following environment variables to be set:
+#    DOCKER_HUB_USERNAME
+#
+# You can OPTIONALLY set the following environment variables:
+#    DOCKER_HUB_PASSWORD  (if not set you will be asked for your password)
+#
+
+# source ./buildScripts/reSourceVersionEnvs
+. ./buildScripts/reSourceVersionEnvs
+
+echo ""
+echo "-------------------------------------------------------------------"
+echo "UPLOADING pdf2htmlEX Container Image to Docker Hub"
+echo "-------------------------------------------------------------------"
+echo ""
+
+##################################
+# push container image
+#
+if [ -x "$(which docker)" -o -x "$(which podman)" ]; then
+
+  if [ ! -x "$(which docker)"]; then
+    alias docker=podman
+  fi
+
+  if [ -z "$DOCKER_HUB_USERNAME" ]; then
+    echo ""
+    read -p "Enter the Docker hub usernane): " DOCKER_HUB_USERNAME
+    echo ""
+    if [ -z "$DOCKER_HUB_USERNAME" ]; then
+      echo "DOCKER_HUB_USERNAME not set... so we do not know where to push image."
+      exit 1
+    fi
+  fi
+
+  if [ -z "$DOCKER_HUB_PASSWORD" ]; then
+    echo ""
+    echo "Please type your the Docker hub password"
+    docker login -u "$DOCKER_HUB_USERNAME"
+  else
+    echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
+  fi
+
+  docker push $DOCKER_USERNAME/pdf2htmlex
+
+else
+  echo "Neither Docker nor Podman are installed... skipping upload of container image."
+fi
+
