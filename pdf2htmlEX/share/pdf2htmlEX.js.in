@@ -329,7 +329,7 @@ Viewer.prototype = {
     }, false);
 
     // handle links
-    [this.container, this.outline].forEach(function(ele) {
+    [this.outline].concat(Array.from(this.container.querySelectorAll('a.l'))).forEach(function(ele) {
       ele.addEventListener('click', self.link_handler.bind(self), false);
     });
 
@@ -804,6 +804,10 @@ Viewer.prototype = {
   link_handler : function (e) {
     var target = /** @type{Node} */(e.target);
     var detail_str = /** @type{string} */ (target.getAttribute('data-dest-detail'));
+    if (!detail_str) {
+      target = /** @type{Node} */(e.currentTarget);
+      detail_str = /** @type{string} */ (target.getAttribute('data-dest-detail'));
+    }
     if (!detail_str) return;
 
     if (this.config['view_history_handler']) {
