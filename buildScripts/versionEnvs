@@ -45,7 +45,7 @@ export LINUX_DEPLOY_URL=https://artifacts.assassinate-you.net/artifactory/list/l
 ###################################################################
 
 if [ -z "$PDF2HTMLEX_BRANCH" ]; then
-  export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+  export PDF2HTMLEX_BRANCH="$(git rev-parse --abbrev-ref HEAD | tr _ -)"
   if [ -z "$PDF2HTMLEX_BRANCH" ]; then
     echo ""
     read -p "Enter the pdf2htmlEX branch or version: " PDF2HTMLEX_BRANCH
