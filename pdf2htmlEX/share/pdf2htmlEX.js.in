@@ -329,7 +329,7 @@ Viewer.prototype = {
     }, false);
 
     // handle links
-    [this.outline, ...Array.from(this.container.querySelectorAll('a.l'))].forEach(function(ele) {
+    [this.outline].concat(Array.from(this.container.querySelectorAll('a.l'))).forEach(function(ele) {
       ele.addEventListener('click', self.link_handler.bind(self), false);
     });
 
