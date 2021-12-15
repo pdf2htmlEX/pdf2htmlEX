@@ -15,8 +15,8 @@ echo ""
 
 set -ev
 
-sudo apt-get update
-sudo apt-get $UNATTENDED install \
+apt-get update
+apt-get $UNATTENDED install \
   libcairo-dev                   \
   libpng-dev                     \
   libjpeg-dev                    \
