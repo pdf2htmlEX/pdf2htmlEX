@@ -288,7 +288,7 @@ void ffw_reencode(const char * encname, int force)
     ffwClearAction();
 }
 
-void ffw_reencode_raw(int32 * mapping, int mapping_len, int force)
+void ffw_reencode_raw(int32_t * mapping, int mapping_len, int force)
 {
     ffwSetAction("re-encode (raw1)");
     Encoding * enc = calloc(1, sizeof(Encoding));
@@ -572,7 +572,7 @@ void ffw_auto_hint(void)
 void ffw_override_fstype(void)
 {
     ffwSetAction("override the fstype of");
-    *(int16 *)(&cur_fv->sf->pfminfo.fstype) = 0;
+    *(int16_t *)(&cur_fv->sf->pfminfo.fstype) = 0;
     cur_fv->sf->pfminfo.pfmset = true;
     cur_fv->sf->changed = true;
     ffwClearAction();
