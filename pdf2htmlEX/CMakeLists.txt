@@ -103,6 +103,7 @@ set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS}
   -lxml2
   -lglib-2.0
   -lgio-2.0
+  -lgobject-2.0
   -pthread
   -lz
   -lm
