@@ -19,7 +19,7 @@
 #include "SignalHandler.h"
 
 #include "ffw.h"                      // needed for:
-#include "gfile.h"                    //   FindProgDir
+#include "gfile.h"                    //   FindProgDir => FindProgRoot in 20230101
 #include "fontforge/autowidth.h"      //   FVRemoveKerns
 #include "fontforge/bitmapchar.h"     //   SFReplaceEncodingBDFProps
 #include "fontforge/cvimages.h"       //   FVImportImages
@@ -71,7 +71,7 @@ void ffw_init(const char* progPath, int debug)
 {
     ffwSetAction("initialize");
     char *localProgPath = strdup(progPath);
-    FindProgDir(localProgPath);
+    FindProgRoot(localProgPath);
     InitSimpleStuff();
     if ( default_encoding==NULL )
         default_encoding=FindOrMakeEncoding("ISO8859-1");
@@ -345,7 +345,7 @@ void ffw_reencode_raw2(const char ** mapping, int mapping_len, int force)
 
 void ffw_cidflatten(void)
 {
-    if(!cur_fv->sf->cidmaster) 
+    if(!cur_fv->sf->cidmaster)
     {
         fprintf(stderr, "Cannot flatten a non-CID font\n");
         return;
