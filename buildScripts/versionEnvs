@@ -4,11 +4,12 @@
 # versions
 
 # see: https://poppler.freedesktop.org/releases.html
-# current working: 0.89.0
+# current working: 21.02.0
 
 export PDF2HTMLEX_VERSION=0.18.8.rc2
 
-export POPPLER_VERSION=poppler-0.89.0
+export POPPLER_VERSION=poppler-21.02.0
+#export POPPLER_VERSION=poppler-0.89.0
 #export POPPLER_VERSION=poppler-0.88.0
 #export POPPLER_VERSION=poppler-0.87.0
 #export POPPLER_VERSION=poppler-0.86.1
@@ -20,9 +21,10 @@ export POPPLER_VERSION=poppler-0.89.0
 #export POPPLER_VERSION=poppler-0.81.0
 
 # see: https://github.com/fontforge/fontforge/releases
-# current working: 20190801
+# current working: 20220308
 
-export FONTFORGE_VERSION=20220308
+export FONTFORGE_VERSION=20230101
+#export FONTFORGE_VERSION=20220308
 #export FONTFORGE_VERSION=20190801
 #export FONTFORGE_VERSION=20190413
 #export FONTFORGE_VERSION=20190413
@@ -50,7 +52,7 @@ if [ -z "$PDF2HTMLEX_BRANCH" ]; then
     echo ""
     read -p "Enter the pdf2htmlEX branch or version: " PDF2HTMLEX_BRANCH
     echo ""
-    if [ -z "$PDF2HTMLEX_BRANCH" ]; then 
+    if [ -z "$PDF2HTMLEX_BRANCH" ]; then
       echo "PDF2HTMLEX_BRANCH not set... so we can not build anything."
       exit 1
     fi
