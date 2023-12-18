@@ -22,7 +22,7 @@ using std::cerr;
 
 void HTMLRenderer::process_form(ofstream & out)
 {
-    FormPageWidgets * widgets = cur_catalog->getPage(pageNum)->getFormWidgets();
+    std::shared_ptr<FormPageWidgets> widgets = cur_catalog->getPage(pageNum)->getFormWidgets();
     int num = widgets->getNumWidgets();
 
     for(int i = 0; i < num; i++)

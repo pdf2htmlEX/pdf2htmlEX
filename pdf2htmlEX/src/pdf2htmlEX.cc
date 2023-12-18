@@ -412,20 +412,22 @@ int main(int argc, char **argv)
       !param.poppler_data_dir.empty() ? param.poppler_data_dir.c_str() : NULL
     );
 
-    // open PDF file
-    PDFDoc * doc = nullptr;
     try
     {
-        {
-            GooString * ownerPW = (param.owner_password == "") ? (nullptr) : (new GooString(param.owner_password.c_str()));
-            GooString * userPW = (param.user_password == "") ? (nullptr) : (new GooString(param.user_password.c_str()));
-            GooString fileName(param.input_filename.c_str());
-
-            doc = PDFDocFactory().createPDFDoc(fileName, ownerPW, userPW);
-
-            delete userPW;
-            delete ownerPW;
+        std::optional<GooString> ownerPW;
+        if (!param.owner_password.empty()) {
+          ownerPW = GooString(param.owner_password);
         }
+
+        std::optional<GooString> userPW;
+        if (!param.user_password.empty()) {
+          userPW = GooString(param.user_password);
+        }
+
+        GooString fileName(param.input_filename);
+
+        // open PDF file
+        std::unique_ptr<PDFDoc> doc(PDFDocFactory().createPDFDoc(fileName, ownerPW, userPW));
 
         if (!doc->isOk())
             throw "Cannot read the file";
@@ -445,7 +447,7 @@ int main(int argc, char **argv)
                    doc->getNumPages());
 
 
-        unique_ptr<HTMLRenderer>(new HTMLRenderer(argv[0], param))->process(doc);
+        unique_ptr<HTMLRenderer>(new HTMLRenderer(argv[0], param))->process(doc.get());
 
         finished = true;
     }
@@ -459,7 +461,6 @@ int main(int argc, char **argv)
     }
 
     // clean up
-    delete doc;
     globalParams.reset();
 
     // check for memory leaks

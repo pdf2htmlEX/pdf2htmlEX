@@ -148,7 +148,7 @@ string HTMLRenderer::get_linkaction_str(
                         dynamic_cast<const LinkGoTo*>(action);
                     std::unique_ptr<LinkDest> dest = nullptr;
                     if(auto _ = real_action->getDest())
-                        dest = std::unique_ptr<LinkDest>( _->copy() );
+                        dest = std::make_unique<LinkDest>(*_);
                     else if (auto _ = real_action->getNamedDest())
                         dest = cur_catalog->findDest(_);
                     if(dest)
