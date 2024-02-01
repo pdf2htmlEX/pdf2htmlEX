@@ -19,7 +19,10 @@ cmake                                       \
   -DENABLE_UNSTABLE_API_ABI_HEADERS=OFF     \
   -DBUILD_GTK_TESTS=OFF                     \
   -DBUILD_QT5_TESTS=OFF                     \
+  -DBUILD_QT6_TESTS=OFF                     \
   -DBUILD_CPP_TESTS=OFF                     \
+  -DBUILD_MANUAL_TESTS=OFF                  \
+  -DENABLE_BOOST=OFF                        \
   -DENABLE_SPLASH=ON                        \
   -DENABLE_UTILS=OFF                        \
   -DENABLE_CPP=OFF                          \
@@ -27,10 +30,17 @@ cmake                                       \
   -DENABLE_GOBJECT_INTROSPECTION=OFF        \
   -DENABLE_GTK_DOC=OFF                      \
   -DENABLE_QT5=OFF                          \
+  -DENABLE_QT6=OFF                          \
   -DENABLE_LIBOPENJPEG="none"               \
-  -DENABLE_CMS="none"                       \
   -DENABLE_DCTDECODER="libjpeg"             \
+  -DENABLE_CMS="none"                       \
+  -DENABLE_LCMS=OFF                         \
   -DENABLE_LIBCURL=OFF                      \
+  -DENABLE_LIBTIFF=OFF                      \
+  -DWITH_TIFF=OFF                           \
+  -DWITH_NSS3=OFF                           \
+  -DENABLE_NSS3=OFF                         \
+  -DENABLE_GPGME=OFF                        \
   -DENABLE_ZLIB=ON                          \
   -DENABLE_ZLIB_UNCOMPRESS=OFF              \
   -DUSE_FLOAT=OFF                           \
@@ -39,8 +49,6 @@ cmake                                       \
   -DEXTRA_WARN=OFF                          \
   -DWITH_JPEG=ON                            \
   -DWITH_PNG=ON                             \
-  -DWITH_TIFF=OFF                           \
-  -DWITH_NSS3=OFF                           \
   -DWITH_Cairo=ON                           \
   ..
 

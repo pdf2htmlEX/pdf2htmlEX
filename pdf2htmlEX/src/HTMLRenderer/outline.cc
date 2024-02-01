@@ -52,7 +52,6 @@ void HTMLRenderer::process_outline_items(const std::vector<OutlineItem*> * items
         {
             process_outline_items(item->getKids());
         }
-        item->close();
         f_outline.fs << "</li>";
     }
 

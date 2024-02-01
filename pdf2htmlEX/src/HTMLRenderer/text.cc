@@ -95,9 +95,9 @@ void HTMLRenderer::drawString(GfxState * state, const GooString * s)
             char buf[2];
             buf[0] = (code >> 8) & 0xff;
             buf[1] = (code & 0xff);
-            width = ((GfxCIDFont *)font)->getWidth(buf, 2);
+            width = ((GfxCIDFont *)font.get())->getWidth(buf, 2);
         } else {
-            width = ((Gfx8BitFont *)font)->getWidth(code);
+            width = ((Gfx8BitFont *)font.get())->getWidth(code);
         }
 
         if (width == 0 || height == 0) {
@@ -151,11 +151,11 @@ void HTMLRenderer::drawString(GfxState * state, const GooString * s)
                 Unicode uu;
                 if(cur_text_state.font_info->use_tounicode)
                 {
-                    uu = check_unicode(u, uLen, code, font);
+                    uu = check_unicode(u, uLen, code, font.get());
                 }
                 else
                 {
-                    uu = unicode_from_font(code, font);
+                    uu = unicode_from_font(code, font.get());
                 }
                 html_text_page.get_cur_line()->append_unicodes(&uu, 1, ddx);
                 /*

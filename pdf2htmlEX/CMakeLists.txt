@@ -104,7 +104,6 @@ set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS}
   -lglib-2.0
   -lgio-2.0
   -lgobject-2.0
-  -pthread
   -lz
   -lm
 )
@@ -122,36 +121,16 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Woverloaded-virtual")
 
-# clang compiler need c++11 flag
-#if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-#  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
-#endif()
-
-# CYGWIN or GCC 4.5.x bug
-if(CYGWIN)
-# was: set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
-# the following change is untested:
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++14")
-else()
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -pthread")
+set(CMAKE_THREAD_PREFER_PTHREAD ON)
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} Threads::Threads)
+# Poppler-23.12.0 requires CXX17
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+if(NOT CYGWIN)
+    set(CMAKE_CXX_EXTENSIONS OFF)
 endif()
-
-# check the C++11 features we need
-include(CheckCXXSourceCompiles)
-check_cxx_source_compiles("
-#include <vector>
-int main()
-{
-  char * ptr = nullptr;
-  std::vector<int> v;
-  auto f = [&](){ for(auto & i : v) ++i; };
-  f();
-}
-" CXX0X_SUPPORT)
-if(NOT CXX0X_SUPPORT)
-    message(FATAL_ERROR "Error: your compiler does not support C++0x/C++11, please update it.")
-endif()
-
 
 configure_file (${CMAKE_SOURCE_DIR}/src/pdf2htmlEX-config.h.in ${CMAKE_SOURCE_DIR}/src/pdf2htmlEX-config.h)
 configure_file (${CMAKE_SOURCE_DIR}/pdf2htmlEX.1.in ${CMAKE_SOURCE_DIR}/pdf2htmlEX.1)
