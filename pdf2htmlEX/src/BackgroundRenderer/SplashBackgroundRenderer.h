@@ -53,7 +53,6 @@ public:
   void updateRender(GfxState *state);
 
 protected:
-  void dump_image(const char * filename, int x1, int y1, int x2, int y2);
   HTMLRenderer * html_renderer;
   const Param & param;
   std::string format;

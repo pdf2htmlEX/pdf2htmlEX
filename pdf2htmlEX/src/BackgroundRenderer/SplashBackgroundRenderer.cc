@@ -5,26 +5,17 @@
  */
 
 #include <fstream>
-#include <vector>
-#include <memory>
 
 #include <poppler-config.h>
-#include <PDFDoc.h>
-#include <goo/ImgWriter.h>
-#include <goo/PNGWriter.h>
-#include <goo/JpegWriter.h>
+#include <splash/SplashErrorCodes.h>
 
 #include "Base64Stream.h"
-#include "util/const.h"
-
 #include "SplashBackgroundRenderer.h"
 
 namespace pdf2htmlEX {
 
 using std::string;
 using std::ifstream;
-using std::vector;
-using std::unique_ptr;
 
 const SplashColor SplashBackgroundRenderer::white = {255,255,255};
 
@@ -35,6 +26,7 @@ SplashBackgroundRenderer::SplashBackgroundRenderer(const string & imgFormat, HTM
     , format(imgFormat)
 {
     bool supported = false;
+// ENABLE_LIBPNG and ENABLE_LIBJPEG are defines coming in from poppler-config.h
 #ifdef ENABLE_LIBPNG
     if (format.empty())
         format = "png";
@@ -47,7 +39,7 @@ SplashBackgroundRenderer::SplashBackgroundRenderer(const string & imgFormat, HTM
 #endif
     if (!supported)
     {
-        throw string("Image format not supported: ") + format;
+        throw string("Image format not supported by Poppler: ") + format;
     }
 }
 
@@ -124,27 +116,26 @@ bool SplashBackgroundRenderer::render_page(PDFDoc * doc, int pageno)
 
 void SplashBackgroundRenderer::embed_image(int pageno)
 {
-    // xmin->xmax is top->bottom
-    int xmin, xmax, ymin, ymax;
-// poppler-0.84.0 hack to recover from the removal of *ModRegion tracking 
-//
 	auto * bitmap = getBitmap();
-	xmin = 0;
-	xmax = bitmap->getWidth();
-	ymin = 0;
-	ymax = bitmap->getHeight();
-//
-// end of hack
-	
     // dump the background image only when it is not empty
-    if((xmin <= xmax) && (ymin <= ymax))
+    if(bitmap->getWidth() >= 0 && bitmap->getHeight() >= 0)
     {
         {
             auto fn = html_renderer->str_fmt("%s/bg%x.%s", (param.embed_image ? param.tmp_dir : param.dest_dir).c_str(), pageno, format.c_str());
             if(param.embed_image)
-                html_renderer->tmp_files.add((char*)fn);
+                html_renderer->tmp_files.add((const char *)fn);
 
-            dump_image((char*)fn, xmin, ymin, xmax, ymax);
+            SplashImageFileFormat splashImageFileFormat;
+            if(format == "png")
+                splashImageFileFormat = splashFormatPng;
+            else if(format == "jpg")
+                splashImageFileFormat = splashFormatJpeg;
+            else
+                throw string("Image format not supported: ") + format;
+
+            SplashError e = bitmap->writeImgFile(splashImageFileFormat, (const char *)fn, param.actual_dpi, param.actual_dpi);
+            if (e != splashOk)
+                throw string("Cannot write background image. SplashErrorCode: ") + std::to_string(e);
         }
 
         double h_scale = html_renderer->text_zoom_factor() * DEFAULT_DPI / param.actual_dpi;
@@ -154,10 +145,10 @@ void SplashBackgroundRenderer::embed_image(int pageno)
         auto & all_manager = html_renderer->all_manager;
         
         f_page << "<img class=\"" << CSS::BACKGROUND_IMAGE_CN 
-            << " " << CSS::LEFT_CN      << all_manager.left.install(((double)xmin) * h_scale)
-            << " " << CSS::BOTTOM_CN    << all_manager.bottom.install(((double)getBitmapHeight() - 1 - ymax) * v_scale)
-            << " " << CSS::WIDTH_CN     << all_manager.width.install(((double)(xmax - xmin + 1)) * h_scale)
-            << " " << CSS::HEIGHT_CN    << all_manager.height.install(((double)(ymax - ymin + 1)) * v_scale)
+            << " " << CSS::LEFT_CN      << all_manager.left.install(0.0L)
+            << " " << CSS::BOTTOM_CN    << all_manager.bottom.install(0.0L)
+            << " " << CSS::WIDTH_CN     << all_manager.width.install(h_scale * bitmap->getWidth())
+            << " " << CSS::HEIGHT_CN    << all_manager.height.install(v_scale * bitmap->getHeight())
             << "\" alt=\"\" src=\"";
 
         if(param.embed_image)
@@ -180,70 +171,6 @@ void SplashBackgroundRenderer::embed_image(int pageno)
         }
         f_page << "\"/>";
     }
-}
-
-// There might be mem leak when exception is thrown !
-void SplashBackgroundRenderer::dump_image(const char * filename, int x1, int y1, int x2, int y2)
-{
-    int width = x2 - x1 + 1;
-    int height = y2 - y1 + 1;
-    if((width <= 0) || (height <= 0))
-        throw "Bad metric for background image";
-
-    FILE * f = fopen(filename, "wb");
-    if(!f)
-        throw string("Cannot open file for background image " ) + filename;
-
-    // use unique_ptr to auto delete the object upon exception
-    unique_ptr<ImgWriter> writer;
-
-    if(false) { }
-#ifdef ENABLE_LIBPNG
-    else if(format == "png")
-    {
-        writer = unique_ptr<ImgWriter>(new PNGWriter);
-    }
-#endif
-#ifdef ENABLE_LIBJPEG
-    else if(format == "jpg")
-    {
-        writer = unique_ptr<ImgWriter>(new JpegWriter);
-    }
-#endif
-    else
-    {
-        throw string("Image format not supported: ") + format;
-    }
-
-    if(!writer->init(f, width, height, param.actual_dpi, param.actual_dpi))
-        throw "Cannot initialize image writer";
-        
-    auto * bitmap = getBitmap();
-    assert(bitmap->getMode() == splashModeRGB8);
-
-    SplashColorPtr data = bitmap->getDataPtr();
-    int row_size = bitmap->getRowSize();
-
-    vector<unsigned char*> pointers;
-    pointers.reserve(height);
-    SplashColorPtr p = data + y1 * row_size + x1 * 3;
-    for(int i = 0; i < height; ++i)
-    {
-        pointers.push_back(p);
-        p += row_size;
-    }
-    
-    if(!writer->writePointers(pointers.data(), height)) 
-    {
-        throw "Cannot write background image";
-    }
-
-    if(!writer->close())
-    {
-        throw "Cannot finish background image";
-    }
-
-    fclose(f);
 }
 
 } // namespace pdf2htmlEX
