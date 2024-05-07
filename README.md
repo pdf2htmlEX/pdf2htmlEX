@@ -29,7 +29,7 @@ If you are concerned about file size of the resulting HTML, then I recommend pat
 - **Cheat Sheet** (math formulas): [HTML](https://pdf2htmlEX.github.io/pdf2htmlEX/demo/cheat.html) / [PDF](http://www.tug.org/texshowcase/cheat.pdf)
 - **Scientific Paper** (text and figures): [HTML](https://pdf2htmlEX.github.io/pdf2htmlEX/demo/demo.html) / [PDF](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.148.349&rep=rep1&type=pdf)
 - **Full Circle Magazine** (read while downloading): [HTML](https://pdf2htmlEX.github.io/pdf2htmlEX/demo/issue65_en.html) / [PDF](http://dl.fullcirclemagazine.org/issue65_en.pdf)
-- **Git Manual** (CJK support): [HTML](https://pdf2htmlEX.github.io/pdf2htmlEX/demo/chn.html) / [PDF](http://files.cnblogs.com/phphuaibei/git%E6%90%AD%E5%BB%BA.pdf)
+- **道德經 by Laozi** (CJK support): [HTML](https://pdf2htmlex.github.io/pdf2htmlEX/demo/LauZiDaoDeJingProjectGutenberg7337ByChingYiChen.html) / [PDF](https://pdf2htmlex.github.io/pdf2htmlEX/demo/LauZiDaoDeJingProjectGutenberg7337ByChingYiChen.pdf)
 
 pdf2htmlEX renders PDF files in HTML, utilizing modern Web technologies.
 Academic papers with lots of formulas and figures? Magazines with complicated layouts? No problem!
