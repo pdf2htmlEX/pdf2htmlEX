@@ -9,6 +9,7 @@
 #define ENCODING_H__
 
 #include <string>
+#include <vector>
 #include <iostream>
 
 #include <CharTypes.h>
@@ -19,6 +20,7 @@ namespace pdf2htmlEX {
  * Escape necessary characters, and map Unicode to UTF-8
  */
 void writeUnicodes(std::ostream & out, const Unicode * u, int uLen);
+void writeUnicodes(std::ostream & out, const std::vector<Unicode> & u);
 
 
 /*
