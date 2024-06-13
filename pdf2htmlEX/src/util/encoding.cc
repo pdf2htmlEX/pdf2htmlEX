@@ -55,34 +55,46 @@ static int mapUTF8(Unicode u, char *buf, int bufSize)
     }
 }
 
+static void writeUnicode(ostream & out, const Unicode u) {
+    switch(u)
+    {
+        case '&':
+            out << "&amp;";
+            break;
+        case '\"':
+            out << "&quot;";
+            break;
+        case '\'':
+            out << "&apos;";
+            break;
+        case '<':
+            out << "&lt;";
+            break;
+        case '>':
+            out << "&gt;";
+            break;
+        default:
+        {
+            char buf[4];
+            auto n = mapUTF8(u, buf, 4);
+            out.write(buf, n);
+        }
+    }
+}
+
 void writeUnicodes(ostream & out, const Unicode * u, int uLen)
 {
     for(int i = 0; i < uLen; ++i)
     {
-        switch(u[i])
-        {
-            case '&':
-                out << "&amp;";
-                break;
-            case '\"':
-                out << "&quot;";
-                break;
-            case '\'':
-                out << "&apos;";
-                break;
-            case '<':
-                out << "&lt;";
-                break;
-            case '>':
-                out << "&gt;";
-                break;
-            default:
-                {
-                    char buf[4];
-                    auto n = mapUTF8(u[i], buf, 4);
-                    out.write(buf, n);
-                }
-        }
+        writeUnicode(out, u[i]);
+    }
+}
+
+void writeUnicodes(ostream & out, const std::vector<Unicode> & u)
+{
+    for(const auto & i: u)
+    {
+        writeUnicode(out, i);
     }
 }
 
