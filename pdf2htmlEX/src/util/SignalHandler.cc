@@ -23,8 +23,13 @@ messages when FontForge can't save a file for us.
 #include <stdio.h>
 #include <string.h>
 #include <string>
+#ifdef _WIN32
+#include <windows.h>
+#include <csignal>
+#else
 #include <unistd.h>
 #include <signal.h>
+#endif
 
 #include "pdf2htmlEX-config.h"
 #include "util/ffw.h"
@@ -95,11 +100,31 @@ const char* detailsBody = "no details recorded\n";
 const char* pdf2htmlEXTmpDir = NULL;
 const char* ffwAction        = NULL;
 
+#ifndef _WIN32
 struct sigaction act;
+#endif
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-result" 
 void signalHandler(int sigInt) {
+#ifdef _WIN32
+  FILE *stderrFile = stderr;
+  fwrite(oopsMessage, strlen(oopsMessage), 1, stderrFile);
+
+  if (ffwAction) {
+    fwrite(ffwMessage_1, strlen(ffwMessage_1), 1, stderrFile);
+    fwrite(ffwAction, strlen(ffwAction), 1, stderrFile);
+    fwrite(ffwMessage_2, strlen(ffwMessage_2), 1, stderrFile);
+    fwrite(pdf2htmlEXTmpDir, strlen(pdf2htmlEXTmpDir), 1, stderrFile);
+    fwrite(ffwMessage_3, strlen(ffwMessage_3), 1, stderrFile);
+  } else {
+    fwrite(noFfwMessage, strlen(noFfwMessage), 1, stderrFile);
+  }
+
+  fwrite(detailsHeader, strlen(detailsHeader), 1, stderrFile);
+  fwrite(detailsBody, strlen(detailsBody), 1, stderrFile);
+  _exit(-1);
+#else
   write(STDERR_FILENO, oopsMessage,        strlen(oopsMessage) );
 
   if (ffwAction) {
@@ -115,7 +140,7 @@ void signalHandler(int sigInt) {
   write(STDERR_FILENO, detailsHeader,      strlen(detailsHeader) );
   write(STDERR_FILENO, detailsBody,        strlen(detailsBody) );
   exit(-1);
-
+#endif
 }
 #pragma GCC diagnostic pop
 
@@ -184,6 +209,17 @@ void setupSignalHandler(
 
   // Now setup the signal handler
   //
+#ifdef _WIN32
+  signal(SIGILL,  signalHandler);  // Illegal Instruction
+  signal(SIGFPE,  signalHandler);  // Floating-point exception
+  signal(SIGSEGV, signalHandler);  // Invalid memory reference
+#ifdef SIGBUS
+    signal(SIGBUS, signalHandler);
+#endif
+#ifdef SIGSYS
+    signal(SIGSYS, signalHandler);
+#endif
+#else
   memset(&act, 0, sizeof(act));
   act.sa_handler = signalHandler;
   //
@@ -192,6 +228,7 @@ void setupSignalHandler(
   sigaction(SIGSEGV, &act, NULL);  // Invalid memory reference
   sigaction(SIGBUS,  &act, NULL);  // Bus error (bad memory access)
   sigaction(SIGSYS,  &act, NULL);  // Bad system call (SVr4)
+#endif
 
   // All done
 }
