@@ -1080,7 +1080,10 @@ static string general_font_family(GfxFont * font)
 // TODO: this function is called when some font is unable to process, may use the name there as a hint
 void HTMLRenderer::export_remote_default_font(long long fn_id) 
 {
-    f_css.fs << "." << CSS::FONT_FAMILY_CN << fn_id << "{font-family:sans-serif;visibility:hidden;}" << endl;
+//     Workaround for https://github.com/opendocument-app/pdf2htmlEX-Android/issues/94
+//     Workaround for https://github.com/opendocument-app/OpenDocument.droid/issues/348
+//    f_css.fs << "." << CSS::FONT_FAMILY_CN << fn_id << "{font-family:sans-serif;visibility:hidden;}" << endl;
+    f_css.fs << "." << CSS::FONT_FAMILY_CN << fn_id << "{font-family:sans-serif;visibility:visible;}" << endl;
 }
 
 void HTMLRenderer::export_local_font(const FontInfo & info, GfxFont * font, const string & original_font_name, const string & cssfont) 
