@@ -108,7 +108,6 @@ configure_file (${CMAKE_SOURCE_DIR}/share/pdf2htmlEX.js.in ${CMAKE_SOURCE_DIR}/s
 
 set(PDF2HTMLEX_SRC ${PDF2HTMLEX_SRC}
     src/Param.h
-    src/pdf2htmlEX.cc
     src/pdf2htmlEX-config.h
     src/HTMLRenderer/HTMLRenderer.h
     src/HTMLRenderer/draw.cc
@@ -169,8 +168,12 @@ set(PDF2HTMLEX_SRC ${PDF2HTMLEX_SRC}
     src/TmpFiles.cc
     )
 
-add_executable(pdf2htmlEX ${PDF2HTMLEX_SRC})
-target_link_libraries(pdf2htmlEX ${PDF2HTMLEX_LIBS})
+add_library(libpdf2htmlEX ${PDF2HTMLEX_SRC})
+target_link_libraries(libpdf2htmlEX ${PDF2HTMLEX_LIBS})
+set_target_properties(libpdf2htmlEX PROPERTIES OUTPUT_NAME pdf2htmlEX)
+
+add_executable(pdf2htmlEX src/pdf2htmlEX.cc)
+target_link_libraries(pdf2htmlEX libpdf2htmlEX)
 
 add_custom_target(pdf2htmlEX_resources ALL DEPENDS
     ${CMAKE_SOURCE_DIR}/share/base.min.css
@@ -194,6 +197,16 @@ add_custom_command(OUTPUT
         ${CMAKE_SOURCE_DIR}/share/base.css
         ${CMAKE_SOURCE_DIR}/share/fancy.css
     )
+
+install (TARGETS libpdf2htmlEX
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+)
+install (
+    DIRECTORY pdf2htmlEX/src/
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    FILES_MATCHING PATTERN "*.h"
+)
 
 install (TARGETS pdf2htmlEX DESTINATION bin)
 
