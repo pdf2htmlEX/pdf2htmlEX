@@ -21,66 +21,31 @@ add_custom_target(dist
         | bzip2 > ${CMAKE_BINARY_DIR}/${ARCHIVE_NAME}.tar.bz2
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
-find_package(PkgConfig)
-
-
-# SINCE we have a very intimate relationship with a particular version of 
-# poppler... we explicitly describe the poppler include and library 
-# paths.
-#
-include_directories(
-  ../poppler/build/poppler
-  ../poppler/build
-  ../poppler/poppler
-  ../poppler
+find_package(poppler REQUIRED)
+set(PDF2HTMLEX_LIBS
+    ${PDF2HTMLEX_LIBS}
+    poppler::libpoppler
+    poppler::libpoppler-cpp
+    poppler::libpoppler-splash
+    poppler::libpoppler-cairo
+    poppler::libpoppler-glib
 )
-#
-# The following order is critical as the glib functions use functions 
-# located in the main poppler library 
-#
-set(POPPLER_LIBRARIES ${POPPLER_LIBRARIES}
-  ${CMAKE_SOURCE_DIR}/../poppler/build/glib/libpoppler-glib.a
-  ${CMAKE_SOURCE_DIR}/../poppler/build/libpoppler.a
-)
-
 
 if(ENABLE_SVG)
-    pkg_check_modules(CAIRO REQUIRED cairo>=1.10.0)
-    message("-- Trying to locate cairo-svg...")
-    find_path(CAIRO_SVG_INCLUDE_PATH cairo-svg.h PATHS ${CAIRO_INCLUDE_DIRS} NO_DEFAULT_PATH)
-    if(CAIRO_SVG_INCLUDE_PATH)
-        message("--    found cairo-svg...")
-        include_directories(${CAIRO_INCLUDE_DIRS})
-        if(NOT DEFINED ENV{USING_BREW})
-            link_directories(${CAIRO_LIBRARY_DIRS})
-            set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} ${CAIRO_LIBRARIES})
-        endif()
-        set(ENABLE_SVG 1)
-    else()
-        message(FATAL_ERROR "Error: no SVG support found in Cairo")
-    endif()
-
-    find_package(Freetype REQUIRED)
-    include_directories(${FREETYPE_INCLUDE_DIRS})
-    link_directories(${FREETYPE_LIBRARY_DIRS})
-#    set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS} ${FREETYPE_LIBRARIES})
+    find_package(cairo REQUIRED)
+    find_package(freetype REQUIRED)
+    set(PDF2HTMLEX_LIBS
+        ${PDF2HTMLEX_LIBS}
+        cairo::cairo-svg
+        Freetype::Freetype
+    )
+    set(ENABLE_SVG 1)
 endif()
 
-# SINCE we have a very intimate relationship with a particular version of 
-# fontforge... we explicitly describe the fontforge include and library 
-# paths.
-#
-include_directories(
-  ../fontforge/fontforge
-  ../fontforge
-  ../fontforge/build/inc
-  ../fontforge/inc
-)
-#
-include_directories(${FONTFORGE_INCLUDE_DIRS})
-link_directories(${FONTFORGE_LIBRARY_DIRS})
-set(FONTFORGE_LIBRARIES ${FONTFORGE_LIBRARIES}
-  ${CMAKE_SOURCE_DIR}/../fontforge/build/lib/libfontforge.a
+find_package(fontforge REQUIRED)
+set(PDF2HTMLEX_LIBS
+    ${PDF2HTMLEX_LIBS}
+    fontforge::fontforge
 )
 
 # If we are using Alpine Linux then we need to add -lintl
