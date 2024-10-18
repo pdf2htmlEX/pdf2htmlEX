@@ -91,6 +91,11 @@ else ()
   set(LIB_INTL_LIBRARIES "" )
 endif()
 
+# Include directories from GLib and GIO
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(GLIB REQUIRED glib-2.0)
+include_directories(${GLIB_INCLUDE_DIRS})
+
 set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS}
   ${POPPLER_LIBRARIES}
   ${FONTFORGE_LIBRARIES}
