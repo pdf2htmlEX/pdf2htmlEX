@@ -189,13 +189,13 @@ void HTMLRenderer::process(PDFDoc *doc)
 
 bool HTMLRenderer::renderPage(PDFDoc *doc, int pageno)
 {
-    if (bg_renderer->render_page(cur_doc, pageNum))
+    if (bg_renderer->render_page(cur_doc, pageno))
     {
         return true;
     }
     else if (fallback_bg_renderer)
     {
-        if (fallback_bg_renderer->render_page(cur_doc, pageNum))
+        if (fallback_bg_renderer->render_page(cur_doc, pageno))
             return true;
     }
 
