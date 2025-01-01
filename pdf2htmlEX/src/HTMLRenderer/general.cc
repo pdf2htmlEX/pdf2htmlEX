@@ -183,9 +183,6 @@ void HTMLRenderer::process(PDFDoc *doc)
 
     post_process();
 
-    bg_renderer = nullptr;
-    fallback_bg_renderer = nullptr;
-
     if(param.quiet == 0)
         cerr << endl;
 }
