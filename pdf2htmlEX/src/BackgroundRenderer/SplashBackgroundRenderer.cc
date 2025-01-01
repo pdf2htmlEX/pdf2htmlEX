@@ -111,66 +111,54 @@ bool SplashBackgroundRenderer::render_page(PDFDoc * doc, int pageno)
             (!(param.use_cropbox)),
             false, false,
             nullptr, nullptr, &annot_cb, &process_annotation);
+
+    auto * bitmap = getBitmap();
+
+    auto fn = html_renderer->str_fmt("%s/bg%x.%s", (param.embed_image ? param.tmp_dir : param.dest_dir).c_str(), pageno, format.c_str());
+    if(param.embed_image)
+        html_renderer->tmp_files.add((const char *)fn);
+
+    SplashImageFileFormat splashImageFileFormat;
+    if(format == "png")
+        splashImageFileFormat = splashFormatPng;
+    else if(format == "jpg")
+        splashImageFileFormat = splashFormatJpeg;
+    else
+        throw string("Image format not supported: ") + format;
+
+    SplashError e = bitmap->writeImgFile(splashImageFileFormat, (const char *)fn, param.actual_dpi, param.actual_dpi);
+    if (e != splashOk)
+        throw string("Cannot write background image. SplashErrorCode: ") + std::to_string(e);
+
     return true;
 }
 
 void SplashBackgroundRenderer::embed_image(int pageno)
 {
-	auto * bitmap = getBitmap();
-    // dump the background image only when it is not empty
-    if(bitmap->getWidth() >= 0 && bitmap->getHeight() >= 0)
+    auto & f_page = *(html_renderer->f_curpage);
+
+    f_page << "<img class=\"" << CSS::FULL_BACKGROUND_IMAGE_CN
+        << "\" alt=\"\" src=\"";
+
+    if(param.embed_image)
     {
-        {
-            auto fn = html_renderer->str_fmt("%s/bg%x.%s", (param.embed_image ? param.tmp_dir : param.dest_dir).c_str(), pageno, format.c_str());
-            if(param.embed_image)
-                html_renderer->tmp_files.add((const char *)fn);
+        auto path = html_renderer->str_fmt("%s/bg%x.%s", param.tmp_dir.c_str(), pageno, format.c_str());
+        ifstream fin((char*)path, ifstream::binary);
+        if(!fin)
+            throw string("Cannot read background image ") + (char*)path;
 
-            SplashImageFileFormat splashImageFileFormat;
-            if(format == "png")
-                splashImageFileFormat = splashFormatPng;
-            else if(format == "jpg")
-                splashImageFileFormat = splashFormatJpeg;
-            else
-                throw string("Image format not supported: ") + format;
+        auto iter = FORMAT_MIME_TYPE_MAP.find(format);
+        if(iter == FORMAT_MIME_TYPE_MAP.end())
+            throw string("Image format not supported: ") + format;
 
-            SplashError e = bitmap->writeImgFile(splashImageFileFormat, (const char *)fn, param.actual_dpi, param.actual_dpi);
-            if (e != splashOk)
-                throw string("Cannot write background image. SplashErrorCode: ") + std::to_string(e);
-        }
-
-        double h_scale = html_renderer->text_zoom_factor() * DEFAULT_DPI / param.actual_dpi;
-        double v_scale = html_renderer->text_zoom_factor() * DEFAULT_DPI / param.actual_dpi;
-
-        auto & f_page = *(html_renderer->f_curpage);
-        auto & all_manager = html_renderer->all_manager;
-        
-        f_page << "<img class=\"" << CSS::BACKGROUND_IMAGE_CN 
-            << " " << CSS::LEFT_CN      << all_manager.left.install(0.0L)
-            << " " << CSS::BOTTOM_CN    << all_manager.bottom.install(0.0L)
-            << " " << CSS::WIDTH_CN     << all_manager.width.install(h_scale * bitmap->getWidth())
-            << " " << CSS::HEIGHT_CN    << all_manager.height.install(v_scale * bitmap->getHeight())
-            << "\" alt=\"\" src=\"";
-
-        if(param.embed_image)
-        {
-            auto path = html_renderer->str_fmt("%s/bg%x.%s", param.tmp_dir.c_str(), pageno, format.c_str());
-            ifstream fin((char*)path, ifstream::binary);
-            if(!fin)
-                throw string("Cannot read background image ") + (char*)path;
-
-            auto iter = FORMAT_MIME_TYPE_MAP.find(format);
-            if(iter == FORMAT_MIME_TYPE_MAP.end())
-                throw string("Image format not supported: ") + format;
-
-            string mime_type = iter->second;
-            f_page << "data:" << mime_type << ";base64," << Base64Stream(fin);
-        }
-        else
-        {
-            f_page << (char*)html_renderer->str_fmt("bg%x.%s", pageno, format.c_str());
-        }
-        f_page << "\"/>";
+        string mime_type = iter->second;
+        f_page << "data:" << mime_type << ";base64," << Base64Stream(fin);
     }
+    else
+    {
+        f_page << (char*)html_renderer->str_fmt("bg%x.%s", pageno, format.c_str());
+    }
+    f_page << "\"/>";
 }
 
 } // namespace pdf2htmlEX

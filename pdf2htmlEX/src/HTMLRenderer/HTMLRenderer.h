@@ -80,6 +80,8 @@ struct HTMLRenderer : OutputDev
 
     void process(PDFDoc * doc);
 
+    bool renderPage(PDFDoc * doc, int pageno);
+
     ////////////////////////////////////////////////////
     // OutputDev interface
     ////////////////////////////////////////////////////

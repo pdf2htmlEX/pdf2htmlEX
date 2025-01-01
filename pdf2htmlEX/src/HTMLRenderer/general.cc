@@ -190,6 +190,21 @@ void HTMLRenderer::process(PDFDoc *doc)
         cerr << endl;
 }
 
+bool HTMLRenderer::renderPage(PDFDoc *doc, int pageno)
+{
+    if (bg_renderer->render_page(cur_doc, pageNum))
+    {
+        return true;
+    }
+    else if (fallback_bg_renderer)
+    {
+        if (fallback_bg_renderer->render_page(cur_doc, pageNum))
+            return true;
+    }
+
+    return false;
+}
+
 void HTMLRenderer::setDefaultCTM(const double *ctm)
 {
     memcpy(default_ctm, ctm, sizeof(default_ctm));
@@ -243,14 +258,21 @@ void HTMLRenderer::endPage() {
 
     if(param.process_nontext)
     {
-        if (bg_renderer->render_page(cur_doc, pageNum))
+        if (param.delay_background)
         {
             bg_renderer->embed_image(pageNum);
         }
-        else if (fallback_bg_renderer)
+        else
         {
-            if (fallback_bg_renderer->render_page(cur_doc, pageNum))
-                fallback_bg_renderer->embed_image(pageNum);
+            if (bg_renderer->render_page(cur_doc, pageNum))
+            {
+                bg_renderer->embed_image(pageNum);
+            }
+            else if (fallback_bg_renderer)
+            {
+                if (fallback_bg_renderer->render_page(cur_doc, pageNum))
+                    fallback_bg_renderer->embed_image(pageNum);
+            }
         }
     }
 
