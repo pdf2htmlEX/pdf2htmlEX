@@ -200,7 +200,7 @@ bool HTMLRenderer::renderPage(PDFDoc *doc, int pageno)
         return false;
     }
 
-    if (page_cache.find(pageno) != page_cache.end())
+    if (page_cache.find(pageno) == page_cache.end())
     {
         cerr << "Page number " << pageno << " not found in page cache" << endl;
         return false;
