@@ -14,7 +14,7 @@
 
 namespace pdf2htmlEX {
 
-CoveredTextDetector::CoveredTextDetector(Param & param): param(param)
+CoveredTextDetector::CoveredTextDetector(Param & param): param(&param)
 {
 }
 
@@ -41,10 +41,10 @@ void CoveredTextDetector::add_char_bbox_clipped(cairo_t *cairo, double * bbox, i
     char_pts_visible.push_back(pts_visible);
 
     // DCRH: Hide if no points are visible, or if some points are visible and correct_text_visibility == 2
-    if (pts_visible == 0 || param.correct_text_visibility == 2) {
+    if (pts_visible == 0 || param->correct_text_visibility == 2) {
         chars_covered.push_back(true);
-        if (pts_visible > 0 && param.correct_text_visibility == 2) {
-            param.actual_dpi = std::min(param.text_dpi, param.max_dpi); // Char partially covered so increase background resolution
+        if (pts_visible > 0 && param->correct_text_visibility == 2) {
+            param->actual_dpi = std::min(param->text_dpi, param->max_dpi); // Char partially covered so increase background resolution
         }
     } else {
         chars_covered.push_back(false);
@@ -98,13 +98,13 @@ printf("pts_visible=%x\n", pts_visible);
 printf("pts_visible=%x\n", pts_visible);
 #endif
             char_pts_visible[i] = pts_visible;
-            if (pts_visible == 0 || (pts_visible != (1|2|4|8) && param.correct_text_visibility == 2)) {
+            if (pts_visible == 0 || (pts_visible != (1|2|4|8) && param->correct_text_visibility == 2)) {
 #ifdef DEBUG
 printf("Char covered\n");
 #endif
                 chars_covered[i] = true;
-                if (pts_visible > 0 && param.correct_text_visibility == 2) { // Partially visible text => increase rendering DPI
-                    param.actual_dpi = std::min(param.text_dpi, param.max_dpi);
+                if (pts_visible > 0 && param->correct_text_visibility == 2) { // Partially visible text => increase rendering DPI
+                    param->actual_dpi = std::min(param->text_dpi, param->max_dpi);
                 }
             }
         } else {

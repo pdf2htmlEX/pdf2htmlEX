@@ -183,12 +183,31 @@ void HTMLRenderer::process(PDFDoc *doc)
 
     post_process();
 
+    if (param.delay_background == 0)
+    {
+        bg_renderer = nullptr;
+        fallback_bg_renderer = nullptr;
+    }
+
     if(param.quiet == 0)
         cerr << endl;
 }
 
 bool HTMLRenderer::renderPage(PDFDoc *doc, int pageno)
 {
+    if (param.delay_background == 0)
+    {
+        return false;
+    }
+
+    if (page_cache.find(pageno) != page_cache.end())
+    {
+        cerr << "Page number " << pageno << " not found in page cache" << endl;
+        return false;
+    }
+
+    covered_text_detector = page_cache[pageno].covered_text_detector;
+
     if (bg_renderer->render_page(cur_doc, pageno))
     {
         return true;
@@ -209,6 +228,13 @@ void HTMLRenderer::setDefaultCTM(const double *ctm)
 
 void HTMLRenderer::startPage(int pageNum, GfxState *state, XRef * xref)
 {
+    if (param.delay_background && this->pageNum > 0)
+    {
+        page_cache[this->pageNum] = {
+            .covered_text_detector = covered_text_detector,
+        };
+    }
+
     covered_text_detector.reset();
     tracer.reset(state);
 
