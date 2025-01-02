@@ -21,6 +21,7 @@ namespace pdf2htmlEX {
 class CoveredTextDetector
 {
 public:
+    CoveredTextDetector();
 
     CoveredTextDetector(Param & param);
 

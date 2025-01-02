@@ -14,6 +14,10 @@
 
 namespace pdf2htmlEX {
 
+CoveredTextDetector::CoveredTextDetector()
+{
+}
+
 CoveredTextDetector::CoveredTextDetector(Param & param): param(&param)
 {
 }
