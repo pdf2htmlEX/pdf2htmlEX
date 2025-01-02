@@ -228,13 +228,6 @@ void HTMLRenderer::setDefaultCTM(const double *ctm)
 
 void HTMLRenderer::startPage(int pageNum, GfxState *state, XRef * xref)
 {
-    if (param.delay_background && this->pageNum > 0)
-    {
-        page_cache[this->pageNum] = {
-            .covered_text_detector = covered_text_detector,
-        };
-    }
-
     covered_text_detector.reset();
     tracer.reset(state);
 
@@ -338,6 +331,13 @@ void HTMLRenderer::endPage() {
     if(param.split_pages)
     {
         f_pages.fs << "</div>" << endl;
+    }
+
+    if (param.delay_background)
+    {
+        page_cache[this->pageNum] = {
+            .covered_text_detector = covered_text_detector,
+        };
     }
 }
 
