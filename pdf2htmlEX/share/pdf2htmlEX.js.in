@@ -341,19 +341,17 @@ Viewer.prototype = {
       var images = document.getElementsByTagName('img'); 
       for (var i = 0; i < images.length; i++) {
         var image = images[i];
-        image.addEventListener('error', function() {
-          console.debug('image load error, retry in 1s', image);
-          setTimeout(function() {
-            console.debug('retrying image load', image);
-            var tmp = image.src;
-            image.src = '';
-            image.src = tmp;
-          }, 1000);
-        });
+        (function(image) {
+          image.addEventListener('load', function() {
+            console.debug('image load error, retry in 1s', image);
+            setTimeout(function() {
+              console.debug('retrying image load', image);
+              image.src = image.src;
+            }, 1000);
+          });
+        })(image);
         console.debug('image reload', image);
-        var tmp = image.src;
-        image.src = '';
-        image.src = tmp;
+        image.src = image.src;
       }
     }
   },
