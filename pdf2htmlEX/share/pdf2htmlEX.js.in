@@ -337,18 +337,18 @@ Viewer.prototype = {
     this.render();
 
     {
-      // deal with image reloading
+      // deal with delayed image loading
       var images = document.getElementsByTagName('img'); 
       for (var i = 0; i < images.length; i++) {
         var image = images[i];
         image.addEventListener('error', function() {
           setTimeout(function() {
-            tmp = image.src;
+            var tmp = image.src;
             image.src = '';
             image.src = tmp;
           }, 1000);
         });
-        tmp = image.src;
+        var tmp = image.src;
         image.src = '';
         image.src = tmp;
       }
