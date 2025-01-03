@@ -348,12 +348,14 @@ Viewer.prototype = {
             var tmp = image.src;
             image.src = '';
             image.src = tmp;
+            console.debug('image src reset to ' + tmp);
           }, 1000);
         });
         console.debug('image reload');
         var tmp = image.src;
         image.src = '';
         image.src = tmp;
+        console.debug('image src reset to ' + tmp);
       }
     }
   },
