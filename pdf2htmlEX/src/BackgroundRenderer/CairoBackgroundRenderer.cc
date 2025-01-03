@@ -130,11 +130,11 @@ bool CairoBackgroundRenderer::render_page(PDFDoc * doc, int pageno)
     if (doc->getPageRotate(pageno) == 90 || doc->getPageRotate(pageno) == 270)
         std::swap(page_height, page_width);
 
-    string fn = (char*)html_renderer->str_fmt("%s/bg%x.svg", (param.embed_image ? param.tmp_dir : param.dest_dir).c_str(), pageno);
-    if(param.embed_image)
-        html_renderer->tmp_files.add(fn);
+    
+    std::string tmp_fn = html_renderer->str_fmt("%s/tmp_bg%x.%s", (param.embed_image ? param.tmp_dir : param.dest_dir).c_str(), pageno, format.c_str());
+    std::string fn = html_renderer->str_fmt("%s/bg%x.%s", (param.embed_image ? param.tmp_dir : param.dest_dir).c_str(), pageno, format.c_str());
 
-    surface = cairo_svg_surface_create(fn.c_str(), page_width * param.actual_dpi / DEFAULT_DPI, page_height * param.actual_dpi / DEFAULT_DPI);
+    surface = cairo_svg_surface_create(tmp_fn.c_str(), page_width * param.actual_dpi / DEFAULT_DPI, page_height * param.actual_dpi / DEFAULT_DPI);
     cairo_svg_surface_restrict_to_version(surface, CAIRO_SVG_VERSION_1_2);
     cairo_surface_set_fallback_resolution(surface, param.actual_dpi, param.actual_dpi);
 
@@ -174,7 +174,7 @@ bool CairoBackgroundRenderer::render_page(PDFDoc * doc, int pageno)
     {
         int n = 0;
         char c;
-        ifstream svgfile(fn);
+        ifstream svgfile(tmp_fn);
         //count of '<' in the file should be an approximation of node count.
         while(svgfile >> c)
         {
@@ -182,7 +182,6 @@ bool CairoBackgroundRenderer::render_page(PDFDoc * doc, int pageno)
                 ++n;
             if (n > param.svg_node_count_limit)
             {
-                html_renderer->tmp_files.add(fn);
                 return false;
             }
         }
@@ -191,6 +190,11 @@ bool CairoBackgroundRenderer::render_page(PDFDoc * doc, int pageno)
     // the svg file is actually used, so add its bitmaps' ref count.
     for (auto id : bitmaps_in_current_page)
         ++bitmaps_ref_count[id];
+
+    std::rename(tmp_fn.c_str(), fn.c_str());
+
+    if(param.embed_image)
+        html_renderer->tmp_files.add(fn);
 
     return true;
 }

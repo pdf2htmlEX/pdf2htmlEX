@@ -114,9 +114,8 @@ bool SplashBackgroundRenderer::render_page(PDFDoc * doc, int pageno)
 
     auto * bitmap = getBitmap();
 
-    auto fn = html_renderer->str_fmt("%s/bg%x.%s", (param.embed_image ? param.tmp_dir : param.dest_dir).c_str(), pageno, format.c_str());
-    if(param.embed_image)
-        html_renderer->tmp_files.add((const char *)fn);
+    std::string tmp_fn = html_renderer->str_fmt("%s/tmp_bg%x.%s", (param.embed_image ? param.tmp_dir : param.dest_dir).c_str(), pageno, format.c_str());
+    std::string fn = html_renderer->str_fmt("%s/bg%x.%s", (param.embed_image ? param.tmp_dir : param.dest_dir).c_str(), pageno, format.c_str());
 
     SplashImageFileFormat splashImageFileFormat;
     if(format == "png")
@@ -126,9 +125,14 @@ bool SplashBackgroundRenderer::render_page(PDFDoc * doc, int pageno)
     else
         throw string("Image format not supported: ") + format;
 
-    SplashError e = bitmap->writeImgFile(splashImageFileFormat, (const char *)fn, param.actual_dpi, param.actual_dpi);
+    SplashError e = bitmap->writeImgFile(splashImageFileFormat, tmp_fn.c_str(), param.actual_dpi, param.actual_dpi);
     if (e != splashOk)
         throw string("Cannot write background image. SplashErrorCode: ") + std::to_string(e);
+
+    std::rename(tmp_fn.c_str(), fn.c_str());
+
+    if(param.embed_image)
+        html_renderer->tmp_files.add(fn);
 
     return true;
 }

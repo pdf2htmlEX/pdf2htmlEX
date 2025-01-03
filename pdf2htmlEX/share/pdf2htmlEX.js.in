@@ -343,14 +343,11 @@ Viewer.prototype = {
         var image = images[i];
         (function(image) {
           image.addEventListener('error', function() {
-            console.debug('image load error, retry in 1s', image);
             setTimeout(function() {
-              console.debug('retrying image load', image);
               image.src = image.src;
             }, 1000);
           });
         })(image);
-        console.debug('image reload', image);
         image.src = image.src;
       }
     }
