@@ -340,12 +340,13 @@ Viewer.prototype = {
       // deal with image reloading
       var images = document.getElementsByTagName('img'); 
       for (var i = 0; i < images.length; i++) {
-        images[i].addEventListener('error', function() {
+        var image = images[i];
+        image.addEventListener('error', function() {
           setTimeout(function() {
-            images[i].src = images[i].src;
+            image.src = image.src;
           }, 1000);
         });
-        images[i].src = images[i].src;
+        image.src = image.src;
       }
     }
   },
