@@ -342,20 +342,18 @@ Viewer.prototype = {
       for (var i = 0; i < images.length; i++) {
         var image = images[i];
         image.addEventListener('error', function() {
-          console.debug('image load error, retry in 1s');
+          console.debug('image load error, retry in 1s', image);
           setTimeout(function() {
-            console.debug('retrying image load');
+            console.debug('retrying image load', image);
             var tmp = image.src;
             image.src = '';
             image.src = tmp;
-            console.debug('image src reset to ' + tmp);
           }, 1000);
         });
-        console.debug('image reload');
+        console.debug('image reload', image);
         var tmp = image.src;
         image.src = '';
         image.src = tmp;
-        console.debug('image src reset to ' + tmp);
       }
     }
   },
