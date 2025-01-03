@@ -346,12 +346,16 @@ Viewer.prototype = {
             console.debug('image load error, retry in 1s', image);
             setTimeout(function() {
               console.debug('retrying image load', image);
-              image.src = image.src;
+              var tmp = image.src;
+              image.src = '';
+              image.src = tmp;
             }, 1000);
           });
         })(image);
         console.debug('image reload', image);
-        image.src = image.src;
+        var tmp = image.src;
+        image.src = '';
+        image.src = tmp;
       }
     }
   },
