@@ -130,8 +130,8 @@ bool CairoBackgroundRenderer::render_page(PDFDoc * doc, int pageno)
     if (doc->getPageRotate(pageno) == 90 || doc->getPageRotate(pageno) == 270)
         std::swap(page_height, page_width);
 
-    auto tmp_fn = html_renderer->str_fmt("%s/tmp_bg%x.%s", (param.embed_image ? param.tmp_dir : param.dest_dir).c_str(), pageno, format.c_str());
-    auto fn = html_renderer->str_fmt("%s/bg%x.%s", (param.embed_image ? param.tmp_dir : param.dest_dir).c_str(), pageno, format.c_str());
+    auto tmp_fn = html_renderer->str_fmt("%s/tmp_bg%x.svg", (param.embed_image ? param.tmp_dir : param.dest_dir).c_str(), pageno);
+    auto fn = html_renderer->str_fmt("%s/bg%x.svg", (param.embed_image ? param.tmp_dir : param.dest_dir).c_str(), pageno);
 
     surface = cairo_svg_surface_create((const char *)tmp_fn, page_width * param.actual_dpi / DEFAULT_DPI, page_height * param.actual_dpi / DEFAULT_DPI);
     cairo_svg_surface_restrict_to_version(surface, CAIRO_SVG_VERSION_1_2);
