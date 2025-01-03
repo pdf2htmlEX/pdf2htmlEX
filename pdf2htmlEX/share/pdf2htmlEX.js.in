@@ -335,6 +335,19 @@ Viewer.prototype = {
 
     this.initialize_radio_button();
     this.render();
+
+    {
+      // deal with image reloading
+      var images = document.getElementsByTagName('img'); 
+      for (var i = 0; i < images.length; i++) {
+        images[i].addEventListener('error', function() {
+          setTimeout(function() {
+            images[i].src = images[i].src;
+          }, 1000);
+        });
+        images[i].src = images[i].src;
+      }
+    }
   },
 
   /*
