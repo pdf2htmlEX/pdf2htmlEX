@@ -342,12 +342,15 @@ Viewer.prototype = {
       for (var i = 0; i < images.length; i++) {
         var image = images[i];
         image.addEventListener('error', function() {
+          console.debug('image load error, retry in 1s');
           setTimeout(function() {
+            console.debug('retrying image load');
             var tmp = image.src;
             image.src = '';
             image.src = tmp;
           }, 1000);
         });
+        console.debug('image reload');
         var tmp = image.src;
         image.src = '';
         image.src = tmp;
