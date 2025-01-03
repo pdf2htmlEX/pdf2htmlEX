@@ -343,10 +343,14 @@ Viewer.prototype = {
         var image = images[i];
         image.addEventListener('error', function() {
           setTimeout(function() {
-            image.src = image.src;
+            tmp = image.src;
+            image.src = '';
+            image.src = tmp;
           }, 1000);
         });
-        image.src = image.src;
+        tmp = image.src;
+        image.src = '';
+        image.src = tmp;
       }
     }
   },
