@@ -97,6 +97,7 @@ set(PDF2HTMLEX_LIBS ${PDF2HTMLEX_LIBS}
   ${LIB_INTL_LIBRARIES}
   ${CAIRO_LIBRARIES}
   -ljpeg
+  -lopenjp2
   -lpng
   -lfontconfig
   -lfreetype
