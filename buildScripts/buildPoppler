@@ -31,7 +31,7 @@ cmake                                       \
   -DENABLE_GTK_DOC=OFF                      \
   -DENABLE_QT5=OFF                          \
   -DENABLE_QT6=OFF                          \
-  -DENABLE_LIBOPENJPEG="none"               \
+  -DENABLE_LIBOPENJPEG="openjpeg2"          \
   -DENABLE_DCTDECODER="libjpeg"             \
   -DENABLE_CMS="none"                       \
   -DENABLE_LCMS=OFF                         \
