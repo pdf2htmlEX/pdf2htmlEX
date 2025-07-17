@@ -42,7 +42,7 @@ void HTMLRenderer::process_outline_items(const std::vector<OutlineItem*> * items
 
         f_outline.fs << ">";
 
-        writeUnicodes(f_outline.fs, item->getTitle(), item->getTitleLength());
+        writeUnicodes(f_outline.fs, item->getTitle());
 
         f_outline.fs << "</a>";
 
